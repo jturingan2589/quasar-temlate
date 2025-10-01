@@ -4,7 +4,33 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
-    children: [{ path: '', component: () => import('pages/IndexPage.vue') }],
+    children: [
+      { 
+        path: '', 
+        redirect: '/inventory/master-list'
+      },
+      {
+        path: "inventory/master-list", 
+        component: () => import('pages/master-list/ProductList.vue'),
+        meta: { requiresAuth: true }
+      },
+      { 
+        path: 'dashboard', 
+        component: () => import('pages/DashboardPage.vue'),
+        meta: { requiresAuth: true }
+      },
+      {
+        path: 'login',
+        component: () => import('pages/LoginPage.vue'),
+        meta: { requiresAuth: false }
+      },
+      {
+        path: 'unauthorized',
+        name: 'unauthorized',
+        component: () => import('pages/UnauthorizedPage.vue'),
+        meta: { requiresAuth: false }
+      }
+    ],
   },
 
   // Always leave this as last one,
