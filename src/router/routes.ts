@@ -7,16 +7,45 @@ const routes: RouteRecordRaw[] = [
     children: [
       { 
         path: '', 
-        redirect: '/inventory/master-list'
+        redirect: '/main/dashboard'
       },
+      // Product Routes
       {
         path: "inventory/master-list", 
         component: () => import('pages/master-list/ProductList.vue'),
         meta: { requiresAuth: true }
       },
+      {
+        path: "inventory/master-list/:action/:id?", // Add or Edit
+        component: () => import('pages/master-list/ProductForm.vue'),
+        meta: { requiresAuth: true },
+        props: true
+      },
+      {
+        path: "inventory/master-list/details", 
+        component: () => import('pages/master-list/ProductDetails.vue'),
+        meta: { requiresAuth: true },
+        props: true
+      },
+      // End Product Routes
+      {
+        path: "inventory/category-list", 
+        component: () => import('pages/category/CategoryList.vue'),
+        meta: { requiresAuth: true }
+      },
       { 
-        path: 'dashboard', 
+        path: 'main/dashboard', 
         component: () => import('pages/DashboardPage.vue'),
+        meta: { requiresAuth: true }
+      },
+      { 
+        path: 'main/profile', 
+        component: () => import('pages/ProfilePage.vue'),
+        meta: { requiresAuth: true }
+      },
+      { 
+        path: 'reports/sales-report', 
+        component: () => import('pages/sales-report/SalesReport.vue'),
         meta: { requiresAuth: true }
       },
       {

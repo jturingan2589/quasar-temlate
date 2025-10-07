@@ -2,7 +2,7 @@
 /****** Utils ******/
 @use "utils/variables";
 @use "utils/mixins";
-@use "bootstrap/dist/css/bootstrap.min.css";
+//@use 'bootstrap/dist/css/bootstrap.min.css';
 /******* Base *******/
 @use "base/base";
 @use "base/background";
@@ -33,10 +33,6 @@
 @use "components/ribbon";
 @use "components/popup";
 @use "components/grid";
-
-/******* Vendors ******/
-@use "vendors/select2";
-@use "vendors/datatables";
 
 /****** Layout ******/
 @use "layout/content";
@@ -79,3 +75,4 @@
 @use "pages/super-admin";
 @use "pages/wishlist";
 @use "pages/blogs";
+@use "pages/vue";

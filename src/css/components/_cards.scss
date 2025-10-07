@@ -23,6 +23,7 @@
         position: relative;
         background: transparent;
         padding: 1rem 1.25rem 1rem;
+        border-bottom: variables.$border-width solid variables.$border-color;
         .card-title {
             margin-bottom: 0rem;
         }

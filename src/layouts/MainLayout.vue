@@ -11,7 +11,6 @@
 </template>
 
 <script setup lang="ts">
-
-  import Sidebar from './Sidebar.vue';
+  import Sidebar from './sidebar/Sidebar.vue';
   import Header from './Header.vue';
 </script>

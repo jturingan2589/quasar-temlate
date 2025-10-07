@@ -13,6 +13,15 @@
         "route": "/inventory/master-list",
         "hasSubRoute": false,
         "showSubRoute": false
+      },
+      {
+        "menuValue": "Category",
+        "icon": "ti ti-list-details",
+        "hasSubRoute": false,
+        "showSubRoute": false,
+        "active_link" : "/inventory/category-list",
+        "route": "/inventory/category-list",
+        "subRoutes": []
       }
 
     ]

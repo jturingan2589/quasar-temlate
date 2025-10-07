@@ -1,0 +1,60 @@
+[
+  {
+    "tittle": "Main",
+    "active_link" : "/dashboard",
+    "showAsTab": true,
+    "separateRoute": false,
+    "menu": [
+      {
+        "menuValue": "Dashboard",
+        "icon": "ti ti-layout-grid",
+        "active_link" : "/main/dashboard",
+        "route": "/main/dashboard",
+        "hasSubRoute": false,
+        "showSubRoute": false
+      }
+    ]
+  },
+  {
+    "tittle": "Inventory",
+    "active_link" : "/master-list",
+    "showAsTab": true,
+    "separateRoute": false,
+    "menu": [
+      {
+        "menuValue": "Master List",
+        "icon": "ti ti-box",
+        "active_link" : "/inventory/master-list",
+        "route": "/inventory/master-list",
+        "hasSubRoute": false,
+        "showSubRoute": false
+      },
+      {
+        "menuValue": "Category",
+        "icon": "ti ti-list-details",
+        "hasSubRoute": false,
+        "showSubRoute": false,
+        "active_link" : "/inventory/category-list",
+        "route": "/inventory/category-list",
+        "subRoutes": []
+      }
+
+    ]
+  },
+  {
+    "tittle": "Reports",
+    "active_link" : "/reports/sales-report",
+    "showAsTab": true,
+    "separateRoute": false,
+    "menu": [
+      {
+        "menuValue": "Sales Report",
+        "icon": "ti ti-chart-bar",
+        "active_link" : "/sales/sales-report",
+        "route": "/reports/sales-report",
+        "hasSubRoute": false,
+        "showSubRoute": false
+      }
+    ]
+  }
+]

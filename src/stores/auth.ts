@@ -19,7 +19,7 @@ export const useAuthStore = defineStore('auth', {
 
     async logout() {
       if (this.keycloak) {
-        await this.keycloak.logout({ redirectUri: window.location.origin })
+        await this.keycloak.logout({ redirectUri: window.location.origin + '/app/' })
       }
     }
   }

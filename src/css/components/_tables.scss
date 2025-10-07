@@ -89,7 +89,7 @@ caption {
         font-weight: variables.$font-weight-medium;
         font-size: variables.$font-size-14;
         color: variables.$gray-900;
-        background-color: variables.$gray-100;
+        background-color: rgba(variables.$white, 0.1) !important;
       }
     }
   }

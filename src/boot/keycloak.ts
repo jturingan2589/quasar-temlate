@@ -4,8 +4,8 @@ import { useAuthStore } from 'src/stores/auth'
 import type { NavigationGuardNext, RouteLocationNormalized, Router } from 'vue-router'
 
 const keycloakConfig: KeycloakConfig = {
-  url: 'http://localhost:8091',
-  realm: 'i-connect-pos',
+  url: 'http://localhost:9090',
+  realm: 'i-connect-messaging',
   clientId: 'quasar'
 }
 
@@ -15,14 +15,13 @@ export default boot(async ({ router }: { router: Router }) => {
   const authStore = useAuthStore()
 
   try {
-    console.log('🔑 Initializing Keycloak...')
 
     const authenticated = await keycloak.init({
       onLoad: 'check-sso', // don’t force login immediately
       checkLoginIframe: false,
       pkceMethod: 'S256',
       silentCheckSsoRedirectUri: window.location.origin + '/app/silent-check-sso.html',
-      redirectUri: window.location.origin + '/auth/callback',
+      redirectUri: window.location.origin + '/app',
       enableLogging: true
     })
 
@@ -70,7 +69,7 @@ export default boot(async ({ router }: { router: Router }) => {
           // save intended route
           sessionStorage.setItem('intendedRoute', to.fullPath)
           await keycloak.login({
-            redirectUri: window.location.origin + '/auth/callback'
+            redirectUri: window.location.origin + '/app/'
           })
           return
         }
