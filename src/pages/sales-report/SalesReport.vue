@@ -28,7 +28,7 @@
           <div class="q-ml-sm">
             <p class="text-weight-medium q-mb-xs">Total Amount</p>
             <div>
-              <h3>$4,56,000</h3>
+              <h3>₱4,56,000</h3>
             </div>
           </div>
         </div>
@@ -43,7 +43,7 @@
           <div class="q-ml-sm">
             <p class="text-weight-medium q-mb-xs">Total Paid</p>
             <div>
-              <h3>$2,56,42</h3>
+              <h3>₱2,56,42</h3>
             </div>
           </div>
         </div>
@@ -58,7 +58,7 @@
           <div class="q-ml-sm">
             <p class="text-weight-medium q-mb-xs">Total Unpaid</p>
             <div>
-              <h3>$1,52,45</h3>
+              <h3>₱1,52,45</h3>
             </div>
           </div>
         </div>
@@ -73,7 +73,7 @@
           <div class="q-ml-sm">
             <p class="text-weight-medium q-mb-xs">Overdue</p>
             <div>
-              <h3>$2,56,12</h3>
+              <h3>₱2,56,12</h3>
             </div>
           </div>
         </div>
@@ -102,13 +102,13 @@
         <div class="col-md-3 col-12">
           <div class="q-mb-sm">
             <label class="form-label">Store</label>
-            <q-select outlined v-model="model" :options="options" dense :options-dense="denseOpts" />
+            <q-select outlined v-model="selectedValue" :options="options" dense :options-dense="true" />
           </div>
         </div>
         <div class="col-md-3 col-12">
           <div class="q-mb-sm">
             <label class="form-label">Products</label>
-            <q-select outlined v-model="model" :options="options" dense :options-dense="denseOpts" />
+            <q-select outlined v-model="selectedValue" :options="options" dense :options-dense="true" />
           </div>
         </div>
         <div class="col-md-2 col-12 column items-center ">
@@ -158,31 +158,38 @@
 
 <script setup lang="ts">
   import BaseTable from 'src/components/BaseTable.vue';
-
+  import { ref } from 'vue';
   const exportToExcel = (): void =>{}
   const exportToPdf = (): void =>{}
   const reloadData = (): void =>{}
   
+  const selectedValue = ref<number | null>(null);
+  const toggleHeader = (): void => {
+    const header = document.querySelector('.page-header') as HTMLElement;
+    if (header) {
+      header.classList.toggle('collapsed');
+    }
+  };
+  const options = [
+    { label: 'Option 1', value: 1 },
+    { label: 'Option 2', value: 2 }
+  ];
 
-  interface ProductRow {
-    sku: string;
-    product: { name: string; img: string };
-    brand: string;
-    category: string;
-    soldQty: number;
-    soldAmount: string;
-    instockQty: number;
-  }
 
-  // Columns definition
+  const pagination = ref({
+    sortBy: 'SKU',        // default column
+    descending: false,
+    page: 1,
+    rowsPerPage: 10       // default rows per page
+  })
   const columns = [
-    { name: 'sku', label: 'SKU', align: 'left', field: (row: ProductRow) => row.sku, sortable: true },
-    { name: 'product', label: 'Product Name', align: 'left', field: (row: ProductRow) => row.product, sortable: true },
-    { name: 'brand', label: 'Brand', align: 'left', field: (row: ProductRow) => row.brand, sortable: true },
-    { name: 'category', label: 'Category', align: 'left', field: (row: ProductRow) => row.category, sortable: true },
-    { name: 'soldQty', label: 'Sold Qty', align: 'right', field: (row: ProductRow) => row.soldQty, sortable: true },
-    { name: 'soldAmount', label: 'Sold Amount', align: 'right', field: (row: ProductRow) => row.soldAmount, sortable: true },
-    { name: 'instockQty', label: 'Instock Qty', align: 'right', field: (row: ProductRow) => row.instockQty, sortable: true }
+    { name: 'sku', label: 'SKU', align: 'left' as const, field: 'sku', sortable: true },
+    { name: 'product', label: 'Product Name', align: 'left' as const, field: 'product', sortable: true },
+    { name: 'brand', label: 'Brand', align: 'left' as const, field: 'brand', sortable: true },
+    { name: 'category', label: 'Category', align: 'left' as const, field: 'category', sortable: true },
+    { name: 'soldQty', label: 'Sold Qty', align: 'right' as const, field: 'soldQty', sortable: true },
+    { name: 'soldAmount', label: 'Sold Amount', align: 'right' as const, field: 'soldAmount', sortable: true },
+    { name: 'instockQty', label: 'Instock Qty', align: 'right' as const, field: 'instockQty', sortable: true }
   ];
 
 // Rows/data
@@ -193,7 +200,7 @@
       brand: 'Lenovo',
       category: 'Computers',
       soldQty: 5,
-      soldAmount: '$3000',
+      soldAmount: '₱3000',
       instockQty: 100
     },
     {
@@ -202,7 +209,7 @@
       brand: 'Beats',
       category: 'Electronics',
       soldQty: 10,
-      soldAmount: '$1600',
+      soldAmount: '₱1600',
       instockQty: 140
     },
     {
@@ -211,7 +218,7 @@
       brand: 'Nike',
       category: 'Shoe',
       soldQty: 8,
-      soldAmount: '$880',
+      soldAmount: '₱880',
       instockQty: 300
     },
     {
@@ -220,7 +227,7 @@
       brand: 'Apple',
       category: 'Electronics',
       soldQty: 10,
-      soldAmount: '$1200',
+      soldAmount: '₱1200',
       instockQty: 450
     },
     {
@@ -229,7 +236,7 @@
       brand: 'Amazon',
       category: 'Electronics',
       soldQty: 5,
-      soldAmount: '$400',
+      soldAmount: '₱400',
       instockQty: 320
     },
     {
@@ -238,7 +245,7 @@
       brand: 'Modern Wave',
       category: 'Furniture',
       soldQty: 7,
-      soldAmount: '$2240',
+      soldAmount: '₱2240',
       instockQty: 650
     },
     {
@@ -247,7 +254,7 @@
       brand: 'Dior',
       category: 'Bags',
       soldQty: 15,
-      soldAmount: '$900',
+      soldAmount: '₱900',
       instockQty: 700
     },
     {
@@ -256,7 +263,7 @@
       brand: 'Apple',
       category: 'Phone',
       soldQty: 12,
-      soldAmount: '$6480',
+      soldAmount: '₱6480',
       instockQty: 630
     },
     {
@@ -265,7 +272,7 @@
       brand: 'Arlime',
       category: 'Furniture',
       soldQty: 10,
-      soldAmount: '$2000',
+      soldAmount: '₱2000',
       instockQty: 410
     },
     {
@@ -274,7 +281,7 @@
       brand: 'The North Face',
       category: 'Bags',
       soldQty: 20,
-      soldAmount: '$900',
+      soldAmount: '₱900',
       instockQty: 550
     }
   ];

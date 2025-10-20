@@ -23,7 +23,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="mb-3">
+        <div class="q-mb-md">
           <div class="image-upload mb-0 row inline">
             <input type="file" />
             <div class="btn btn-primary fs-13">Change Image</div>
@@ -33,47 +33,54 @@
           </p>
         </div>
       </div>
-      <div class="row q-col-gutter-x-lg q-col-gutter-y-md">
-        <div class="col-lg-6 col-sm-12">
-          <div class="mb-3">
+      <div class="row q-col-gutter-x-lg">
+        <div class="col-lg-6 col-12">
+          <div class="q-mb-md">
             <label class="form-label"
-              >First Name<span class="text-danger ms-1">*</span></label
+              >First Name<span class="text-danger q-ml-xs">*</span></label
             >
             <input type="text" class="form-control" :value="authStore.user?.given_name" />
           </div>
         </div>
-        <div class="col-lg-6 col-sm-12">
-          <div class="mb-3">
+        <div class="col-lg-6 col-12">
+          <div class="q-mb-md">
             <label class="form-label"
-              >Last Name<span class="text-danger ms-1">*</span></label
+              >Last Name<span class="text-danger q-ml-xs">*</span></label
             >
             <input type="text" class="form-control" :value="authStore.user?.family_name" />
           </div>
         </div>
-        <div class="col-lg-6 col-sm-12">
-          <div class="mb-3">
-            <label>Email<span class="text-danger ms-1">*</span></label>
+        <div class="col-lg-6 col-12">
+          <div class="q-mb-md">
+            <label class="form-label">
+              Email
+              <span class="text-danger q-ml-xs">*</span>
+            </label>
             <input type="email" class="form-control" :value="authStore.user?.email" />
           </div>
         </div>
-        <div class="col-lg-6 col-sm-12">
-          <div class="mb-3">
-            <label class="form-label"
-              >Phone Number<span class="text-danger ms-1">*</span></label>
-            <input type="text" value="+17468314286" class="form-control" />
+        <div class="col-lg-6 col-12">
+          <div class="q-mb-md">
+            <label class="form-label">
+              Phone Number
+              <span class="text-danger q-ml-xs">*</span>
+            </label>
+            <input type="text" value="" class="form-control" />
           </div>
         </div>
-        <div class="col-lg-6 col-sm-12">
-          <div class="mb-3">
-            <label class="form-label"
-              >User Name<span class="text-danger ms-1">*</span></label>
-            <input type="text" class="form-control" value="Jeffry Jordan" />
+        <div class="col-lg-6 col-12">
+          <div class="q-mb-md">
+            <label class="form-label">
+              Username
+              <span class="text-danger q-ml-xs">*</span>
+            </label>
+            <input type="text" class="form-control" :value="authStore.user?.preferred_username" />
           </div>
         </div>
-        <div class="col-lg-6 col-sm-12">
-          <div class="mb-3">
+        <div class="col-lg-6 col-12">
+          <div class="q-mb-md">
             <label class="form-label"
-              >Password<span class="text-danger ms-1">*</span></label
+              >Password<span class="text-danger q-ml-xs">*</span></label
             >
             <div class="pass-group">
               <input

@@ -5,13 +5,13 @@
           <!-- Logo -->
           <div class="header-left active">
               <router-link to="/dashboard/" class="logo logo-normal">
-                  <img src="/app/img/logo.svg" alt="">
+                  <img src="/app/img/group1.svg" alt="">
               </router-link>
               <router-link to="/dashboard/" class="logo logo-white">
                   <img src="/app/img/logo-white.svg" alt="">
               </router-link>
               <router-link to="/dashboard/" class="logo-small">
-                  <img src="/app/img/logo-small.png" alt="">
+                  <img src="/app/img/group2.png" alt="">
               </router-link>
           </div>
           <!-- /Logo -->
@@ -173,7 +173,7 @@
               <a href="javascript:void(0);" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
                   aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
               <div class="dropdown-menu dropdown-menu-right">
-                  <router-link class="dropdown-item" to="/pages/profile">My Profile</router-link>
+                  <router-link class="dropdown-item" to="/main/profile">My Profile</router-link>
                   <router-link class="dropdown-item" to="/settings/general-settings">Settings</router-link>
                   <router-link class="dropdown-item" to="/">Logout</router-link>
               </div>
@@ -279,7 +279,9 @@
   const slideDownSubmenu = (): void => {
     const subdrops = document.getElementsByClassName('subdrop');
     for (let i = 0; i < subdrops.length; i++) {
-      const submenu = subdrops[i].nextElementSibling as HTMLElement | null;
+      const element = subdrops[i];
+      if (!element) continue;
+      const submenu = element.nextElementSibling as HTMLElement | null;
       if (submenu && submenu.tagName.toLowerCase() === 'ul') {
         submenu.style.display = 'block';
       }
@@ -289,7 +291,9 @@
   const slideUpSubmenu = (): void => {
     const subdrops = document.getElementsByClassName('subdrop');
     for (let i = 0; i < subdrops.length; i++) {
-      const submenu = subdrops[i].nextElementSibling as HTMLElement | null;
+      const element = subdrops[i];
+      if (!element) continue;
+      const submenu = element.nextElementSibling as HTMLElement | null;
       if (submenu && submenu.tagName.toLowerCase() === 'ul') {
         submenu.style.display = 'none';
       }

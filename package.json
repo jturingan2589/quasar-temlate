@@ -2,7 +2,7 @@
   "name": "quasar-project",
   "version": "0.0.1",
   "description": "A Quasar Project",
-  "productName": "Quasar App",
+  "productName": "RSPOS",
   "author": "james <james@thousandminds.com>",
   "type": "module",
   "private": true,
@@ -26,7 +26,8 @@
     "quill": "^2.0.3",
     "simplebar-vue": "^2.4.2",
     "vue": "3.5.20",
-    "vue-router": "^4.0.12"
+    "vue-router": "^4.0.12",
+    "vue3-apexcharts": "^1.8.0"
   },
   "devDependencies": {
     "@quasar/app-vite": "^2.1.0",

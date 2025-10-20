@@ -3,13 +3,13 @@
     <!-- Logo -->
     <div class="sidebar-logo active">
       <router-link to="/dashboard/" class="logo logo-normal">
-        <img src="/app/img/logo.svg" alt="Img" />
+        <img src="/app/img/group1.svg" alt="Img" />
       </router-link>
       <router-link to="/dashboard/" class="logo logo-white">
         <img src="/app/img/logo-white.svg" alt="Img" />
       </router-link>
       <router-link to="/dashboard/" class="logo-small">
-        <img src="/app/img/logo-small.png" alt="Img" />
+        <img src="/app/img/group2.svg" alt="Img" />
       </router-link>
       <a id="toggle_btn" href="javascript:void(0);" @click="toggleSidebar">
         <i class="ti ti-chevrons-left"></i>

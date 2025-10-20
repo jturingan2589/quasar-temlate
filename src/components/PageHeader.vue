@@ -33,7 +33,6 @@
 </template>
 
 <script setup lang="ts">
-  import { defineProps } from "vue";
 
   interface Action {
     icon: string;       // e.g. "/app/img/icons/pdf.svg" or "ti ti-refresh"
@@ -47,6 +46,5 @@
     subtitle?: string;
     actions?: Action[];
   }>();
-
   
 </script>

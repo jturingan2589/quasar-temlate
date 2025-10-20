@@ -205,6 +205,7 @@
     },
     {
       label: "",
+      field: "actions",
       name: "action",
     },
   ];

@@ -56,5 +56,29 @@
         "showSubRoute": false
       }
     ]
+  },
+  {
+    "tittle": "User Management",
+    "active_link" : "/user-management/users",
+    "showAsTab": true,
+    "separateRoute": false,
+    "menu": [
+      {
+        "menuValue": "Users",
+        "icon": "ti ti-users",
+        "active_link" : "/user-management/users",
+        "route": "/user-management/users",
+        "hasSubRoute": false,
+        "showSubRoute": false
+      },
+      {
+        "menuValue": "Roles & Permissions",
+        "icon": "ti ti-jump-rope",
+        "active_link" : "/user-management/roles-permissions",
+        "route": "/user-management/roles-permissions",
+        "hasSubRoute": false,
+        "showSubRoute": false
+      }
+    ]
   }
 ]

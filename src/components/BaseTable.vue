@@ -6,7 +6,7 @@
     row-key="id"
     v-model:pagination="pagination"
     :rows-per-page-options="[5, 10, 20, 50]"
-    selection="multiple"
+    :selection="withSelection ? 'multiple' : undefined"
     v-model:selected="selected"
     flat
     bordered
@@ -56,12 +56,12 @@ interface TableColumn {
   name: string
   label: string
   field: string | ((row: TableRow) => any)
-  align?: 'left' | 'right' | 'center'
+  align?: 'left' | 'right' | 'center' 
   sortable?: boolean
 }
 
 interface TableRow {
-  id: string | number
+  id?: string | number
   product?: { name: string; img: string }
   [key: string]: any
 }
@@ -79,7 +79,8 @@ const props = defineProps({
   rows: { type: Array as PropType<TableRow[]>, default: () => [] },
   columns: { type: Array as PropType<TableColumn[]>, default: () => [] },
   actions: { type: Array as PropType<TableAction[]>, default: () => [] },
-  withActions: { type: Boolean, default: true }
+  withActions: { type: Boolean, default: true },
+  withSelection: { type: Boolean, default: false }
 })
 
 const emit = defineEmits<{
@@ -118,7 +119,7 @@ const columnsWithDefaults = computed(() => {
       name: 'actions',
       label: 'Actions',
       field: 'id',
-      align: 'center'
+      align: 'center' as const
     }
   ]
 })
