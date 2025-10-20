@@ -4,19 +4,19 @@
       <div class="main-header">
           <!-- Logo -->
           <div class="header-left active">
-              <router-link to="/dashboard/" class="logo logo-normal">
+              <router-link to="/main/dashboard/" class="logo logo-normal">
                   <img src="/app/img/logo.svg" alt="">
               </router-link>
-              <router-link to="/dashboard/" class="logo logo-white">
+              <router-link to="/main/dashboard/" class="logo logo-white">
                   <img src="/app/img/logo-white.svg" alt="">
               </router-link>
-              <router-link to="/dashboard/" class="logo-small">
+              <router-link to="/main/dashboard/" class="logo-small">
                   <img src="/app/img/logo-small.png" alt="">
               </router-link>
           </div>
           <!-- /Logo -->
 
-          <q-btn id="mobile_btn" class="mobile_btn" @click="toggleMobileBtn">
+          <q-btn id="mobile_btn" class="mobile_btn" flat @click="toggleMobileBtn">
             <span class="bar-icon">
                 <span></span>
                 <span></span>
@@ -122,7 +122,10 @@
                                               <img alt="" src="/app/img/profiles/avatar-02.jpg">
                                           </span>
                                           <div class="flex-grow-1">
-                                              <p class="noti-details"><span class="noti-title">Andrea</span> confirmed his order.  Order No: #73401.Estimated delivery: 3 days</p>
+                                              <p class="noti-details"><
+                                                <span class="noti-title">Andrea</span>
+                                                 confirmed his order.  Order No: #73401.Estimated delivery: 3 days
+                                              </p>
                                               <p class="noti-time">4 mins ago</p>
                                           </div>
                                       </div>
@@ -150,7 +153,7 @@
                       </span>
                   </a>
                   <div v-if="authStore.user" class="dropdown-menu menu-drop-user">
-                      <div class="profileset d-flex align-items-center">
+                      <div class="profileset d-flex items-center">
                           <span class="user-img q-mr-sm">
                               <img src="/app/img/profiles/avator1.jpg" alt="">
                           </span>
@@ -159,10 +162,19 @@
                               <p>Admin</p>
                           </div>
                       </div>
-                      <router-link class="dropdown-item" to="/main/profile"><i class="ti ti-user-circle q-mr-sm"></i>My Profile</router-link>
-                      <router-link class="dropdown-item" to="/settings/general-settings"><i class="ti ti-settings-2 q-mr-sm"></i>Settings</router-link>
+                      <router-link class="dropdown-item" to="/main/profile">
+                        <i class="ti ti-user-circle q-mr-sm"></i>
+                        My Profile
+                      </router-link>
+                      <router-link class="dropdown-item" to="/settings/general-settings">
+                        <i class="ti ti-settings-2 q-mr-sm"></i>
+                        Settings
+                      </router-link>
                       <hr class="my-2">
-                      <router-link class="dropdown-item logout pb-0" @click="logout" to="/"><i class="ti ti-logout q-mr-sm"></i>Logout</router-link>
+                      <router-link class="dropdown-item logout pb-0" @click="logout" to="/">
+                        <i class="ti ti-logout q-mr-sm"></i>
+                        Logout
+                      </router-link>
                   </div>
               </li>
           </ul>
@@ -175,7 +187,7 @@
               <div class="dropdown-menu dropdown-menu-right">
                   <router-link class="dropdown-item" to="/main/profile">My Profile</router-link>
                   <router-link class="dropdown-item" to="/settings/general-settings">Settings</router-link>
-                  <router-link class="dropdown-item" to="/">Logout</router-link>
+                  <router-link class="dropdown-item" to="/" @click="logout">Logout</router-link>
               </div>
           </div>
           <!-- /Mobile Menu -->
@@ -231,10 +243,9 @@
 
   // TOGGLE MOBILE SIDEBAR
   const toggleMobileBtn = (): void => {
-      document.body.classList.toggle("mini-sidebar")
-    document.querySelector('.main-wrapper')?.classList.toggle('slide-nav');
-    document.querySelector('.sidebar-overlay')?.classList.toggle('opened');
-    document.querySelector('html')?.classList.toggle('menu-opened');
+            document?.querySelector(".main-wrapper")?.classList?.toggle("slide-nav");
+            document?.querySelector(".sidebar-overlay")?.classList?.toggle("opened");
+            document?.querySelector("html")?.classList?.toggle("menu-opened");
   };
 
   // TOGGLE FULLSCREEN

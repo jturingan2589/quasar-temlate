@@ -2,84 +2,18 @@
   <div :class="['sidebar', sidebarClass]" id="sidebar">
     <!-- Logo -->
     <div class="sidebar-logo active">
-      <router-link to="/dashboard/" class="logo logo-normal">
+      <router-link to="/main/dashboard/" class="logo logo-normal">
         <img src="/app/img/logo.svg" alt="Img" />
       </router-link>
-      <router-link to="/dashboard/" class="logo logo-white">
+      <router-link to="/main/dashboard/" class="logo logo-white">
         <img src="/app/img/logo-white.svg" alt="Img" />
       </router-link>
-      <router-link to="/dashboard/" class="logo-small">
+      <router-link to="/main/dashboard/" class="logo-small">
         <img src="/app/img/logo-small.png" alt="Img" />
       </router-link>
       <a id="toggle_btn" href="javascript:void(0);" @click="toggleSidebar">
-        <i class="ti ti-chevrons-left"></i>
+        <i :class="iconClass"></i>
       </a>
-    </div>
-
-    <!-- Profile -->
-    <div class="modern-profile p-3 pb-0">
-      <div class="text-center rounded bg-light p-3 mb-4 user-profile">
-        <div class="avatar avatar-lg online mb-3">
-          <img
-            src="/app/img/customer/customer15.jpg"
-            alt="Img"
-            class="img-fluid rounded-circle"
-          />
-        </div>
-        <h6 class="fs-14 fw-bold mb-1">Adrian Herman</h6>
-        <p class="fs-12 mb-0">System Admin</p>
-      </div>
-      <div class="sidebar-nav mb-3">
-        <ul class="nav nav-tabs nav-tabs-solid nav-tabs-rounded nav-justified bg-transparent">
-          <li class="nav-item">
-            <a class="nav-link active border-0" href="#">Menu</a>
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link border-0" to="/application/chat">Chats</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link border-0" to="/application/email">Inbox</router-link>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- Sidebar Header -->
-    <div class="sidebar-header p-3 pb-0 pt-2">
-      <div class="text-center rounded bg-light p-2 mb-4 sidebar-profile d-flex align-items-center">
-        <div class="avatar avatar-md online">
-          <img
-            src="/app/img/customer/customer15.jpg"
-            alt="Img"
-            class="img-fluid rounded-circle"
-          />
-        </div>
-        <div class="text-start sidebar-profile-info ms-2">
-          <h6 class="fs-14 fw-bold mb-1">Adrian Herman</h6>
-          <p class="fs-12">System Admin</p>
-        </div>
-      </div>
-
-      <div class="d-flex align-items-center justify-content-between menu-item mb-3">
-        <router-link to="/dashboard/admin-dashboard" class="btn btn-sm btn-icon bg-light">
-          <i class="ti ti-layout-grid-remove"></i>
-        </router-link>
-        <router-link to="/application/chat" class="btn btn-sm btn-icon bg-light">
-          <i class="ti ti-brand-hipchat"></i>
-        </router-link>
-        <router-link to="/application/email" class="btn btn-sm btn-icon bg-light">
-          <i class="ti ti-message"></i>
-        </router-link>
-        <div class="notification-item">
-          <router-link to="/activities" class="btn btn-sm btn-icon bg-light position-relative">
-            <i class="ti ti-bell"></i>
-            <span class="notification-status-dot"></span>
-          </router-link>
-        </div>
-        <router-link to="/settings/general-settings" class="btn btn-sm btn-icon bg-light me-0">
-          <i class="ti ti-settings"></i>
-        </router-link>
-      </div>
     </div>
 
     <!-- Sidebar Inner -->
@@ -94,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, onMounted, onBeforeUnmount } from "vue"
+import { ref, watch, onMounted, onBeforeUnmount, computed } from "vue"
 import { useRoute } from "vue-router"
 import simplebar from "simplebar-vue"
 import "simplebar-vue/dist/simplebar.min.css"
@@ -102,6 +36,18 @@ import SidebarMenu from "./SidebarMenu.vue"
 
 const sidebarClass = ref("")
 const route = useRoute()
+const isCollapsed = ref(false) // ✅ track sidebar state
+
+// ✅ computed icon class based on collapsed state
+const iconClass = computed(() =>
+  isCollapsed.value ? "ti ti-chevrons-right" : "ti ti-chevrons-left"
+)
+
+// ✅ Toggle sidebar
+const toggleSidebar = () => {
+  isCollapsed.value = !isCollapsed.value
+  document.body.classList.toggle("mini-sidebar", isCollapsed.value)
+}
 
 // ✅ Should hide sidebar?
 const shouldHide = (path: string): boolean => {
@@ -118,11 +64,6 @@ watch(
   },
   { immediate: true }
 )
-
-// ✅ Sidebar toggle
-const toggleSidebar = () => {
-  document.body.classList.toggle("mini-sidebar")
-}
 
 // ✅ Helpers
 const isElementVisible = (el: HTMLElement | null) =>
@@ -175,4 +116,5 @@ onMounted(() => {
 onBeforeUnmount(() => {
   document.removeEventListener("mouseover", handleMouseover)
 })
+
 </script>

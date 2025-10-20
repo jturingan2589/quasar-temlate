@@ -20,7 +20,7 @@
           Add Product</router-link>
       </div>	
       <div class="page-btn d-flex">
-        <q-btn color="secondary"  no-caps>
+        <q-btn color="secondary"  @click="showModal = true" no-caps>
           <i class="bi bi-download q-mr-sm" />
           Import Master List
         </q-btn>
@@ -112,6 +112,22 @@
         @action="onTableAction"
       />
     </div>
+       <!-- The Modal -->
+    <q-dialog v-model="showModal">
+      <q-card style="min-width: 300px;">
+        <q-card-section class="text-h6">
+          Simple Modal
+        </q-card-section>
+
+        <q-card-section>
+          This is a simple modal in Quasar.
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn flat label="Close" color="primary" v-close-popup />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </div>
   <!-- /product list -->
 </template>
@@ -125,6 +141,8 @@
   const viewProductDetails = () =>{
     router.push('/inventory/master-list/details')
   }
+
+  const showModal = ref(false)
 
   const addEditProduct = () =>{
     router.push('/inventory/master-list/edit')
