@@ -5,13 +5,13 @@
           <!-- Logo -->
           <div class="header-left active">
               <router-link to="/dashboard/" class="logo logo-normal">
-                  <img src="/app/img/group1.svg" alt="">
+                  <img src="/app/img/logo.svg" alt="">
               </router-link>
               <router-link to="/dashboard/" class="logo logo-white">
                   <img src="/app/img/logo-white.svg" alt="">
               </router-link>
               <router-link to="/dashboard/" class="logo-small">
-                  <img src="/app/img/group2.png" alt="">
+                  <img src="/app/img/logo-small.png" alt="">
               </router-link>
           </div>
           <!-- /Logo -->

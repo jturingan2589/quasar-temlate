@@ -1,110 +1,232 @@
 <template>
-  <div class="row q-col-gutter-x-lg">
+  <!-- Row 1 Welcome-->  
+  <div class="row items-center justify-between wrap q-gutter-md q-mb-sm">
+    <div class="q-mb-md">
+      <h1 class="q-mb-xs">Welcome, Admin</h1>
+      <p class="fw-medium">
+        You have <span class="text-primary fw-bold">200+</span> Orders, Today
+      </p>
+    </div>
+    <div class="input-icon-start relative-position q-mb-md">
+      <span class="input-icon-addon fs-16 text-gray-9">
+        <i class="ti ti-calendar"></i>
+      </span>
+      <input
+        type="text"
+        class="form-control date-range bookingrange"
+        ref="dateRangeInput"
+        placeholder="Search Product"
+      />
+    </div>
+  </div>
+  <!-- End Row 1 Welcome-->
+  <!-- Alert Low Stock -->
+  <div class="alert bg-orange-transparent alert-dismissible fade show q-pb-xs">
+    <div>
+      <span><i class="ti ti-info-circle fs-14 text-orange q-mr-sm"></i>Your Product </span> <span class="text-orange fw-semibold"> Apple Iphone 15 is running Low, </span> already below 5 Pcs., <a href="javascript:void(0);" class="link-orange text-decoration-underline fw-semibold" data-bs-toggle="modal" data-bs-target="#add-stock">Add Stock</a>
+    </div>
+    <span class="btn-close text-gray-4 text-body2" data-bs-dismiss="alert" aria-label="Close"><i class="ti ti-x"></i></span>
+  </div>
+  <!-- End Alert Low Stock -->
+  <!-- Row 2 Sales Widgets-->
+  <div class="row q-col-gutter-x-lg q-pb-xs">
     <div class="col-lg-3 col-sm-6 col-12 d-flex">
-      <div class="card dash-widget full-width">
+      <div class="card bg-primary sale-widget flex-fill">
         <div class="card-body d-flex items-center">
-          <div class="dash-widgetimg">
-            <span><img src="/app/img/icons/dash1.svg" alt="img" /></span>
-          </div>
-          <div class="dash-widgetcontent">
-            <h5><span class="counters" data-count="307144.00">₱307,144.00</span></h5>
-            <p class="q-mb-none">Total Purchase Due</p>
+          <span class="sale-icon bg-white text-primary">
+            <i class="ti ti-file-text fs-24"></i>
+          </span>
+          <div class="q-ml-sm">
+            <p class="text-white q-mb-xs">Total Sales</p>
+            <div class="row items-center flex-wrap q-gutter-sm">
+              <h4 class="text-white">₱48,988,078</h4>
+              <span class="badge badge-soft-primary"
+                ><i class="ti ti-arrow-up me-1"></i>+22%</span
+              >
+            </div>
           </div>
         </div>
       </div>
     </div>
     <div class="col-lg-3 col-sm-6 col-12 d-flex">
-      <div class="card dash-widget dash1 full-width">
+      <div class="card bg-secondary sale-widget flex-fill">
         <div class="card-body d-flex items-center">
-          <div class="dash-widgetimg">
-            <span><img src="/app/img/icons/dash2.svg" alt="img" /></span>
-          </div>
-          <div class="dash-widgetcontent">
-            <h5><span class="counters" data-count="4385.00">₱4,385.00</span></h5>
-            <p class="q-mb-none">Total Sales Due</p>
+          <span class="sale-icon bg-white text-secondary">
+            <i class="ti ti-repeat fs-24"></i>
+          </span>
+          <div class="q-ml-sm">
+            <p class="text-white q-mb-xs">Total Sales Return</p>
+            <div class="row items-center flex-wrap q-gutter-sm">
+              <h4 class="text-white">₱16,478,145</h4>
+              <span class="badge badge-soft-danger"
+                ><i class="ti ti-arrow-down me-1"></i>-22%</span
+              >
+            </div>
           </div>
         </div>
       </div>
     </div>
     <div class="col-lg-3 col-sm-6 col-12 d-flex">
-      <div class="card dash-widget dash2 full-width">
+      <div class="card bg-teal sale-widget flex-fill">
         <div class="card-body d-flex items-center">
-          <div class="dash-widgetimg">
-            <span><img src="/app/img/icons/dash3.svg" alt="img" /></span>
-          </div>
-          <div class="dash-widgetcontent">
-            <h5><span class="counters" data-count="385656.50">₱385,656.50</span></h5>
-            <p class="q-mb-none">Total Sale Amount</p>
+          <span class="sale-icon bg-white text-teal">
+            <i class="ti ti-gift fs-24"></i>
+          </span>
+          <div class="q-ml-sm">
+            <p class="text-white q-mb-xs">Total Purchase</p>
+            <div class="row items-center flex-wrap q-gutter-sm">
+              <h4 class="text-white">₱24,145,789</h4>
+              <span class="badge badge-soft-success"
+                ><i class="ti ti-arrow-up me-1"></i>+22%</span
+              >
+            </div>
           </div>
         </div>
       </div>
     </div>
     <div class="col-lg-3 col-sm-6 col-12 d-flex">
-      <div class="card dash-widget dash3 full-width">
+      <div class="card bg-info sale-widget flex-fill">
         <div class="card-body d-flex items-center">
-          <div class="dash-widgetimg">
-            <span><img src="/app/img/icons/dash4.svg" alt="img" /></span>
+          <span class="sale-icon bg-white text-info">
+            <i class="ti ti-brand-pocket fs-24"></i>
+          </span>
+          <div class="q-ml-sm">
+            <p class="text-white q-mb-xs">Total Purchase Return</p>
+            <div class="row items-center flex-wrap q-gutter-sm">
+              <h4 class="text-white">₱18,458,747</h4>
+              <span class="badge badge-soft-success"
+                ><i class="ti ti-arrow-up me-1"></i>+22%</span
+              >
+            </div>
           </div>
-          <div class="dash-widgetcontent">
-            <h5><span class="counters" data-count="40000.00">₱400.00</span></h5>
-            <p class="q-mb-none">Total Expense Amount</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-3 col-sm-6 col-12 d-flex">
-      <div class="dash-count bg-primary">
-        <div class="dash-counts">
-          <h4>100</h4>
-          <p class="text-white q-mb-none">Customers</p>
-        </div>
-        <div class="dash-imgs">
-          <i class="bi bi-people" />
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-3 col-sm-6 col-12 d-flex">
-      <div class="dash-count das1 bg-cyan-900">
-        <div class="dash-counts">
-          <h4>110</h4>
-          <p class="text-white q-mb-none">Suppliers</p>
-        </div>
-        <div class="dash-imgs">
-          <i class="bi bi-truck" />
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-3 col-sm-6 col-12 d-flex">
-      <div class="dash-count das2 bg-dark">
-        <div class="dash-counts">
-          <h4>150</h4>
-          <p class="text-white q-mb-none">Purchase Invoice</p>
-        </div>
-        <div class="dash-imgs">
-          <img
-            src="/app/img/icons/file-text-icon-01.svg"
-            class="img-fluid"
-            alt="icon"
-          />
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-3 col-sm-6 col-12 d-flex">
-      <div class="dash-count das3 bg-success">
-        <div class="dash-counts">
-          <h4>170</h4>
-          <p class="text-white q-mb-none">Sales Invoice</p>
-        </div>
-        <div class="dash-imgs">
-          <img
-            src="/app/img/icons/file.svg"
-            class="img-fluid"
-            alt="icon"
-          />
         </div>
       </div>
     </div>
   </div>
+  <!-- End Row 2 Sales Widgets-->
+  <!-- Row 3 Summary Widget--> 
+  <div class="row q-col-gutter-x-lg q-pb-xs">
+    <!-- Profit -->
+    <div class="col-lg-3 col-sm-6 col-12 d-flex">
+      <div class="card revenue-widget flex-fill">
+        <div class="card-body">
+          <div
+            class="d-flex items-center justify-between q-mb-md q-pb-md border-bottom"
+          >
+            <div>
+              <h4 class="q-mb-xs">₱8,458,798</h4>
+              <p>Profit</p>
+            </div>
+            <span class="revenue-icon bg-cyan-transparent text-cyan">
+              <i class="fa-solid fa-layer-group fs-16"></i>
+            </span>
+          </div>
+          <div class="d-flex items-center justify-between">
+            <p class="q-mb-none">
+              <span class="fs-13 fw-bold text-success">+35%</span> vs Last Month
+            </p>
+            <router-link
+              to="/reports/profit-and-loss"
+              class="text-decoration-underline fs-13 fw-medium"
+              >View All</router-link
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /Profit -->
+
+    <!-- Invoice -->
+    <div class="col-lg-3 col-sm-6 col-12 d-flex">
+      <div class="card revenue-widget flex-fill">
+        <div class="card-body">
+          <div
+            class="d-flex items-center justify-between q-mb-md q-pb-md border-bottom"
+          >
+            <div>
+              <h4 class="q-mb-xs">₱48,988,78</h4>
+              <p>Invoice Due</p>
+            </div>
+            <span class="revenue-icon bg-teal-transparent text-teal">
+              <i class="ti ti-chart-pie fs-16"></i>
+            </span>
+          </div>
+          <div class="d-flex items-center justify-between">
+            <p class="q-mb-none">
+              <span class="fs-13 fw-bold text-success">+35%</span> vs Last Month
+            </p>
+            <router-link
+              to="/reports/invoice-report"
+              class="text-decoration-underline fs-13 fw-medium"
+              >View All</router-link
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /Invoice -->
+
+    <!-- Expenses -->
+    <div class="col-lg-3 col-sm-6 col-12 d-flex">
+      <div class="card revenue-widget flex-fill">
+        <div class="card-body">
+          <div
+            class="d-flex items-center justify-between q-mb-md q-pb-md border-bottom"
+          >
+            <div>
+              <h4 class="q-mb-xs">₱8,980,097</h4>
+              <p>Total Expenses</p>
+            </div>
+            <span class="revenue-icon bg-orange-transparent text-orange">
+              <i class="ti ti-lifebuoy fs-16"></i>
+            </span>
+          </div>
+          <div class="d-flex items-center justify-between">
+            <p class="q-mb-none">
+              <span class="fs-13 fw-bold text-success">+41%</span> vs Last Month
+            </p>
+            <router-link
+              to="/expenses/expenses-list"
+              class="text-decoration-underline fs-13 fw-medium"
+              >View All</router-link
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /Expenses -->
+
+    <!-- Returns -->
+    <div class="col-lg-3 col-sm-6 col-12 d-flex">
+      <div class="card revenue-widget flex-fill">
+        <div class="card-body">
+          <div
+            class="d-flex items-center justify-between q-mb-md q-pb-md border-bottom"
+          >
+            <div>
+              <h4 class="q-mb-xs">₱78,458,798</h4>
+              <p>Total Payment Returns</p>
+            </div>
+            <span class="revenue-icon bg-indigo-transparent text-indigo">
+              <i class="ti ti-hash fs-16"></i>
+            </span>
+          </div>
+          <div class="d-flex items-center justify-between">
+            <p class="q-mb-none">
+              <span class="fs-13 fw-bold text-danger">-20%</span> vs Last Month
+            </p>
+            <router-link
+              to="/sales-report/sales-report"
+              class="text-decoration-underline fs-13 fw-medium"
+              >View All</router-link
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /Returns -->
+  </div>
+  <!-- Row 3 Daily Sales-->
   <div class="row q-col-gutter-x-lg">
     <div class="col-lg-8 col-sm-12 col-12 d-flex">
       <div class="card flex-fill">
@@ -251,7 +373,8 @@
       </div>
     </div>
   </div>
-
+  <!-- End Row 2 Daily Sales-->
+  <!-- Row 3 Monthly Sales-->
   <div class="row q-col-gutter-x-lg">
     <div class="col-lg-8 col-sm-12 col-12 d-flex">
       <div class="card flex-fill">
@@ -385,6 +508,7 @@
         </div>
       </div>
     </div>
+    <!--End Row 3 Monthly Sales-->
   </div>
 </template>
 

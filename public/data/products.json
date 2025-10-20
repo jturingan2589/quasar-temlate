@@ -1,0 +1,137 @@
+{
+  "status": "success",
+  "products": [
+    {
+      "description": "Lenovo 3rd Generation",
+      "sku": "PT001",
+      "category": "Computers",
+      "brand": "Lenovo",
+      "price": "$600",
+      "unit": "Pc",
+      "qty": "100",
+      "image": "stock-img-01.png",
+      "userImage": "user-30.jpg",
+      "createdBy": "James Kirwin"
+    },
+    {
+      "description": "Bold V3.2",
+      "sku": "PT002",
+      "category": "Electronics",
+      "brand": "Bolt",
+      "price": "$160",
+      "unit": "Pc",
+      "qty": "140",
+      "image": "stock-img-06.png",
+      "userImage": "user-13.jpg",
+      "createdBy": "Francis Chang"
+    },
+    {
+      "description": "Nike Jordan",
+      "sku": "PT003",
+      "category": "Shoe",
+      "brand": "Nike",
+      "price": "$110",
+      "unit": "Pc",
+      "qty": "780",
+      "image": "stock-img-02.png",
+      "userImage": "user-11.jpg",
+      "createdBy": "Antonio Engle"
+    },
+    {
+      "description": "Apple Series 5 Watch",
+      "sku": "PT004",
+      "category": "Electronics",
+      "brand": "Apple",
+      "price": "$120",
+      "unit": "Pc",
+      "qty": "450",
+      "image": "stock-img-03.png",
+      "userImage": "user-03.jpg",
+      "createdBy": "Leo Kelly"
+    },
+    {
+      "description": "Amazon Echo Dot",
+      "sku": "PT005",
+      "category": "Electronics",
+      "brand": "Amazon",
+      "price": "$80",
+      "unit": "Pc",
+      "qty": "477",
+      "image": "stock-img-04.png",
+      "userImage": "user-02.jpg",
+      "createdBy": "Annette Walker"
+    },
+    {
+      "description": "Lobar Handy",
+      "sku": "PT006",
+      "category": "Furnitures",
+      "brand": "Woodmart",
+      "price": "$320",
+      "unit": "Kg",
+      "qty": "145",
+      "image": "stock-img-05.png",
+      "userImage": "user-05.jpg",
+      "createdBy": "John Weaver"
+    },
+    {
+      "description": "Red Premium Handy",
+      "sku": "PT007",
+      "category": "Bags",
+      "brand": "Versace",
+      "price": "$60",
+      "unit": "Pc",
+      "qty": "747",
+      "image": "stock-img-01.png",
+      "userImage": "user-08.jpg",
+      "createdBy": "Gary Hennessy"
+    },
+    {
+      "description": "Iphone 14 Pro",
+      "sku": "PT008",
+      "category": "Phone",
+      "brand": "Apple",
+      "price": "$540",
+      "unit": "Pc",
+      "qty": "897",
+      "image": "stock-img-02.png",
+      "userImage": "user-04.jpg",
+      "createdBy": "Eleanor Panek"
+    },
+    {
+      "description": "Gaming Chair",
+      "sku": "PT009",
+      "category": "Furniture",
+      "brand": "Arlime",
+      "price": "$200",
+      "unit": "Pc",
+      "qty": "741",
+      "image": "expire-product-03.png",
+      "userImage": "user-01.jpg",
+      "createdBy": "William Levy"
+    },
+    {
+      "description": "Borealis Backpack",
+      "sku": "PT010",
+      "category": "Bags",
+      "brand": "The North Face",
+      "price": "$45",
+      "unit": "Pc",
+      "qty": "148",
+      "image": "expire-product-04.png",
+      "userImage": "user-10.jpg",
+      "createdBy": "Charlotte Klotz"
+    },
+    {
+      "description": "Borealis Backpack",
+      "sku": "PT010",
+      "category": "Bags",
+      "brand": "The North Face",
+      "price": "$45",
+      "unit": "Pc",
+      "qty": "550",
+      "image": "expire-product-04.png",
+      "userImage": "user-10.jpg",
+      "createdBy": "Charlotte Klotz"
+    }
+  ]
+}

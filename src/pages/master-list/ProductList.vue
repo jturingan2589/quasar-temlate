@@ -101,7 +101,7 @@
     </div>
     <div class="card-body">
       <BaseTable
-        :rows="data"
+        :rows="rows"
         :columns="columns"
         v-model:pagination="pagination"
         :actions="[
@@ -116,13 +116,13 @@
   <!-- /product list -->
 </template>
 <script setup lang="ts">
-  import { ref } from 'vue';
+  import { ref, onMounted } from 'vue';
   import { useRouter } from 'vue-router'
   import PageHeader from 'src/components/PageHeader.vue';
   import BaseTable from 'src/components/BaseTable.vue';
+  import { ApiService } from 'src/services/api';
   const router = useRouter()
   const viewProductDetails = () =>{
-    console.log("=== VIEW DETAILS ====")
     router.push('/inventory/master-list/details')
   }
 
@@ -154,194 +154,74 @@
   const reloadData = (): void =>{}
   const onTableAction = (): void =>{}
 
+  const rows = ref<any[]>([])
+  const loading = ref(true)
   const columns = [
     {
       label: "SKU",
-      field: "SKU",
-      name: "SKU",
-      sortable: true
+      field: "sku",
+      name: "sku",
+      sortable: true,
     },
     {
       label: "Product Name",
-      field: "Product",
-      name: "Product",
-      sortable: true
+      field: "description",
+      name: "description",
+      sortable: true,
     },
     {
       label: "Category",
-      field: "Category",
-      name: "Category",
-      sortable: true
+      field: "category",
+      name: "category",
+      sortable: true,
     },
     {
       label: "Brand",
-      field: "Brand",
-      name: "Brand",
-      sortable: true
+      field: "brand",
+      name: "brand",
+      sortable: true,
     },
     {
       label: "Price",
-      field: "Price",
-      name: "Price",
-      sortable: true
+      field: "price",
+      name: "price",
+      sortable: true,
     },
     {
       label: "Unit",
-      name: "Unit",
-      field: "Unit",
-      sortable: true
+      field: "unit",
+      name: "unit",
+      sortable: true,
     },
     {
       label: "Qty",
-      field: "Qty",
-      name: "Qty",
-      sortable: true
+      field: "qty",
+      name: "qty",
+      sortable: true,
     },
     {
-      label: "Created by",
-      field: "CreatedBy",
-      name: "CreatedBy",
-      sortable: true
+      label: "Created By",
+      field: "createdBy",
+      name: "createdBy",
+      sortable: true,
     },
-    {
-      label: "",
-      field: "actions",
-      name: "action",
-    },
+
   ];
-  const data = [
-    {
-      Product: "Lenovo 3rd Generation",
-      SKU: "PT001",
-      Category: "Computers",
-      Brand: "Lenovo",
-      Price: "$600",
-      Unit: "Pc",
-      Qty: "100",
-      Image: "stock-img-01.png",
-      UserImage: "user-30.jpg",
-      CreatedBy: "James Kirwin",
-    },
-    {
-      Product: "Bold V3.2",
-      SKU: "PT002",
-      Category: "Electronics",
-      Brand: "Bolt",
-      Price: "$160",
-      Unit: "Pc",
-      Qty: "140",
-      Image: "stock-img-06.png",
-      UserImage: "user-13.jpg",
-      CreatedBy: "Francis Chang",
-    },
-    {
-      Product: "Nike Jordan",
-      SKU: "PT003",
-      Category: "Shoe",
-      Brand: "Nike",
-      Price: "$110",
-      Unit: "Pc",
-      Qty: "780",
-      Image: "stock-img-02.png",
-      UserImage: "user-11.jpg",
-      CreatedBy: "Antonio Engle",
-    },
-    {
-      Product: "Apple Series 5 Watch",
-      SKU: "PT004",
-      Category: "Electronics",
-      Brand: "Apple",
-      Price: "$120",
-      Unit: "Pc",
-      Qty: "450",
-      Image: "stock-img-03.png",
-      UserImage: "user-03.jpg",
-      CreatedBy: "Leo Kelly",
-    },
-    {
-      Product: "Amazon Echo Dot",
-      SKU: "PT005",
-      Category: "Electronics",
-      Brand: "Amazon",
-      Price: "$80",
-      Unit: "Pc",
-      Qty: "477",
-      Image: "stock-img-04.png",
-      UserImage: "user-02.jpg",
-      CreatedBy: "Annette Walker",
-    },
-    {
-      Product: "Lobar Handy",
-      SKU: "PT006",
-      Category: "Furnitures",
-      Brand: "Woodmart",
-      Price: "$320",
-      Unit: "Kg",
-      Qty: "145",
-      Image: "stock-img-05.png",
-      UserImage: "user-05.jpg",
-      CreatedBy: "John Weaver",
-    },
-    {
-      Product: "Red Premium Handy",
-      SKU: "PT007",
-      Category: "Bags",
-      Brand: "Versace",
-      Price: "$60",
-      Unit: "Pc",
-      Qty: "747",
-      Image: "stock-img-01.png",
-      UserImage: "user-08.jpg",
-      CreatedBy: "Gary Hennessy",
-    },
-    {
-      Product: "Iphone 14 Pro",
-      SKU: "PT008",
-      Category: "Phone",
-      Brand: "Apple",
-      Price: "$540",
-      Unit: "Pc",
-      Qty: "897",
-      Image: "stock-img-02.png",
-      UserImage: "user-04.jpg",
-      CreatedBy: "Eleanor Panek",
-    },
-    {
-      Product: "Gaming Chair",
-      SKU: "PT009",
-      Category: "Furniture",
-      Brand: "Arlime",
-      Price: "$200",
-      Unit: "Pc",
-      Qty: "741",
-      Image: "expire-product-03.png",
-      UserImage: "user-01.jpg",
-      CreatedBy: "William Levy",
-    },
-    {
-      Product: "Borealis Backpack",
-      SKU: "PT010",
-      Category: "Bags",
-      Brand: "The North Face",
-      Price: "$45",
-      Unit: "Pc",
-      Qty: "148",
-      Image: "expire-product-04.png",
-      UserImage: "user-10.jpg",
-      CreatedBy: "Charlotte Klotz",
-    },
-    {
-      Product: "Borealis Backpack",
-      SKU: "PT010",
-      Category: "Bags",
-      Brand: "The North Face",
-      Price: "$45",
-      Unit: "Pc",
-      Qty: "550",
-      Image: "expire-product-04.png",
-      UserImage: "user-10.jpg",
-      CreatedBy: "Charlotte Klotz",
-    },
-  ];
+
+  interface ProductResponse {
+    products?: Array<any>;
+  }
+
+  onMounted(async () => {
+    try {
+      const data = await ApiService.get<ProductResponse>(`/products.json?ts=${Date.now()}`)
+      rows.value = data.products || []
+    } catch (err) {
+      console.error('Error loading data:', err)
+    } finally {
+      loading.value = false
+    }
+  })
+
 
 </script>
