@@ -58,9 +58,10 @@
             <p class="text-white q-mb-xs">Total Sales</p>
             <div class="row items-center flex-wrap q-gutter-sm">
               <h4 class="text-white">₱48,988,078</h4>
-              <span class="badge badge-soft-primary"
-                ><i class="ti ti-arrow-up q-mr-xs"></i>+22%</span
-              >
+              <span class="badge badge-soft-primary">
+                <i class="ti ti-arrow-up q-mr-xs"></i>
+                +22%
+              </span>
             </div>
           </div>
         </div>
@@ -76,9 +77,10 @@
             <p class="text-white q-mb-xs">Total Sales Return</p>
             <div class="row items-center flex-wrap q-gutter-sm">
               <h4 class="text-white">₱16,478,145</h4>
-              <span class="badge badge-soft-danger"
-                ><i class="ti ti-arrow-down q-mr-xs"></i>-22%</span
-              >
+              <span class="badge badge-soft-danger">
+                <i class="ti ti-arrow-down q-mr-xs"></i>
+                -22%
+              </span>
             </div>
           </div>
         </div>
