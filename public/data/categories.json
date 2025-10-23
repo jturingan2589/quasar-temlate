@@ -1,0 +1,25 @@
+{
+  "status": "success",
+  "categories": [
+    {
+      "label": "Computers",
+      "value": "computers"
+    },
+    {
+      "label": "Electronics",
+      "value": "electronics"
+    },
+    {
+      "label": "Shoe",
+      "value": "shoe"
+    },
+    {
+      "label": "Speaker",
+      "value": "speaker"
+    },
+    {
+      "label": "Accessories",
+      "value": "accessories"
+    }
+  ]
+}

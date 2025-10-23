@@ -1,0 +1,11 @@
+{
+  "status": "success",
+  "brands": [
+    { "label": "Select", "value": "Select" },
+    { "label": "Computers", "value": "Computers" },
+    { "label": "Electronics", "value": "Electronics" },
+    { "label": "Shoe", "value": "Shoe" },
+    { "label": "Cosmetics", "value": "Cosmetics" },
+    { "label": "Groceries", "value": "Groceries" }
+  ]
+}
