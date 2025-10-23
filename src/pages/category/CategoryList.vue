@@ -40,14 +40,8 @@
           class="btn btn-primary d-flex align-items-center"
         >
           <i class="bi bi-plus-circle q-mr-sm" />
-          Add Product</router-link
-        >
-      </div>
-      <div class="page-btn d-flex">
-        <q-btn color="secondary" no-caps>
-          <i class="bi bi-download q-mr-sm" />
-          Import Master List
-        </q-btn>
+          Add Category
+        </router-link>
       </div>
     </template>
   </PageHeader>
@@ -61,8 +55,8 @@
       <div class="search-set">
         <div class="search-input">
           <a href="#" class="btn-searchset"
-            ><i data-feather="search" class="feather-search"></i
-          ></a>
+            ><i data-feather="search" class="feather-search"></i>
+          </a>
           <input
             type="search"
             class="form-control form-control-sm"
@@ -81,46 +75,12 @@
             class="dropdown-toggle btn btn-white btn-md d-inline-flex align-items-center"
             data-bs-toggle="dropdown"
           >
-            category
-          </a>
-          <ul class="dropdown-menu dropdown-menu-end p-3">
-            <li v-for="(cat, i) in categorySelect" :key="i">
-              <a href="javascript:void(0);" class="dropdown-item rounded-1">
-                {{ cat }}
-              </a>
-            </li>
-          </ul>
-        </div>
-
-        <div class="dropdown q-mr-sm">
-          <a
-            href="javascript:void(0);"
-            class="dropdown-toggle btn btn-white btn-md d-inline-flex align-items-center"
-            data-bs-toggle="dropdown"
-          >
             Status
           </a>
           <ul class="dropdown-menu dropdown-menu-end p-3">
             <li v-for="(status, i) in categoryStatus" :key="i">
               <a href="javascript:void(0);" class="dropdown-item rounded-1">
                 {{ status }}
-              </a>
-            </li>
-          </ul>
-        </div>
-
-        <div class="dropdown">
-          <a
-            href="javascript:void(0);"
-            class="dropdown-toggle btn btn-white btn-md d-inline-flex align-items-center"
-            data-bs-toggle="dropdown"
-          >
-            Sort By : Last 7 Days
-          </a>
-          <ul class="dropdown-menu dropdown-menu-end p-3">
-            <li v-for="(sort, i) in categoryListSort" :key="i">
-              <a href="javascript:void(0);" class="dropdown-item rounded-1">
-                {{ sort }}
               </a>
             </li>
           </ul>
@@ -189,17 +149,16 @@ const columns = [
   },
   {
     name: "Created On",
-    field: "CreatedOn",
+    field: "created_on",
     label: "Created On",
     sortable: true,
   },
   {
     name: "Status",
-    field: "Status",
+    field: "status",
     label: "Status",
     sortable: true,
   },
-  { name: "Actions", field: "action", label: "Actions", sortable: false },
 ];
 
 // Data
@@ -207,50 +166,50 @@ const data = ref([
   {
     category: "Laptop",
     code: "laptop",
-    CreatedOn: "25 May 2024",
-    Status: "Active",
+    created_on: "25 May 2024",
+    status: "Active",
   },
   {
     category: "Electronics",
     code: "electronics",
-    CreatedOn: "24 Jun 2024",
-    Status: "Active",
+    created_on: "24 Jun 2024",
+    status: "Active",
   },
   {
     category: "Shoe",
     code: "shoe",
-    CreatedOn: "23 Jul 2024",
-    Status: "Active",
+    created_on: "23 Jul 2024",
+    status: "Active",
   },
   {
     category: "Speaker",
     code: "speaker",
-    CreatedOn: "22 Aug 2024",
-    Status: "Active",
+    created_on: "22 Aug 2024",
+    status: "Active",
   },
   {
     category: "Furniture",
     code: "furniture",
-    CreatedOn: "21 Sep 2024",
-    Status: "Active",
+    created_on: "21 Sep 2024",
+    status: "Active",
   },
   {
     category: "Bags",
     code: "bags",
-    CreatedOn: "20 Sep 2024",
-    Status: "Active",
+    created_on: "20 Sep 2024",
+    status: "Active",
   },
   {
     category: "Phone",
     code: "phone",
-    CreatedOn: "20 Sep 2024",
-    Status: "Active",
+    created_on: "20 Sep 2024",
+    status: "Active",
   },
   {
     category: "Chairs",
     code: "chairs",
-    CreatedOn: "20 Sep 2024",
-    Status: "Active",
+    created_on: "20 Sep 2024",
+    status: "Active",
   },
 ]);
 

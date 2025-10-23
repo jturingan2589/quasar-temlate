@@ -58,113 +58,51 @@
     >
       <div class="search-set">
         <div class="search-input">
-          <a href="javascript:void(0);" class="btn-searchset"
-            ><i class="ti ti-search fs-14 feather-search"></i
-          ></a>
-          <input
+          <a href="javascript:void(0);" class="btn-searchset">
+            <i class="ti ti-search fs-14 feather-search"></i>
+          </a>
+          <BaseInput
+            dense
             type="search"
-            class="form-control form-control-sm"
-            placeholder="Search"
+            placeholder="Search products..."
+            v-model="searchQuery"
           />
         </div>
       </div>
       <div
         class="d-flex table-dropdown my-xl-auto right-content align-items-center flex-wrap row-gap-3"
       >
-        <div class="dropdown q-mr-sm">
-          <a
-            href="javascript:void(0);"
-            class="dropdown-toggle btn btn-white btn-md d-inline-flex align-items-center"
-            data-bs-toggle="dropdown"
-          >
-            Category
-          </a>
-          <ul class="dropdown-menu dropdown-menu-end p-3">
-            <li>
-              <a href="javascript:void(0);" class="dropdown-item rounded-1"
-                >Computers
-              </a>
-            </li>
-            <li>
-              <a href="javascript:void(0);" class="dropdown-item rounded-1"
-                >Electronics
-              </a>
-            </li>
-            <li>
-              <a href="javascript:void(0);" class="dropdown-item rounded-1">
-                Shoe
-              </a>
-            </li>
-            <li>
-              <a href="javascript:void(0);" class="dropdown-item rounded-1">
-                Electronics
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div class="dropdown q-mr-sm">
-          <a
-            href="javascript:void(0);"
-            class="dropdown-toggle btn btn-white btn-md d-inline-flex align-items-center"
-            data-bs-toggle="dropdown"
-          >
-            Brand
-          </a>
-          <ul class="dropdown-menu dropdown-menu-end p-3">
-            <li>
-              <a href="javascript:void(0);" class="dropdown-item rounded-1">
-                Lenovo
-              </a>
-            </li>
-            <li>
-              <a href="javascript:void(0);" class="dropdown-item rounded-1">
-                Beats
-              </a>
-            </li>
-            <li>
-              <a href="javascript:void(0);" class="dropdown-item rounded-1">
-                Nike
-              </a>
-            </li>
-            <li>
-              <a href="javascript:void(0);" class="dropdown-item rounded-1">
-                Apple
-              </a>
-            </li>
-          </ul>
-        </div>
+        <FilterPopup
+          title="Product Filters"
+          :filters="filters"
+          @apply="onApplyFilters"
+          @reset="onResetFilters"
+        >
+          <template #fields>
+            <FormField label="Category">
+              <BaseSelect :options="categories" v-model="filters.categories" />
+            </FormField>
+            <FormField label="Brand">
+              <BaseSelect :options="brands" v-model="filters.brands" />
+            </FormField>
+          </template>
+        </FilterPopup>
         <div class="dropdown">
           <a
             href="javascript:void(0);"
             class="dropdown-toggle btn btn-white btn-md d-inline-flex align-items-center"
             data-bs-toggle="dropdown"
           >
-            Sort By : Last 7 Days
+            Sort By
           </a>
           <ul class="dropdown-menu dropdown-menu-end p-3">
-            <li>
-              <a href="javascript:void(0);" class="dropdown-item rounded-1">
-                Recently Added
-              </a>
-            </li>
-            <li>
-              <a href="javascript:void(0);" class="dropdown-item rounded-1">
-                Ascending
-              </a>
-            </li>
-            <li>
-              <a href="javascript:void(0);" class="dropdown-item rounded-1">
-                Desending
-              </a>
-            </li>
-            <li>
-              <a href="javascript:void(0);" class="dropdown-item rounded-1">
-                Last Month
-              </a>
-            </li>
-            <li>
-              <a href="javascript:void(0);" class="dropdown-item rounded-1">
-                Last 7 Days
+            <li v-for="option in sortOptions" :key="option.label">
+              <a
+                href="javascript:void(0);"
+                class="dropdown-item rounded-1"
+                @click.prevent="applySort(option)"
+              >
+                {{ option.label }}
               </a>
             </li>
           </ul>
@@ -176,26 +114,7 @@
         :rows="rows"
         :columns="columns"
         v-model:pagination="pagination"
-        :actions="[
-          {
-            name: 'view',
-            icon: 'visibility',
-            label: 'View Details',
-            func: viewProductDetails,
-          },
-          {
-            name: 'edit',
-            icon: 'edit_note',
-            label: 'Edit',
-            func: addEditProduct,
-          },
-          {
-            name: 'delete',
-            icon: 'delete_outline',
-            label: 'Delete',
-            func: deleteProduct,
-          },
-        ]"
+        :actions="tableActions"
         @action="onTableAction"
       />
     </div>
@@ -210,90 +129,77 @@
   <!-- /product list -->
 </template>
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { useRouter } from "vue-router";
+
 import PageHeader from "src/components/PageHeader.vue";
 import BaseTable from "src/components/BaseTable.vue";
-import { ApiService } from "src/services/api";
+import FilterPopup from "src/components/FilterPopup.vue";
+import BaseSelect from "src/components/BaseSelect.vue";
 import UploadModal from "src/components/UploadModal.vue";
+import { ApiService } from "src/services/api";
+import FormField from "src/components/FormField.vue";
+import BaseInput from "src/components/BaseInput.vue";
+
+// -----------------------------
+// Router
+// -----------------------------
 const router = useRouter();
-const viewProductDetails = () => {
-  router.push("/inventory/master-list/details");
-};
+const navigateToDetails = () => router.push("/inventory/master-list/details");
+const navigateToEdit = () => router.push("/inventory/master-list/edit");
 
+// -----------------------------
+// Reactive State
+// -----------------------------
 const showModal = ref(false);
+const rows = ref<any[]>([]);
+const stores = ref<any[]>([]);
+const categories = ref<any[]>([]);
+const brands = ref<any[]>([]);
+const loading = ref(true);
 
-const addEditProduct = () => {
-  router.push("/inventory/master-list/edit");
-};
-
-const deleteProduct = () => {};
-
-const pagination = ref({
-  sortBy: "SKU", // default column
-  descending: false,
-  page: 1,
-  rowsPerPage: 10, // default rows per page
+const filters = ref({
+  categories: "",
+  brands: "",
 });
 
-const toggleHeader = (): void => {
-  const headerEl = document.getElementById("collapse-header");
-  if (headerEl) {
-    headerEl.classList.toggle("active");
-  }
-  document.body.classList.toggle("header-collapse");
-};
+const searchQuery = ref(""); // search input
+const searchDebounce = ref<any>(null);
 
-const exportToExcel = (): void => {};
-const exportToPdf = (): void => {};
-const reloadData = (): void => {};
-const onTableAction = (): void => {};
+const pagination = ref({
+  sortBy: "SKU",
+  descending: false,
+  page: 1,
+  rowsPerPage: 10,
+});
 
-const rows = ref<any[]>([]);
-const loading = ref(true);
+const sortByField = ref(pagination.value.sortBy);
+const sortDescending = ref(pagination.value.descending);
+
+const sortOptions = [
+  { label: "Recently Added", field: "createdAt", descending: true },
+  { label: "Ascending", field: "description", descending: false },
+  { label: "Descending", field: "description", descending: true },
+  { label: "Last Month", field: "createdAt", descending: true },
+  { label: "Last 7 Days", field: "createdAt", descending: true },
+];
+
+// -----------------------------
+// Table & Column Configuration
+// -----------------------------
 const columns = [
-  {
-    label: "SKU",
-    field: "sku",
-    name: "sku",
-    sortable: true,
-  },
+  { label: "SKU", field: "sku", name: "sku", sortable: true },
   {
     label: "Product Name",
     field: "description",
     name: "description",
     sortable: true,
   },
-  {
-    label: "Category",
-    field: "category",
-    name: "category",
-    sortable: true,
-  },
-  {
-    label: "Brand",
-    field: "brand",
-    name: "brand",
-    sortable: true,
-  },
-  {
-    label: "Price",
-    field: "price",
-    name: "price",
-    sortable: true,
-  },
-  {
-    label: "Unit",
-    field: "unit",
-    name: "unit",
-    sortable: true,
-  },
-  {
-    label: "Qty",
-    field: "qty",
-    name: "qty",
-    sortable: true,
-  },
+  { label: "Category", field: "category", name: "category", sortable: true },
+  { label: "Brand", field: "brand", name: "brand", sortable: true },
+  { label: "Price", field: "price", name: "price", sortable: true },
+  { label: "Unit", field: "unit", name: "unit", sortable: true },
+  { label: "Qty", field: "qty", name: "qty", sortable: true },
   {
     label: "Created By",
     field: "createdBy",
@@ -302,20 +208,152 @@ const columns = [
   },
 ];
 
+const tableActions = [
+  {
+    name: "view",
+    icon: "visibility",
+    label: "View Details",
+    func: navigateToDetails,
+  },
+  { name: "edit", icon: "edit_note", label: "Edit", func: navigateToEdit },
+  {
+    name: "delete",
+    icon: "delete_outline",
+    label: "Delete",
+    func: (row: any) => console.log("Delete:", row),
+  },
+];
+
+// -----------------------------
+// Header & Toolbar Actions
+// -----------------------------
+const toggleHeader = (): void => {
+  const headerEl = document.getElementById("collapse-header");
+  if (headerEl) headerEl.classList.toggle("active");
+  document.body.classList.toggle("header-collapse");
+};
+
+const exportToExcel = (): void => console.log("Export Excel");
+const exportToPdf = (): void => console.log("Export PDF");
+const reloadData = (): void => console.log("Reload data");
+const onTableAction = (action?: any) => console.log("Table action:", action);
+
+// -----------------------------
+// Filter Handlers
+// -----------------------------
+const onApplyFilters = (): void => {
+  fetchProducts();
+};
+
+const onResetFilters = (): void => {
+  filters.value = {
+    categories: "",
+    brands: "",
+  };
+  fetchProducts();
+};
+
+// -----------------------------
+// Search & Sort Handlers
+// -----------------------------
+const onSearch = (): void => {
+  if (searchDebounce.value) clearTimeout(searchDebounce.value);
+  searchDebounce.value = setTimeout(() => {
+    fetchProducts();
+  }, 300); // debounce 300ms
+};
+
+const applySort = (option: { field: string; descending: boolean }) => {
+  sortByField.value = option.field;
+  sortDescending.value = option.descending;
+  fetchProducts();
+};
+
+// -----------------------------
+// API Calls
+// -----------------------------
 interface ProductResponse {
   products?: Array<any>;
 }
 
-onMounted(async () => {
+const fetchProducts = async (): Promise<void> => {
   try {
+    loading.value = true;
+    const params: Record<string, string> = {};
+
+    // Add filters
+    Object.entries(filters.value).forEach(([k, v]) => {
+      if (v) params[k] = v;
+    });
+
+    // Add search
+    if (searchQuery.value) params.search = searchQuery.value;
+
+    // Add sort
+    if (sortByField.value) {
+      params.sortBy = sortByField.value;
+      params.descending = sortDescending.value ? "true" : "false";
+    }
+
+    const queryString = new URLSearchParams(params).toString();
     const data = await ApiService.get<ProductResponse>(
-      `/products.json?ts=${Date.now()}`,
+      `/products.json?ts=${Date.now()}&${queryString}`,
     );
     rows.value = data.products || [];
   } catch (err) {
-    console.error("Error loading data:", err);
+    console.error("Error fetching products:", err);
   } finally {
     loading.value = false;
   }
+};
+
+const fetchStores = async (): Promise<void> => {
+  try {
+    const data = await ApiService.get<ProductResponse>(
+      `/stores.json?ts=${Date.now()}`,
+    );
+    stores.value = data.products || [];
+  } catch (err) {
+    console.error("Error fetching stores:", err);
+  }
+};
+
+const fetchCategories = async (): Promise<void> => {
+  try {
+    const data = await ApiService.get<{ categories: Array<any> }>(
+      `/categories.json?ts=${Date.now()}`,
+    );
+    categories.value = data.categories || [];
+  } catch (err) {
+    console.error("Error fetching categories:", err);
+  }
+};
+
+const fetchBrands = async (): Promise<void> => {
+  try {
+    const data = await ApiService.get<{ brands: Array<any> }>(
+      `/brands.json?ts=${Date.now()}`,
+    );
+    brands.value = data.brands || [];
+  } catch (err) {
+    console.error("Error fetching brands:", err);
+  }
+};
+
+// -----------------------------
+// Lifecycle
+// -----------------------------
+onMounted(async () => {
+  await Promise.all([
+    fetchProducts(),
+    fetchStores(),
+    fetchCategories(),
+    fetchBrands(),
+  ]);
 });
+
+// -----------------------------
+// Watch search input for live fetch
+// -----------------------------
+watch(searchQuery, onSearch);
 </script>

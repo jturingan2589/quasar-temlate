@@ -40,18 +40,18 @@ interface Props {
 const props = defineProps<Props>();
 const emit = defineEmits(["update:modelValue"]);
 
-const selectRef = ref();
+const selectRef = ref<any>(null);
 const search = ref("");
-const allOptions = ref([...props.options]);
-const filteredOptions = ref([...props.options]);
+const allOptions = ref<Option[]>([...props.options]);
+const filteredOptions = ref<Option[]>([...props.options]);
 
-// ✅ Two-way binding
+// Two-way binding
 const internalValue = computed({
   get: () => props.modelValue,
   set: (val) => emit("update:modelValue", val),
 });
 
-// ✅ Live filter function
+// Live filter
 function filterFn(val: string, update: (cb: () => void) => void) {
   update(() => {
     const needle = val.toLowerCase();
@@ -62,21 +62,26 @@ function filterFn(val: string, update: (cb: () => void) => void) {
   search.value = val;
 }
 
-// ✅ Clear input immediately after selection
-function onValueSelected() {
-  search.value = "";
-  selectRef.value?.updateInputValue("");
-  selectRef.value?.hidePopup();
-}
-
-// ✅ Also clear when user finishes typing new text (optional)
+// Clear input when user types new value
 function onNewValue(val: string) {
   search.value = "";
   selectRef.value?.updateInputValue("");
 }
 
-// ✅ Watch modelValue to ensure input always cleared
+// Handle selection
+function onValueSelected(val: any) {
+  search.value = "";
+  selectRef.value?.updateInputValue("");
+
+  // Hide dropdown if single select
+  if (!props.multiple) {
+    selectRef.value?.hidePopup();
+  }
+}
+
+// Ensure input cleared on external v-model change
 watch(internalValue, () => {
+  search.value = "";
   selectRef.value?.updateInputValue("");
 });
 </script>

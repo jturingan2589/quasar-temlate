@@ -1,8 +1,5 @@
 <template>
-  <PageHeader 
-    title="Profile" 
-    subtitle="User Profile"
-  />
+  <PageHeader title="Profile" subtitle="User Profile" />
   <div class="card">
     <div class="card-header">
       <h4>Profile</h4>
@@ -36,18 +33,20 @@
       <div class="row q-col-gutter-x-lg">
         <div class="col-lg-6 col-12">
           <div class="q-mb-md">
-            <label class="form-label"
-              >First Name<span class="text-danger q-ml-xs">*</span></label
-            >
-            <input type="text" class="form-control" :value="authStore.user?.given_name" />
+            <label class="form-label">
+              First Name
+              <span class="text-danger q-ml-xs">*</span>
+            </label>
+            <BaseInput type="text" v-model="form.first_name" />
           </div>
         </div>
         <div class="col-lg-6 col-12">
           <div class="q-mb-md">
-            <label class="form-label"
-              >Last Name<span class="text-danger q-ml-xs">*</span></label
-            >
-            <input type="text" class="form-control" :value="authStore.user?.family_name" />
+            <label class="form-label">
+              Last Name
+              <span class="text-danger q-ml-xs">*</span>
+            </label>
+            <BaseInput type="text" v-model="form.last_name" />
           </div>
         </div>
         <div class="col-lg-6 col-12">
@@ -56,16 +55,16 @@
               Email
               <span class="text-danger q-ml-xs">*</span>
             </label>
-            <input type="email" class="form-control" :value="authStore.user?.email" />
+            <BaseInput type="email" v-model="form.email" />
           </div>
         </div>
         <div class="col-lg-6 col-12">
           <div class="q-mb-md">
             <label class="form-label">
-              Phone Number
+              Contact Number
               <span class="text-danger q-ml-xs">*</span>
             </label>
-            <input type="text" value="" class="form-control" />
+            <BaseInput type="text" v-model="form.contact_number" />
           </div>
         </div>
         <div class="col-lg-6 col-12">
@@ -74,19 +73,20 @@
               Username
               <span class="text-danger q-ml-xs">*</span>
             </label>
-            <input type="text" class="form-control" :value="authStore.user?.preferred_username" />
+            <BaseInput type="text" v-model="form.username" />
           </div>
         </div>
         <div class="col-lg-6 col-12">
           <div class="q-mb-md">
-            <label class="form-label"
-              >Password<span class="text-danger q-ml-xs">*</span></label
-            >
+            <label class="form-label">
+              Password
+              <span class="text-danger q-ml-xs">*</span>
+            </label>
             <div class="pass-group">
-              <input
+              <BaseInput
                 :type="showPassword ? 'text' : 'password'"
-                class="pass-input form-control"
-                value="********"
+                class="pass-input"
+                model-value="********"
               />
               <span @click="toggleShow" class="toggle-password">
                 <i
@@ -100,7 +100,9 @@
           </div>
         </div>
         <div class="col-12 d-flex justify-end">
-          <a href="javascript:void(0);" class="btn btn-secondary q-mr-sm shadow-none"
+          <a
+            href="javascript:void(0);"
+            class="btn btn-secondary q-mr-sm shadow-none"
             >Cancel</a
           >
           <a href="javascript:void(0);" class="btn btn-primary shadow-none"
@@ -113,15 +115,23 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
-  import { useAuthStore } from 'stores/auth';
+import { ref, reactive } from "vue";
+import { useAuthStore } from "stores/auth";
 import PageHeader from "src/components/PageHeader.vue";
-  const showPassword = ref(false);
-  const authStore = useAuthStore()
-  console.log(authStore.user,"===")
-  const toggleShow = () => {
-    showPassword.value = !showPassword.value;
-  };
+import BaseInput from "src/components/BaseInput.vue";
+const showPassword = ref(false);
+const authStore = useAuthStore();
 
+const form = reactive({
+  first_name: authStore.user?.given_name || "",
+  last_name: authStore.user?.family_name || "",
+  email: authStore.user?.email || "",
+  contact_number: authStore.user?.phone_number || "",
+  username: authStore.user?.preferred_username || "",
+  password: "",
+});
+
+const toggleShow = () => {
+  showPassword.value = !showPassword.value;
+};
 </script>
-
