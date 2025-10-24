@@ -5,6 +5,7 @@
     :columns="columnsWithDefaults"
     row-key="id"
     v-model:pagination="pagination"
+    :loading="loading"
     :rows-per-page-options="[5, 10, 20, 50]"
     :selection="withSelection ? 'multiple' : undefined"
     v-model:selected="selected"
@@ -78,6 +79,7 @@ const props = defineProps({
   rows: { type: Array as PropType<TableRow[]>, default: () => [] },
   columns: { type: Array as PropType<TableColumn[]>, default: () => [] },
   actions: { type: Array as PropType<TableAction[]>, default: () => [] },
+  loading: { type: Boolean, default: false },
   withActions: { type: Boolean, default: true },
   withSelection: { type: Boolean, default: false },
 });
