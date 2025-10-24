@@ -1,14 +1,14 @@
 [
   {
     "tittle": "Main",
-    "active_link" : "/dashboard",
+    "active_link": "/dashboard",
     "showAsTab": true,
     "separateRoute": false,
     "menu": [
       {
         "menuValue": "Dashboard",
         "icon": "ti ti-layout-grid",
-        "active_link" : "/main/dashboard",
+        "active_link": "/main/dashboard",
         "route": "/main/dashboard",
         "hasSubRoute": false,
         "showSubRoute": false
@@ -17,14 +17,14 @@
   },
   {
     "tittle": "Inventory",
-    "active_link" : "/master-list",
+    "active_link": "/master-list",
     "showAsTab": true,
     "separateRoute": false,
     "menu": [
       {
         "menuValue": "Master List",
         "icon": "ti ti-box",
-        "active_link" : "/inventory/master-list",
+        "active_link": "/inventory/master-list",
         "route": "/inventory/master-list",
         "hasSubRoute": false,
         "showSubRoute": false
@@ -34,24 +34,31 @@
         "icon": "ti ti-list-details",
         "hasSubRoute": false,
         "showSubRoute": false,
-        "active_link" : "/inventory/category-list",
+        "active_link": "/inventory/category-list",
         "route": "/inventory/category-list",
         "subRoutes": []
       }
-
     ]
   },
   {
     "tittle": "Reports",
-    "active_link" : "/reports/sales-report",
+    "active_link": "/reports/sales-report",
     "showAsTab": true,
     "separateRoute": false,
     "menu": [
       {
         "menuValue": "Sales Report",
         "icon": "ti ti-chart-bar",
-        "active_link" : "/sales/sales-report",
+        "active_link": "/report/sales-report",
         "route": "/reports/sales-report",
+        "hasSubRoute": false,
+        "showSubRoute": false
+      },
+      {
+        "menuValue": "SKU Performance",
+        "icon": "ti ti-chart-pie-2",
+        "active_link": "/reports/sku-performance-report",
+        "route": "/reports/sku-performance",
         "hasSubRoute": false,
         "showSubRoute": false
       }
@@ -59,14 +66,14 @@
   },
   {
     "tittle": "User Management",
-    "active_link" : "/user-management/users",
+    "active_link": "/user-management/users",
     "showAsTab": true,
     "separateRoute": false,
     "menu": [
       {
         "menuValue": "Users",
         "icon": "ti ti-users",
-        "active_link" : "/user-management/users",
+        "active_link": "/user-management/users",
         "route": "/user-management/users",
         "hasSubRoute": false,
         "showSubRoute": false
@@ -74,7 +81,7 @@
       {
         "menuValue": "Roles & Permissions",
         "icon": "ti ti-jump-rope",
-        "active_link" : "/user-management/roles-permissions",
+        "active_link": "/user-management/roles-permissions",
         "route": "/user-management/roles-permissions",
         "hasSubRoute": false,
         "showSubRoute": false

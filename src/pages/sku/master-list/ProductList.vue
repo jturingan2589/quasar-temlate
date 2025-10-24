@@ -75,6 +75,7 @@
         <FilterPopup
           title="Product Filters"
           :filters="filters"
+          :loading="loading"
           @apply="onApplyFilters"
           @reset="onResetFilters"
         >
@@ -87,26 +88,11 @@
             </FormField>
           </template>
         </FilterPopup>
-        <div class="dropdown">
-          <a
-            href="javascript:void(0);"
-            class="dropdown-toggle btn btn-white btn-md d-inline-flex align-items-center"
-            data-bs-toggle="dropdown"
-          >
-            Sort By
-          </a>
-          <ul class="dropdown-menu dropdown-menu-end p-3">
-            <li v-for="option in sortOptions" :key="option.label">
-              <a
-                href="javascript:void(0);"
-                class="dropdown-item rounded-1"
-                @click.prevent="applySort(option)"
-              >
-                {{ option.label }}
-              </a>
-            </li>
-          </ul>
-        </div>
+        <SortDropdown
+          v-model="sortByField"
+          :sort-options="sortOptions"
+          @change="applySort"
+        />
       </div>
     </div>
     <div class="card-body">
@@ -115,6 +101,7 @@
         :columns="columns"
         v-model:pagination="pagination"
         :actions="tableActions"
+        :loading="loading"
         @action="onTableAction"
       />
     </div>
@@ -140,6 +127,7 @@ import UploadModal from "src/components/UploadModal.vue";
 import { ApiService } from "src/services/api";
 import FormField from "src/components/FormField.vue";
 import BaseInput from "src/components/BaseInput.vue";
+import SortDropdown from "src/components/SortDropdown.vue";
 
 // -----------------------------
 // Router
@@ -177,11 +165,11 @@ const sortByField = ref(pagination.value.sortBy);
 const sortDescending = ref(pagination.value.descending);
 
 const sortOptions = [
-  { label: "Recently Added", field: "createdAt", descending: true },
-  { label: "Ascending", field: "description", descending: false },
-  { label: "Descending", field: "description", descending: true },
-  { label: "Last Month", field: "createdAt", descending: true },
-  { label: "Last 7 Days", field: "createdAt", descending: true },
+  { label: "Recently Added", value: "created_at", descending: true },
+  { label: "Ascending", value: "product_name", descending: false },
+  { label: "Descending", value: "product_name", descending: true },
+  { label: "Last Month", value: "created_at", descending: true },
+  { label: "Last 7 Days", value: "created_at", descending: true },
 ];
 
 // -----------------------------
@@ -263,8 +251,13 @@ const onSearch = (): void => {
   }, 300); // debounce 300ms
 };
 
-const applySort = (option: { field: string; descending: boolean }) => {
-  sortByField.value = option.field;
+const applySort = (option: {
+  label: string;
+  value: string;
+  descending: boolean;
+}) => {
+  console.log(option.label, "==");
+  sortByField.value = option.label;
   sortDescending.value = option.descending;
   fetchProducts();
 };
@@ -295,9 +288,9 @@ const fetchProducts = async (): Promise<void> => {
       params.descending = sortDescending.value ? "true" : "false";
     }
 
-    const queryString = new URLSearchParams(params).toString();
     const data = await ApiService.get<ProductResponse>(
-      `/products.json?ts=${Date.now()}&${queryString}`,
+      `/products.json?ts=${Date.now()}}`,
+      params,
     );
     rows.value = data.products || [];
   } catch (err) {

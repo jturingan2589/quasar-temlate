@@ -6,6 +6,7 @@
       dense
       flat
       :icon="icon"
+      :loading="loading"
       @click.stop="togglePanel"
       :color="appliedFiltersCount > 0 ? 'primary' : 'grey-7'"
     >
@@ -42,9 +43,16 @@
         <q-separator class="q-my-sm" />
 
         <div class="row justify-end">
-          <q-btn flat label="Reset" color="negative" @click="onReset" />
           <q-btn
             flat
+            :disable="loading"
+            label="Reset"
+            color="negative"
+            @click="onReset"
+          />
+          <q-btn
+            flat
+            :disable="loading"
             label="Apply"
             color="primary"
             class="q-ml-sm"
@@ -71,6 +79,7 @@ const { filters, title, icon } = defineProps({
   filters: { type: Object, required: true },
   title: { type: String, default: "Filters" },
   icon: { type: String, default: "filter_list" },
+  loading: { type: Boolean, default: false },
 });
 
 // Emits
@@ -112,7 +121,7 @@ function onApply() {
   appliedFilters.value = { ...filters };
 
   ignoreOutsideClick.value = true;
-  isPanelOpen.value = false;
+  //isPanelOpen.value = false;
 
   nextTick(() => {
     ignoreOutsideClick.value = false;

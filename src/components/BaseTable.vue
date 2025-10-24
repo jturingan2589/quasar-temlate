@@ -43,6 +43,12 @@
       </q-td>
     </template>
 
+    <template #loading>
+      <q-inner-loading showing>
+        <q-spinner-dots color="primary" size="50px" />
+      </q-inner-loading>
+    </template>
+
     <!-- Allow other custom cells from parent -->
     <slot v-for="col in columns" :name="`body-cell-${col.name}`" />
   </q-table>
