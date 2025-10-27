@@ -53,26 +53,25 @@
 
 <script setup lang="ts">
 import { defineAsyncComponent, Suspense } from "vue";
-import BaseTable from "src/components/BaseTable.vue";
-const Welcome = defineAsyncComponent(() => import("./sections/Welcome.vue"));
+const Welcome = defineAsyncComponent(() => import("./sections/welcome.vue"));
 const AlertStock = defineAsyncComponent(
-  () => import("./sections/AlertStock.vue"),
+  () => import("./sections/alert-stock.vue"),
 );
 const SalesSummary = defineAsyncComponent(
-  () => import("./sections/SalesSummary.vue"),
+  () => import("./sections/sales-summary.vue"),
 );
 const SkuPerformanceSummary = defineAsyncComponent(
-  () => import("./sections/SkuPerformanceSummary.vue"),
+  () => import("./sections/sku-performance-summary.vue"),
 );
 const DailySales = defineAsyncComponent(
-  () => import("./sections/DailySales.vue"),
+  () => import("./sections/daily-sales.vue"),
 );
 const MonthlySales = defineAsyncComponent(
-  () => import("./sections/MonthlySales.vue"),
+  () => import("./sections/monthly-sales.vue"),
 );
-const Category = defineAsyncComponent(() => import("./sections/Category.vue"));
+const Category = defineAsyncComponent(() => import("./sections/categpry.vue"));
 const TransactionCountPerHour = defineAsyncComponent(
-  () => import("./sections/TransactionCountPerHour.vue"),
+  () => import("./sections/transaction-count.vue"),
 );
 const columns = [
   {

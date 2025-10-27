@@ -30,7 +30,7 @@
     ]"
     @pdf="exportToPdf"
     @excel="exportToExcel"
-    @refresh="reloadData"
+    @refresh="fetchProducts"
     @collapse="toggleHeader"
   >
     <template #buttons>
@@ -118,7 +118,7 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from "vue";
 import { useRouter } from "vue-router";
-
+import type { CategoryFiler, BrandFilter, StoreFilter } from "src/types/filter";
 import PageHeader from "src/components/PageHeader.vue";
 import BaseTable from "src/components/BaseTable.vue";
 import FilterPopup from "src/components/FilterPopup.vue";
@@ -128,6 +128,7 @@ import { ApiService } from "src/services/api";
 import FormField from "src/components/FormField.vue";
 import BaseInput from "src/components/BaseInput.vue";
 import SortDropdown from "src/components/SortDropdown.vue";
+import { Product } from "./types";
 
 // -----------------------------
 // Router
@@ -145,7 +146,6 @@ const stores = ref<any[]>([]);
 const categories = ref<any[]>([]);
 const brands = ref<any[]>([]);
 const loading = ref(true);
-
 const filters = ref({
   categories: "",
   brands: "",
@@ -223,7 +223,7 @@ const toggleHeader = (): void => {
 
 const exportToExcel = (): void => console.log("Export Excel");
 const exportToPdf = (): void => console.log("Export PDF");
-const reloadData = (): void => console.log("Reload data");
+const reloadres = (): void => console.log("Reload data");
 const onTableAction = (action?: any) => console.log("Table action:", action);
 
 // -----------------------------
@@ -265,9 +265,6 @@ const applySort = (option: {
 // -----------------------------
 // API Calls
 // -----------------------------
-interface ProductResponse {
-  products?: Array<any>;
-}
 
 const fetchProducts = async (): Promise<void> => {
   try {
@@ -288,11 +285,12 @@ const fetchProducts = async (): Promise<void> => {
       params.descending = sortDescending.value ? "true" : "false";
     }
 
-    const data = await ApiService.get<ProductResponse>(
+    const res = await ApiService.get<Product[]>(
       `/products.json?ts=${Date.now()}}`,
       params,
     );
-    rows.value = data.products || [];
+    console.log(res, "===PRODUCT");
+    rows.value = res.data || [];
   } catch (err) {
     console.error("Error fetching products:", err);
   } finally {
@@ -302,10 +300,10 @@ const fetchProducts = async (): Promise<void> => {
 
 const fetchStores = async (): Promise<void> => {
   try {
-    const data = await ApiService.get<ProductResponse>(
+    const res = await ApiService.get<StoreFilter[]>(
       `/stores.json?ts=${Date.now()}`,
     );
-    stores.value = data.products || [];
+    stores.value = res.data || [];
   } catch (err) {
     console.error("Error fetching stores:", err);
   }
@@ -313,10 +311,10 @@ const fetchStores = async (): Promise<void> => {
 
 const fetchCategories = async (): Promise<void> => {
   try {
-    const data = await ApiService.get<{ categories: Array<any> }>(
+    const res = await ApiService.get<CategoryFiler[]>(
       `/categories.json?ts=${Date.now()}`,
     );
-    categories.value = data.categories || [];
+    categories.value = res.data || [];
   } catch (err) {
     console.error("Error fetching categories:", err);
   }
@@ -324,10 +322,10 @@ const fetchCategories = async (): Promise<void> => {
 
 const fetchBrands = async (): Promise<void> => {
   try {
-    const data = await ApiService.get<{ brands: Array<any> }>(
+    const res = await ApiService.get<BrandFilter[]>(
       `/brands.json?ts=${Date.now()}`,
     );
-    brands.value = data.brands || [];
+    brands.value = res.data || [];
   } catch (err) {
     console.error("Error fetching brands:", err);
   }

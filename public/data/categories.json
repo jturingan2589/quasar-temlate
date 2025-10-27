@@ -1,6 +1,6 @@
 {
   "status": "success",
-  "categories": [
+  "data": [
     {
       "label": "Computers",
       "value": "computers"

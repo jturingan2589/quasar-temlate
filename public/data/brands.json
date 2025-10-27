@@ -1,6 +1,6 @@
 {
   "status": "success",
-  "brands": [
+  "data": [
     { "label": "Select", "value": "Select" },
     { "label": "Computers", "value": "Computers" },
     { "label": "Electronics", "value": "Electronics" },

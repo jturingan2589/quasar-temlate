@@ -1,6 +1,6 @@
 {
   "status": "success",
-  "products": [
+  "data": [
     {
       "description": "Lenovo 3rd Generation",
       "sku": "PT001",
@@ -9,8 +9,7 @@
       "price": "₱600",
       "unit": "Pc",
       "qty": "100",
-      "image": "stock-img-01.png",
-      "userImage": "user-30.jpg",
+      "image_url": "stock-img-01.png",
       "createdBy": "James Kirwin"
     },
     {
@@ -21,8 +20,7 @@
       "price": "₱160",
       "unit": "Pc",
       "qty": "140",
-      "image": "stock-img-06.png",
-      "userImage": "user-13.jpg",
+      "image_url": "stock-img-06.png",
       "createdBy": "Francis Chang"
     },
     {
@@ -33,8 +31,7 @@
       "price": "₱110",
       "unit": "Pc",
       "qty": "780",
-      "image": "stock-img-02.png",
-      "userImage": "user-11.jpg",
+      "image_url": "stock-img-02.png",
       "createdBy": "Antonio Engle"
     },
     {
@@ -45,8 +42,7 @@
       "price": "₱120",
       "unit": "Pc",
       "qty": "450",
-      "image": "stock-img-03.png",
-      "userImage": "user-03.jpg",
+      "image_url": "stock-img-03.png",
       "createdBy": "Leo Kelly"
     },
     {
@@ -57,8 +53,7 @@
       "price": "₱80",
       "unit": "Pc",
       "qty": "477",
-      "image": "stock-img-04.png",
-      "userImage": "user-02.jpg",
+      "image_url": "stock-img-04.png",
       "createdBy": "Annette Walker"
     },
     {
@@ -69,8 +64,7 @@
       "price": "₱320",
       "unit": "Kg",
       "qty": "145",
-      "image": "stock-img-05.png",
-      "userImage": "user-05.jpg",
+      "image_url": "stock-img-05.png",
       "createdBy": "John Weaver"
     },
     {
@@ -81,8 +75,7 @@
       "price": "₱60",
       "unit": "Pc",
       "qty": "747",
-      "image": "stock-img-01.png",
-      "userImage": "user-08.jpg",
+      "image_url": "stock-img-01.png",
       "createdBy": "Gary Hennessy"
     },
     {
@@ -93,8 +86,7 @@
       "price": "₱540",
       "unit": "Pc",
       "qty": "897",
-      "image": "stock-img-02.png",
-      "userImage": "user-04.jpg",
+      "image_url": "stock-img-02.png",
       "createdBy": "Eleanor Panek"
     },
     {
@@ -105,8 +97,7 @@
       "price": "₱200",
       "unit": "Pc",
       "qty": "741",
-      "image": "expire-product-03.png",
-      "userImage": "user-01.jpg",
+      "image_url": "expire-product-03.png",
       "createdBy": "William Levy"
     },
     {
@@ -117,8 +108,7 @@
       "price": "₱45",
       "unit": "Pc",
       "qty": "148",
-      "image": "expire-product-04.png",
-      "userImage": "user-10.jpg",
+      "image_url": "expire-product-04.png",
       "createdBy": "Charlotte Klotz"
     },
     {
@@ -129,8 +119,7 @@
       "price": "₱45",
       "unit": "Pc",
       "qty": "550",
-      "image": "expire-product-04.png",
-      "userImage": "user-10.jpg",
+      "image_url": "expire-product-04.png",
       "createdBy": "Charlotte Klotz"
     }
   ]

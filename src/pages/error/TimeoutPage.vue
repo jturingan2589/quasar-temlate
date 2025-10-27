@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import { initKeycloak } from "boot/keycloak";
+import { keycloak, initKeycloak } from "boot/keycloak";
 import { Loading } from "quasar";
 import useNotify from "src/composable/useNotify";
 import { useRouter } from "vue-router";
@@ -49,7 +49,11 @@ async function retry() {
       router.push("/main/dashboard");
     } else {
       error("Failed to authenticate. Please try logging in again.");
-      router.push("/login");
+      if (keycloak) {
+        await keycloak.login({
+          redirectUri: `${window.location.origin}/app/`,
+        });
+      }
     }
   } catch (err) {
     error("Server is unreachable. Please try again later.");
