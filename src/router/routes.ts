@@ -72,7 +72,13 @@ const routes: RouteRecordRaw[] = [
       {
         path: "unauthorized",
         name: "unauthorized",
-        component: () => import("pages/UnauthorizedPage.vue"),
+        component: () => import("src/pages/error/UnauthorizedPage.vue"),
+        meta: { requiresAuth: false },
+      },
+      {
+        path: "timeout",
+        name: "timeout",
+        component: () => import("src/pages/error/TimeoutPage.vue"),
         meta: { requiresAuth: false },
       },
     ],
@@ -82,7 +88,7 @@ const routes: RouteRecordRaw[] = [
   // but you can also remove it
   {
     path: "/:catchAll(.*)*",
-    component: () => import("pages/ErrorNotFound.vue"),
+    component: () => import("src/pages/error/NotFoundPage.vue"),
   },
 ];
 
