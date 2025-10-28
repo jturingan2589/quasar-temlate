@@ -197,6 +197,9 @@ const dailyChartData = {
       enabled: true,
       enabledOnSeries: [1],
     },
+    fill: {
+      type: "gradient",
+    },
     labels: [
       "01 Oct 2025",
       "02 Oct 2025",

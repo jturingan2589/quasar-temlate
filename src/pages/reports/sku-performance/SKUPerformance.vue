@@ -1,4 +1,22 @@
 <template>
+  <PageHeader
+    title="SKU Performance"
+    subtitle="Manage your SKU Performance"
+    :actions="[
+      {
+        icon: 'ti ti-refresh',
+        iconType: 'icon',
+        tooltip: 'Refresh',
+        event: 'refresh',
+      },
+      {
+        icon: 'ti ti-chevron-up',
+        iconType: 'icon',
+        tooltip: 'Collapse',
+        event: 'collapse',
+      },
+    ]"
+  />
   <div class="row q-col-gutter-x-lg q-pb-xs">
     <!-- Top 20% SKUs GMV -->
     <div class="col-lg-3 col-sm-6 col-12 d-flex">

@@ -37,8 +37,8 @@
           <div class="items-center row q-mb-lg">
             <div class="col-lg-8 col-12">
               <ApexChart
-                height="300"
-                width="300"
+                height="400"
+                width="320"
                 type="donut"
                 :options="chartOptions"
                 :series="series_category"
@@ -67,29 +67,6 @@
               >
                 No data found
               </div>
-            </div>
-          </div>
-          <h6 class="q-mb-sm">Category Statistics</h6>
-          <div class="border br-8">
-            <div
-              class="d-flex items-center justify-between border-bottom q-pa-sm"
-            >
-              <p class="d-inline-flex items-center q-mb-none">
-                <i
-                  class="ti ti-square-rounded-filled text-indigo fs-8 q-mr-sm"
-                ></i
-                >Total Number Of Categories
-              </p>
-              <h5>698</h5>
-            </div>
-            <div class="d-flex items-center justify-between q-pa-sm">
-              <p class="d-inline-flex items-center q-mb-none">
-                <i
-                  class="ti ti-square-rounded-filled text-orange fs-8 q-mr-sm"
-                ></i
-                >Total Number Of Products
-              </p>
-              <h5>7899</h5>
             </div>
           </div>
         </div>
@@ -132,16 +109,39 @@
           <div class="items-center">
             <ApexChart
               type="pie"
+              height="300"
               :options="{
                 labels: ['Electronics', 'Sports', 'Lifestyles'],
                 legend: { position: 'right' },
-
                 fill: {
                   type: 'gradient',
                 },
               }"
               :series="[698, 545, 456]"
             ></ApexChart>
+          </div>
+          <h6 class="q-mb-sm">Category Statistics</h6>
+          <div class="border br-8">
+            <div
+              class="d-flex items-center justify-between border-bottom q-pa-sm"
+            >
+              <p class="d-inline-flex items-center q-mb-none">
+                <i
+                  class="ti ti-square-rounded-filled text-indigo fs-8 q-mr-sm"
+                ></i
+                >Total Number Of Categories
+              </p>
+              <h5>698</h5>
+            </div>
+            <div class="d-flex items-center justify-between q-pa-sm">
+              <p class="d-inline-flex items-center q-mb-none">
+                <i
+                  class="ti ti-square-rounded-filled text-orange fs-8 q-mr-sm"
+                ></i
+                >Total Number Of Products
+              </p>
+              <h5>7899</h5>
+            </div>
           </div>
         </div>
       </div>
@@ -180,6 +180,7 @@ const chartOptions = {
   fill: {
     type: "gradient",
   },
+  labels: ["Cash", "QR", "Card"],
   plotOptions: {
     pie: {
       donut: {
@@ -190,7 +191,7 @@ const chartOptions = {
             show: true,
             label: "Total Sales",
             formatter: () =>
-              series_category.reduce((a, b) => a + b, 0).toLocaleString(),
+              "₱" + series_category.reduce((a, b) => a + b, 0).toLocaleString(),
           },
         },
       },

@@ -17,7 +17,6 @@
       },
     ]"
   />
-
   <div class="row q-col-gutter-x-lg">
     <div class="col-lg-3 col-sm-6 col-12">
       <div class="card border border-success sale-widget flex-fill">

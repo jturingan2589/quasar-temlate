@@ -7,7 +7,7 @@
         <span class="title-icon bg-soft-orange fs-16 q-mr-sm"
           ><i class="ti ti-activity"></i
         ></span>
-        <h5 class="card-title q-mb-none">Transaction Count per Hour</h5>
+        <h5 class="card-title q-mb-none">Hourly Transaction Trend</h5>
       </div>
     </div>
     <div class="card-body">
@@ -73,9 +73,12 @@ const chartOptions = ref({
   plotOptions: {
     bar: { horizontal: false, columnWidth: "50%" },
   },
+  fill: {
+    type: "gradient",
+  },
   dataLabels: { enabled: false },
   xaxis: { categories: labels, title: { text: "Hour of Day" } },
   yaxis: { title: { text: "Transaction Count" } },
-  colors: ["#556ee6"],
+  colors: ["#f97316"],
 });
 </script>

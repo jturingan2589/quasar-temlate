@@ -183,6 +183,9 @@ const monthlyChartData = {
       enabled: true,
       enabledOnSeries: [1],
     },
+    fill: {
+      type: "gradient",
+    },
     labels: [
       "Jan",
       "Feb",
