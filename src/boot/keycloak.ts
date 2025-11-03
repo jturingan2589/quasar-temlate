@@ -53,7 +53,6 @@ export async function initKeycloak(router: Router): Promise<boolean> {
     if (authenticated) {
       authStore.setKeycloak(kc);
       // 🕒 Handle token refresh
-      console.log(kc.tokenParsed, "=====");
       setClientRoles(kc.tokenParsed, clientId);
       kc.onTokenExpired = async () => {
         Loading.show({
@@ -70,7 +69,6 @@ export async function initKeycloak(router: Router): Promise<boolean> {
         }
       };
     } else {
-      console.log(authenticated, "=");
       await router.push("/unauthorized");
     }
 
