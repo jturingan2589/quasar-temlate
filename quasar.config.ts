@@ -76,6 +76,13 @@ export default defineConfig((/* ctx */) => {
         "127.0.0.1",
         "31a61bcf10d6.ngrok-free.app", // ✅ add your ngrok host here
       ],
+      proxy: {
+        "/keycloak": {
+          target: "http://localhost:9090",
+          changeOrigin: true,
+          pathRewrite: { "^/keycloak": "" },
+        },
+      },
     },
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#framework

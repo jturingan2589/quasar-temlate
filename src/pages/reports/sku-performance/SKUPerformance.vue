@@ -28,7 +28,7 @@
               <p>Top 20% SKUs (GMV)</p>
             </div>
             <span class="revenue-icon bg-cyan-transparent text-cyan">
-              <i class="fa-solid fa-layer-group fs-16"></i>
+              <i class="fa fa-money-bill-1-wave fs-16"></i>
             </span>
           </div>
         </div>

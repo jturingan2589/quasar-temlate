@@ -185,10 +185,22 @@ const dailyChartData = {
   sline: {
     chart: {
       height: 350,
-      type: "line",
+      type: "bar",
     },
     stroke: {
       width: [0, 4],
+    },
+    plotOptions: {
+      bar: {
+        borderRadius: 8,
+        borderRadiusWhenStacked: "all",
+        horizontal: false,
+        endingShape: "rounded",
+      },
+    },
+    grid: {
+      borderColor: "#E5E7EB",
+      strokeDashArray: 5,
     },
     title: {
       text: "",
@@ -198,7 +210,7 @@ const dailyChartData = {
       enabledOnSeries: [1],
     },
     fill: {
-      type: "gradient",
+      //   type: "gradient",
     },
     labels: [
       "01 Oct 2025",

@@ -114,7 +114,7 @@
                 labels: ['Electronics', 'Sports', 'Lifestyles'],
                 legend: { position: 'right' },
                 fill: {
-                  type: 'gradient',
+                  // type: 'gradient',
                 },
               }"
               :series="[698, 545, 456]"
@@ -178,7 +178,7 @@ const chartOptions = {
   },
   colors: ["#3b82f6", "#f97316", "#64748b"], // blue, orange, gray
   fill: {
-    type: "gradient",
+    //type: "gradient",
   },
   labels: ["Cash", "QR", "Card"],
   plotOptions: {

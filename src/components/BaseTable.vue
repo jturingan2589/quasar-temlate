@@ -28,18 +28,30 @@
 
     <!-- Dynamic action buttons -->
     <template #body-cell-actions="props">
-      <q-td :props="props" class="text-center">
-        <q-btn
-          v-for="(action, index) in actions"
-          :key="index"
-          flat
-          size="sm"
-          :icon="action.icon"
-          :color="action.color"
-          @click="() => action.func(props.row)"
-        >
-          <q-tooltip>{{ action.label }}</q-tooltip>
-        </q-btn>
+      <q-td :props="props" class="text-center q-gutter-xs">
+        <template v-for="(action, index) in actions" :key="index">
+          <!-- BUTTON TYPE -->
+          <q-btn
+            v-if="!action.type || action.type === 'button'"
+            flat
+            size="sm"
+            :icon="action.icon"
+            :color="action.color"
+            @click="() => action.func(props.row)"
+          >
+            <q-tooltip>{{ action.label }}</q-tooltip>
+          </q-btn>
+
+          <!-- SWITCH TYPE -->
+          <q-toggle
+            v-else-if="action.type === 'switch'"
+            size="sm"
+            color="green"
+            :label="action.label"
+            v-model="props.row[action.field || 'enabled']"
+            @update:model-value="(val) => action.func(props.row, val)"
+          />
+        </template>
       </q-td>
     </template>
 
@@ -57,28 +69,7 @@
 <script setup lang="ts">
 import { ref, watch, computed, PropType } from "vue";
 import { QTableProps } from "quasar";
-
-interface TableColumn {
-  name: string;
-  label: string;
-  field: string | ((row: TableRow) => any);
-  align?: "left" | "right" | "center";
-  sortable?: boolean;
-}
-
-interface TableRow {
-  id?: string | number;
-  product?: { name: string; img: string };
-  [key: string]: any;
-}
-
-interface TableAction {
-  name: string;
-  icon: string;
-  color?: string;
-  label?: string;
-  func: (row: TableRow) => void;
-}
+import type { TableAction, TableColumn, TableRow } from "src/types/table";
 
 const props = defineProps({
   title: { type: String, default: "" },

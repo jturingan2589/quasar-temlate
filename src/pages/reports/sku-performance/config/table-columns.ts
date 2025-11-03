@@ -3,14 +3,14 @@ import { QTableColumn } from "quasar";
 const quantityColumns: QTableColumn[] = [
   {
     name: "sku",
-    label: "SKU Code",
+    label: "Product Code",
     field: "sku",
     align: "left",
     sortable: true,
   },
   {
     name: "name",
-    label: "SKU Name",
+    label: "Product Name",
     field: "name",
     align: "left",
     sortable: true,
@@ -42,14 +42,14 @@ const quantityColumns: QTableColumn[] = [
 const gmvColumns: QTableColumn[] = [
   {
     name: "sku",
-    label: "SKU Code",
+    label: "Product Code",
     field: "sku",
     align: "left",
     sortable: true,
   },
   {
     name: "name",
-    label: "SKU Name",
+    label: "Product Name",
     field: "name",
     align: "left",
     sortable: true,

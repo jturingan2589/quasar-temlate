@@ -1,7 +1,7 @@
 <template>
   <PageHeader
-    title="Master List"
-    subtitle="Manage your products"
+    title="Product List"
+    subtitle="Manage your price"
     :actions="[
       {
         icon: '/app/img/icons/pdf.svg',
@@ -36,7 +36,7 @@
     <template #buttons>
       <div class="page-btn d-flex">
         <router-link
-          to="/inventory/master-list/add"
+          to="/inventory/price-list/add"
           class="btn btn-primary d-flex align-items-center"
         >
           <i class="bi bi-plus-circle q-mr-sm" />
@@ -46,7 +46,7 @@
       <div class="page-btn d-flex">
         <q-btn color="secondary" @click="showModal = true" no-caps>
           <i class="bi bi-download q-mr-sm" />
-          Import Master List
+          Import Price List
         </q-btn>
       </div>
     </template>
@@ -108,7 +108,7 @@
     <!-- The Modal -->
     <UploadModal
       v-model:show="showModal"
-      title="Import Master List"
+      title="Import Price List"
       download-url="/download"
       upload-url="/upload"
     />
@@ -128,14 +128,12 @@ import { ApiService } from "src/services/api";
 import FormField from "src/components/FormField.vue";
 import BaseInput from "src/components/BaseInput.vue";
 import SortDropdown from "src/components/SortDropdown.vue";
-import { Product } from "./types";
-
 // -----------------------------
 // Router
 // -----------------------------
 const router = useRouter();
-const navigateToDetails = () => router.push("/inventory/master-list/details");
-const navigateToEdit = () => router.push("/inventory/master-list/edit");
+const navigateToDetails = () => router.push("/inventory/price-list/details");
+const navigateToEdit = () => router.push("/inventory/price-list/edit");
 
 // -----------------------------
 // Reactive State
@@ -202,21 +200,13 @@ const tableActions = [
     icon: "visibility",
     label: "View Details",
     func: navigateToDetails,
-    color: "primary",
   },
-  {
-    name: "edit",
-    icon: "edit_note",
-    label: "Edit",
-    func: navigateToEdit,
-    color: "orange",
-  },
+  { name: "edit", icon: "edit_note", label: "Edit", func: navigateToEdit },
   {
     name: "delete",
-    icon: "delete",
+    icon: "delete_outline",
     label: "Delete",
     func: (row: any) => console.log("Delete:", row),
-    color: "negative",
   },
 ];
 

@@ -183,8 +183,16 @@ const monthlyChartData = {
       enabled: true,
       enabledOnSeries: [1],
     },
+    plotOptions: {
+      bar: {
+        borderRadius: 8,
+        borderRadiusWhenStacked: "all",
+        horizontal: false,
+        endingShape: "rounded",
+      },
+    },
     fill: {
-      type: "gradient",
+      //type: "gradient",
     },
     labels: [
       "Jan",

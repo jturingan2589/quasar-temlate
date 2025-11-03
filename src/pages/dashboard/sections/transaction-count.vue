@@ -71,10 +71,15 @@ const chartOptions = ref({
     toolbar: { show: true },
   },
   plotOptions: {
-    bar: { horizontal: false, columnWidth: "50%" },
+    bar: {
+      borderRadius: 8,
+      borderRadiusWhenStacked: "all",
+      horizontal: false,
+      endingShape: "rounded",
+    },
   },
   fill: {
-    type: "gradient",
+    //  type: "gradient",
   },
   dataLabels: { enabled: false },
   xaxis: { categories: labels, title: { text: "Hour of Day" } },

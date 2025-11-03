@@ -12,9 +12,9 @@
       </span>
       <input
         type="text"
+        value="10/01/2025 - 10/28/2025"
         class="form-control date-range bookingrange"
         ref="dateRangeInput"
-        placeholder="Search Product"
       />
     </div>
   </div>
