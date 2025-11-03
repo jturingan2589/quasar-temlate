@@ -39,7 +39,7 @@
         class="btn btn-primary btn-md d-inline-flex align-items-center"
         data-bs-toggle="modal"
         data-bs-target="#add-units"
-        ><i class="ti ti-circle-plus me-1"></i>Add Role</a
+        ><i class="ti ti-circle-plus q-mr-xs"></i>Add Role</a
       >
     </div>
   </div>

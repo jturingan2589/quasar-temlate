@@ -31,8 +31,7 @@ export const userListColumn: QTableColumn[] = [
   {
     name: "mobileNumber",
     label: "Mobile Number",
-    field: (row) =>
-      row.attributes?.mobileNumber?.[0] ?? row.attributes?.mobile?.[0] ?? "",
+    field: (row) => row.attributes?.mobile_number?.[0] ?? "",
     align: "left" as const,
   },
   {

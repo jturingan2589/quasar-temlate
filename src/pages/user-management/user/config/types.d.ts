@@ -4,10 +4,10 @@ export interface User {
   firstName: string;
   lastName: string;
   email: string;
-  emailVerified: boolean;
+  emailVerified?: boolean;
+  mobile_number: string;
   attributes?: {
-    mobile?: string[];
-    mobileNumber?: string[];
+    mobile_number?: string[];
     [key: string]: unknown;
   };
   enabled: boolean;

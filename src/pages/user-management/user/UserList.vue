@@ -34,15 +34,10 @@
       </li>
     </ul>
     <div class="page-btn">
-      <a
-        href="#"
-        class="btn btn-primary"
-        data-bs-toggle="modal"
-        data-bs-target="#add-user"
-      >
+      <q-btn color="primary" no-caps @click="openAddUser">
         <i class="ti ti-circle-plus q-mr-xs"></i>
         Add User
-      </a>
+      </q-btn>
     </div>
   </div>
 
@@ -77,15 +72,24 @@
         :actions="tableActions"
       />
     </div>
+
+    <UserFormDialog
+      v-model:show="showDialog"
+      :modelValue="selectedUser"
+      @save="saveUser"
+    />
   </div>
   <!-- /product list -->
 </template>
 <script setup lang="ts">
 import BaseTable from "src/components/BaseTable.vue";
+import UserFormDialog from "./UserFormDialog.vue";
+import useNotify from "src/composable/useNotify";
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import { kcApiService } from "src/services/keycloak";
 import { userListColumn } from "./config/table-columns";
+import { useConfirmDialog } from "src/composable/useConfirmDialog";
 import type { User } from "./config/types";
 import type { TableAction } from "src/types/table";
 // -----------------------------
@@ -94,7 +98,11 @@ import type { TableAction } from "src/types/table";
 const loading = ref<boolean>(false);
 const users = ref<any[]>([]);
 const selectedRows = ref<User[]>([]);
+const selectedUser = ref<User | null>(null);
+const showDialog = ref(false);
 
+const { confirmAction } = useConfirmDialog();
+const { success, error } = useNotify();
 const router = useRouter();
 const navigateToDetails = () => router.push("/inventory/master-list/details");
 const navigateToEdit = () => router.push("/inventory/master-list/edit");
@@ -109,6 +117,91 @@ const fetchUsers = async (): Promise<void> => {
   } finally {
     loading.value = false;
   }
+};
+
+const openAddUser = () => {
+  selectedUser.value = null;
+  showDialog.value = true;
+};
+
+const openEditUser = (user: User) => {
+  selectedUser.value = { ...user };
+  showDialog.value = true;
+};
+
+const confirmDelete = async (user: User) => {
+  const confirmed = await confirmAction(
+    `Delete User`,
+    `Delete user '${user.username}'?`,
+    {
+      okLabel: "Delete",
+      okColor: "negative",
+    },
+  );
+  if (!confirmed) return;
+
+  try {
+    await kcApiService.delete<User[]>(`/users/${user.id}`);
+    users.value = users.value.filter((u) => u.id !== user.id);
+    success("User deleted successfully");
+  } catch (err) {
+    error("Failed to delete user");
+  } finally {
+    loading.value = false;
+  }
+};
+
+const toggleUserStatus = async (user: any) => {
+  const action = user.enabled ? "Activate" : "Deactivate";
+  const confirmed = await confirmAction(
+    `${action} User`,
+    `${action} user '${user.username}'?`,
+    {
+      okLabel: action,
+    },
+  );
+
+  if (!confirmed) {
+    user.enabled = !user.enabled;
+    return;
+  }
+
+  try {
+    saveUser({
+      ...user,
+      enabled: user.enabled,
+    });
+  } catch (err) {
+    error(`Failed to ${action.toLowerCase()} user.`);
+  }
+};
+
+const saveUser = async (user: User) => {
+  loading.value = true;
+  const payload: any = {
+    username: user.username,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+    enabled: user.enabled,
+    attributes: {
+      mobile_number: [
+        user.mobile_number || user.attributes?.mobile_number?.[0],
+      ],
+    },
+  };
+  if (user.id) {
+    // Update existing user
+    await kcApiService.put(`/users/${user.id}`, payload);
+    success("User updated successfully");
+  } else {
+    // Create new user
+    await kcApiService.post("/users", payload);
+    success("User added successfully!");
+  }
+  // reload the table
+  loading.value = false;
+  await fetchUsers();
 };
 
 // -----------------------------
@@ -134,7 +227,7 @@ const tableActions: TableAction[] = [
     name: "status",
     type: "switch",
     field: "enabled",
-    func: (row, value) => console.log("Status changed:", row.username, value),
+    func: (row, value) => toggleUserStatus(row),
   },
   {
     name: "edit",
@@ -142,7 +235,7 @@ const tableActions: TableAction[] = [
     color: "primary",
     label: "Edit",
     type: "button",
-    func: (row) => console.log("Edit:", row),
+    func: (row: any) => openEditUser(row),
   },
 
   {
@@ -151,7 +244,7 @@ const tableActions: TableAction[] = [
     color: "negative",
     label: "Delete",
     type: "button",
-    func: (row) => console.log("Delete:", row),
+    func: (row: any) => confirmDelete(row),
   },
 ];
 
