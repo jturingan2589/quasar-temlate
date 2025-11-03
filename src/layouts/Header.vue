@@ -166,7 +166,7 @@
             class="nav-link userset"
             data-bs-toggle="dropdown"
           >
-            <span class="user-info p-0">
+            <span class="user-info q-pa-none-important">
               <span class="user-letter">
                 <img
                   src="/app/img/profiles/avator1.jpg"
@@ -277,7 +277,7 @@ const removeSidebarClasses = (): void => {
 // WATCH ROUTE CHANGES
 watch(
   () => route.path,
-  () => removeSidebarClasses()
+  () => removeSidebarClasses(),
 );
 
 // INITIAL REMOVE ON MOUNT
@@ -363,3 +363,8 @@ onBeforeUnmount(() => {
   document.removeEventListener("mouseover", handleMouseover as EventListener);
 });
 </script>
+<style>
+.q-pa-none-important {
+  padding: 0 !important;
+}
+</style>

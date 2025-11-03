@@ -1,6 +1,7 @@
 import { boot } from "quasar/wrappers";
 import Keycloak, { type KeycloakInstance } from "keycloak-js";
 import { useAuthStore } from "src/stores/auth";
+import { setClientRoles } from "src/composable/useAuth";
 import type {
   Router,
   RouteLocationNormalized,
@@ -10,7 +11,7 @@ import { Loading } from "quasar";
 
 let keycloak: KeycloakInstance | null = null;
 let initialized = false;
-
+const clientId = import.meta.env.VITE_KEYCLOAK_CLIENT_ID;
 /**
  * Singleton getter for Keycloak instance
  */
@@ -19,7 +20,7 @@ export function getKeycloakInstance(): KeycloakInstance {
     keycloak = new Keycloak({
       url: import.meta.env.VITE_KEYCLOAK_URL,
       realm: import.meta.env.VITE_KEYCLOAK_REALM,
-      clientId: import.meta.env.VITE_KEYCLOAK_CLIENT_ID,
+      clientId: clientId,
     });
   }
   return keycloak;
@@ -39,7 +40,7 @@ export async function initKeycloak(router: Router): Promise<boolean> {
 
   try {
     const authenticated = await kc.init({
-      onLoad: "check-sso",
+      onLoad: "login-required",
       checkLoginIframe: false,
       pkceMethod: "S256",
       silentCheckSsoRedirectUri: `${window.location.origin}/app/silent-check-sso.html`,
@@ -51,8 +52,9 @@ export async function initKeycloak(router: Router): Promise<boolean> {
 
     if (authenticated) {
       authStore.setKeycloak(kc);
-
       // 🕒 Handle token refresh
+      console.log(kc.tokenParsed, "=====");
+      setClientRoles(kc.tokenParsed, clientId);
       kc.onTokenExpired = async () => {
         Loading.show({
           message: "Refreshing session...",
@@ -68,6 +70,7 @@ export async function initKeycloak(router: Router): Promise<boolean> {
         }
       };
     } else {
+      console.log(authenticated, "=");
       await router.push("/unauthorized");
     }
 
@@ -129,7 +132,17 @@ export default boot(async ({ router }: { router: Router }) => {
           // 🛡️ Role check
           if (to.meta.roles) {
             const roles = to.meta.roles as string[];
-            const hasRole = roles.some((r) => keycloak?.hasRealmRole(r));
+
+            const hasRole = roles.some(
+              (r) =>
+                keycloak?.hasResourceRole(r, "realm-management") ||
+                keycloak?.hasResourceRole(r, clientId),
+            );
+            console.log(
+              hasRole,
+              "META<<",
+              keycloak?.hasRealmRole("manage-users"),
+            );
             if (!hasRole) {
               next("/unauthorized");
               Loading.hide();

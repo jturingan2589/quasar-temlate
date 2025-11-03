@@ -1,17 +1,29 @@
 <template>
   <ul>
-    <li class="submenu-open" v-for="item in side_bar_data" :key="item.tittle">
+    <li
+      class="submenu-open"
+      v-for="item in filteredSidebarData"
+      :key="item.tittle"
+    >
       <h6 class="submenu-hdr">{{ item.tittle }}</h6>
-      <!-- Correct typo if needed -->
       <ul>
         <template v-for="menu in item.menu" :key="menu.menuValue">
-          <li v-if="!menu.hasSubRoute" :class="{ active: isMenuActive(menu) }">
+          <!-- Single route -->
+          <li
+            v-if="!menu.hasSubRoute && checkMenuRole(menu)"
+            :class="{ active: isMenuActive(menu) }"
+          >
             <router-link v-if="menu.route" :to="menu.route">
               <i :class="menu.icon" class="text-body1 q-mr-sm"></i>
               <span>{{ menu.menuValue }}</span>
             </router-link>
           </li>
-          <li v-else class="submenu">
+
+          <!-- Submenu -->
+          <li
+            v-else-if="menu.hasSubRoute && checkMenuRole(menu)"
+            class="submenu"
+          >
             <a
               href="javascript:void(0);"
               @click="expandSubMenus(menu)"
@@ -22,15 +34,23 @@
               <span class="menu-arrow"></span>
             </a>
             <ul :class="menu.showSubRoute ? 'd-block' : 'd-none'">
-              <li v-for="(subMenu, index) in menu.subMenus" :key="index">
-                <!-- Add v-if to check subMenu.route -->
+              <li
+                v-for="(subMenu, index) in menu.subMenus"
+                :key="index"
+                v-if="checkMenuRole(subMenu)"
+              >
                 <router-link v-if="subMenu.route" :to="subMenu.route">{{
                   subMenu.menuValue
                 }}</router-link>
               </li>
             </ul>
           </li>
-          <li v-if="menu.hasSubRouteTwo" class="submenu">
+
+          <!-- Submenu Two -->
+          <li
+            v-else-if="menu.hasSubRouteTwo && checkMenuRole(menu)"
+            class="submenu"
+          >
             <a
               href="javascript:void(0);"
               @click="OpenMenu(menu)"
@@ -39,8 +59,8 @@
                 active: isActive(menu),
               }"
             >
-              <i :class="menu.icon" class="text-body1 q-mr-sm"></i
-              ><span>{{ menu.menuValue }}</span>
+              <i :class="menu.icon" class="text-body1 q-mr-sm"></i>
+              <span>{{ menu.menuValue }}</span>
               <span class="menu-arrow"></span>
             </a>
             <ul
@@ -49,15 +69,15 @@
                 'd-none': openMenuItem !== menu,
               }"
             >
-              <li v-for="subMenus in menu.subMenus" :key="subMenus.menuValue">
+              <li
+                v-for="subMenus in menu.subMenus"
+                :key="subMenus.menuValue"
+                v-if="checkMenuRole(subMenus)"
+              >
                 <template v-if="!subMenus.customSubmenuTwo">
-                  <!-- Add v-if for subMenus.route -->
-                  <router-link
-                    v-if="subMenus.route"
-                    :to="subMenus.route"
-                    router-link-active="active"
-                    >{{ subMenus.menuValue }}</router-link
-                  >
+                  <router-link v-if="subMenus.route" :to="subMenus.route">{{
+                    subMenus.menuValue
+                  }}</router-link>
                 </template>
                 <template v-else-if="subMenus.customSubmenuTwo">
                   <li class="submenu submenu-two">
@@ -83,8 +103,8 @@
                       <li
                         v-for="subMenuTwo in subMenus.subMenusTwo"
                         :key="subMenuTwo.menuValue"
+                        v-if="checkMenuRole(subMenuTwo)"
                       >
-                        <!-- Add v-if for subMenuTwo.route -->
                         <router-link
                           v-if="subMenuTwo.route"
                           :to="subMenuTwo.route"
@@ -107,92 +127,131 @@
 import side_bar_data from "./sidebar.json";
 import { ref, computed } from "vue";
 import { useRoute } from "vue-router";
+import { clientRoles, hasClientRole } from "src/composable/useAuth"; // Import your role helpers
 
 const route = useRoute();
 
-// reactive state
+// Reactive state
 const sideBarData = ref(side_bar_data);
 const openMenuItem = ref<any>(null);
 const openSubmenuOneItem = ref<any>(null);
 
-// computed
-const isMenuActive = computed(() => {
-  return (menu: any) => {
-    return (
-      route.path === menu.route ||
-      route.path === menu.active_link ||
-      route.path === menu.active_link1 ||
-      route.path === menu.active_link2 ||
-      route.path === menu.active_link3 ||
-      route.path === menu.active_link4 ||
-      route.path === menu.active_link5
-    );
-  };
+// ----------------------------
+// Role-based filtering
+// ----------------------------
+function checkMenuRole(menu: any) {
+  // If no roles defined, show to all
+  if (!menu.roles || menu.roles.length === 0) return true;
+
+  // Check if user has at least one role
+  return menu.roles.some((role: string) => hasClientRole(role));
+}
+
+// Filter top-level items dynamically
+const filteredSidebarData = computed(() =>
+  filterMenuByRoles(sideBarData.value),
+);
+
+function filterMenuByRoles(menuItems: any[]): any[] {
+  return menuItems
+    .map((item) => {
+      // If item has children
+      if (item.menu && item.menu.length) {
+        const filteredChildren = filterMenuByRoles(item.menu);
+        if (filteredChildren.length) {
+          return { ...item, menu: filteredChildren };
+        } else {
+          // No visible children, hide parent
+          return null;
+        }
+      }
+
+      // If item has subMenus (for nested submenuTwo)
+      if (item.subMenus && item.subMenus.length) {
+        const filteredSubMenus = filterMenuByRoles(item.subMenus);
+        if (filteredSubMenus.length) {
+          return { ...item, subMenus: filteredSubMenus };
+        } else {
+          return null;
+        }
+      }
+
+      // If item has subMenusTwo (deepest nested)
+      if (item.subMenusTwo && item.subMenusTwo.length) {
+        const filteredSubMenusTwo = filterMenuByRoles(item.subMenusTwo);
+        if (filteredSubMenusTwo.length) {
+          return { ...item, subMenusTwo: filteredSubMenusTwo };
+        } else {
+          return null;
+        }
+      }
+
+      // Leaf node: check role
+      return checkMenuRole(item) ? item : null;
+    })
+    .filter(Boolean);
+}
+
+// ----------------------------
+// Active menu logic
+// ----------------------------
+const isMenuActive = computed(() => (menu: any) => {
+  return [
+    menu.route,
+    menu.active_link,
+    menu.active_link1,
+    menu.active_link2,
+    menu.active_link3,
+    menu.active_link4,
+    menu.active_link5,
+  ].includes(route.path);
 });
 
-const isActive = computed(() => {
-  return (menu: any) => {
-    const result = route.path.split("/").filter((part) => part);
-    const base = result[0];
-    return (
-      base === menu.active_link ||
-      base === menu.active_link1 ||
-      base === menu.active_link2
-    );
-  };
+const isActive = computed(() => (menu: any) => {
+  const base = route.path.split("/").filter((p) => p)[0];
+  return [menu.active_link, menu.active_link1, menu.active_link2].includes(
+    base,
+  );
 });
 
-const isSubActive = computed(() => {
-  return (menu: any) => {
-    const result = route.path.split("/").filter((part) => part);
-    const base = result[0];
-    return base === menu.active_link;
-  };
+const isSubActive = computed(() => (menu: any) => {
+  const base = route.path.split("/").filter((p) => p)[0];
+  return menu.active_link === base;
 });
 
-// methods
+// ----------------------------
+// Sidebar methods
+// ----------------------------
 function expandSubMenus(menu: any) {
   const isMiniSidebar = document.body.classList.contains("mini-sidebar");
-
-  sideBarData.value.forEach((item: any) => {
-    item.menu.forEach((subMenu: any) => {
-      if (subMenu !== menu) {
-        subMenu.showSubRoute = false;
-      }
-    });
-  });
-
-  if (isMiniSidebar) {
-    menu.showSubRoute = true;
-  } else {
-    menu.showSubRoute = !menu.showSubRoute;
-  }
+  sideBarData.value.forEach((item: any) =>
+    item.menu.forEach((m: any) => {
+      if (m !== menu) m.showSubRoute = false;
+    }),
+  );
+  menu.showSubRoute = isMiniSidebar ? true : !menu.showSubRoute;
 }
 
 function OpenMenu(menu: any) {
   const isMiniSidebar = document.body.classList.contains("mini-sidebar");
-
-  sideBarData.value.forEach((item: any) => {
-    item.menu.forEach((subMenu: any) => {
-      subMenu.showSubRoute = false;
-    });
-  });
-
-  if (isMiniSidebar) {
-    openMenuItem.value = menu;
-  } else {
-    openMenuItem.value = openMenuItem.value === menu ? null : menu;
-  }
+  sideBarData.value.forEach((item: any) =>
+    item.menu.forEach((m: any) => {
+      m.showSubRoute = false;
+    }),
+  );
+  openMenuItem.value = isMiniSidebar
+    ? menu
+    : openMenuItem.value === menu
+      ? null
+      : menu;
 }
 
 function openSubmenuOne(subMenus: any) {
   const isMiniSidebar = document.body.classList.contains("mini-sidebar");
-
-  if (isMiniSidebar) {
-    openSubmenuOneItem.value = subMenus;
-  } else {
-    openSubmenuOneItem.value =
-      openSubmenuOneItem.value === subMenus ? null : subMenus;
-  }
+  openSubmenuOneItem.value = isMiniSidebar
+    ? subMenus
+    : openSubmenuOneItem.value === subMenus
+      ? null
+      : subMenus;
 }
 </script>

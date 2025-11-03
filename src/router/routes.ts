@@ -1,5 +1,25 @@
 import type { RouteRecordRaw } from "vue-router";
+import sidebarDataRaw from "src/layouts/sidebar/sidebar.json"; // JSON file
 
+// Make sure TypeScript recognizes the array
+const sidebarData = sidebarDataRaw as any[];
+const pages = import.meta.glob("../pages/**/*.vue");
+const dynamicChildren: RouteRecordRaw[] = [];
+
+// Iterate over sidebar JSON
+sidebarData.forEach((group) => {
+  group.menu.forEach((menu: any) => {
+    if (!menu.route) return;
+
+    dynamicChildren.push({
+      path: menu.route.replace(/^\//, ""), // remove leading slash for child routes
+      component: () => import(/* @vite-ignore */ `../${menu.component}`),
+      meta: { requiresAuth: true, roles: menu.roles || [] },
+    });
+  });
+});
+
+// Final router array
 const routes: RouteRecordRaw[] = [
   {
     path: "/",
@@ -9,61 +29,7 @@ const routes: RouteRecordRaw[] = [
         path: "",
         redirect: "/main/dashboard",
       },
-      // Product Routes
-      {
-        path: "inventory/master-list",
-        component: () => import("pages/sku/master-list/ProductList.vue"),
-        meta: { requiresAuth: true },
-      },
-      {
-        path: "inventory/master-list/:action/:id?", // Add or Edit
-        component: () => import("pages/sku/master-list/ProductForm.vue"),
-        meta: { requiresAuth: true },
-        props: true,
-      },
-      {
-        path: "inventory/master-list/details",
-        component: () => import("pages/sku/master-list/ProductDetails.vue"),
-        meta: { requiresAuth: true },
-        props: true,
-      },
-      // End Product Routes
-      {
-        path: "inventory/category-list",
-        component: () => import("pages/sku/category/CategoryList.vue"),
-        meta: { requiresAuth: true },
-      },
-      {
-        path: "main/dashboard",
-        component: () => import("pages/dashboard/DashboardPage.vue"),
-        meta: { requiresAuth: true },
-      },
-      {
-        path: "main/profile",
-        component: () => import("pages/ProfilePage.vue"),
-        meta: { requiresAuth: true },
-      },
-      {
-        path: "reports/sales-report",
-        component: () => import("pages/reports/sales-report/SalesReport.vue"),
-        meta: { requiresAuth: true },
-      },
-      {
-        path: "reports/sku-performance",
-        component: () =>
-          import("pages/reports/sku-performance/SKUPerformance.vue"),
-        meta: { requiresAuth: true },
-      },
-      {
-        path: "user-management/users",
-        component: () => import("pages/user-management/UserList.vue"),
-        meta: { requiresAuth: true },
-      },
-      {
-        path: "user-management/roles-permissions",
-        component: () => import("pages/user-management/RolePermissions.vue"),
-        meta: { requiresAuth: true },
-      },
+      ...dynamicChildren, // dynamically added routes
       {
         path: "login",
         component: () => import("pages/LoginPage.vue"),
@@ -83,13 +49,11 @@ const routes: RouteRecordRaw[] = [
       },
     ],
   },
-
-  // Always leave this as last one,
-  // but you can also remove it
   {
     path: "/:catchAll(.*)*",
     component: () => import("src/pages/error/NotFoundPage.vue"),
   },
 ];
 
+console.log(routes, "===");
 export default routes;

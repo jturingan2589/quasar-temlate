@@ -10,8 +10,10 @@
         "icon": "ti ti-layout-grid",
         "active_link": "/main/dashboard",
         "route": "/main/dashboard",
+        "component": "pages/dashboard/DashboardPage.vue",
         "hasSubRoute": false,
-        "showSubRoute": false
+        "showSubRoute": false,
+        "roles": ["dashboard_view"]
       }
     ]
   },
@@ -26,8 +28,10 @@
         "icon": "ti ti-box",
         "active_link": "/inventory/master-list",
         "route": "/inventory/master-list",
+        "component": "pages/sku/master-list/ProductList.vue",
         "hasSubRoute": false,
-        "showSubRoute": false
+        "showSubRoute": false,
+        "roles": ["master_view"]
       },
       {
         "menuValue": "Category",
@@ -36,7 +40,9 @@
         "showSubRoute": false,
         "active_link": "/inventory/category-list",
         "route": "/inventory/category-list",
-        "subRoutes": []
+        "component": "pages/sku/category/CategoryList.vue",
+        "subRoutes": [],
+        "roles": ["category_view"]
       }
     ]
   },
@@ -51,16 +57,20 @@
         "icon": "ti ti-chart-bar",
         "active_link": "/report/sales-report",
         "route": "/reports/sales-report",
+        "component": "pages/reports/sales-report/SalesReport.vue",
         "hasSubRoute": false,
-        "showSubRoute": false
+        "showSubRoute": false,
+        "roles": ["sales_report_view"]
       },
       {
         "menuValue": "SKU Performance",
         "icon": "ti ti-chart-pie-2",
         "active_link": "/reports/sku-performance-report",
         "route": "/reports/sku-performance",
+        "component": "pages/reports/sku-performance/SKUPerformance.vue",
         "hasSubRoute": false,
-        "showSubRoute": false
+        "showSubRoute": false,
+        "roles": ["sku_performance_report_view"]
       }
     ]
   },
@@ -75,16 +85,20 @@
         "icon": "ti ti-users",
         "active_link": "/user-management/users",
         "route": "/user-management/users",
+        "component": "pages/user-management/user/UserList.vue",
         "hasSubRoute": false,
-        "showSubRoute": false
+        "showSubRoute": false,
+        "roles": ["manage-users"]
       },
       {
         "menuValue": "Roles & Permissions",
         "icon": "ti ti-jump-rope",
         "active_link": "/user-management/roles-permissions",
         "route": "/user-management/roles-permissions",
+        "component": "pages/user-management/RolePermissions.vue",
         "hasSubRoute": false,
-        "showSubRoute": false
+        "showSubRoute": false,
+        "roles": ["manage-users"]
       }
     ]
   }
