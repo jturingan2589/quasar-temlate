@@ -1,0 +1,41 @@
+{
+  "status": "success",
+  "data": [
+    {
+      "id": 1,
+      "store_name": "SuperMart",
+      "branch": "Quezon City",
+      "product_name": "Coca-Cola 1L",
+      "category": "Beverages",
+      "sku": "BEV001",
+      "unit_price": 45.0,
+      "store_price": 48.5,
+      "effective_date": "2025-11-01",
+      "status": "Active"
+    },
+    {
+      "id": 2,
+      "store_name": "SuperMart",
+      "branch": "Makati",
+      "product_name": "Coca-Cola 1L",
+      "category": "Beverages",
+      "sku": "BEV001",
+      "unit_price": 45.0,
+      "store_price": 49.0,
+      "effective_date": "2025-11-01",
+      "status": "Active"
+    },
+    {
+      "id": 3,
+      "store_name": "DailyMart",
+      "branch": "Cebu City",
+      "product_name": "Lucky Me Pancit Canton",
+      "category": "Noodles",
+      "sku": "NDL002",
+      "unit_price": 15.0,
+      "store_price": 16.5,
+      "effective_date": "2025-11-02",
+      "status": "Inactive"
+    }
+  ]
+}

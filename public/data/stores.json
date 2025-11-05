@@ -1,0 +1,17 @@
+{
+  "status": "success",
+  "data": [
+    {
+      "label": "Thomas Store",
+      "value": "thomas-store"
+    },
+    {
+      "label": "Downtown Store",
+      "value": "downtown-store"
+    },
+    {
+      "label": "Uptown Store",
+      "value": "uptown-store"
+    }
+  ]
+}
