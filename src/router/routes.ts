@@ -31,6 +31,24 @@ const routes: RouteRecordRaw[] = [
       },
       ...dynamicChildren, // dynamically added routes
       {
+        path: "inventory/master-list/:action/:id?", // Add or Edit
+        component: () => import("pages/sku/master-list/ProductForm.vue"),
+        meta: { requiresAuth: true },
+        props: true,
+      },
+      {
+        path: "inventory/master-list/details",
+        component: () => import("pages/sku/master-list/ProductDetails.vue"),
+        meta: { requiresAuth: true },
+        props: true,
+      },
+
+      {
+        path: "main/profile",
+        component: () => import("pages/ProfilePage.vue"),
+        meta: { requiresAuth: true },
+      },
+      {
         path: "login",
         component: () => import("pages/LoginPage.vue"),
         meta: { requiresAuth: false },

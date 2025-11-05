@@ -30,7 +30,7 @@
     ]"
     @pdf="exportToPdf"
     @excel="exportToExcel"
-    @refresh="fetchProducts"
+    @refresh="fetchPriceList"
     @collapse="toggleHeader"
   >
     <template #buttons>
@@ -80,11 +80,11 @@
           @reset="onResetFilters"
         >
           <template #fields>
+            <FormField label="Store">
+              <BaseSelect :options="stores" v-model="filters.stores" />
+            </FormField>
             <FormField label="Category">
               <BaseSelect :options="categories" v-model="filters.categories" />
-            </FormField>
-            <FormField label="Brand">
-              <BaseSelect :options="brands" v-model="filters.brands" />
             </FormField>
           </template>
         </FilterPopup>
@@ -98,7 +98,7 @@
     <div class="card-body">
       <BaseTable
         :rows="rows"
-        :columns="columns"
+        :columns="priceListColumns"
         v-model:pagination="pagination"
         :actions="tableActions"
         :loading="loading"
@@ -118,7 +118,7 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from "vue";
 import { useRouter } from "vue-router";
-import type { CategoryFiler, BrandFilter, StoreFilter } from "src/types/filter";
+import type { CategoryFiler, StoreFilter } from "src/types/filter";
 import PageHeader from "src/components/PageHeader.vue";
 import BaseTable from "src/components/BaseTable.vue";
 import FilterPopup from "src/components/FilterPopup.vue";
@@ -128,6 +128,8 @@ import { ApiService } from "src/services/api";
 import FormField from "src/components/FormField.vue";
 import BaseInput from "src/components/BaseInput.vue";
 import SortDropdown from "src/components/SortDropdown.vue";
+import { priceListColumns } from "./config/table-columns";
+import { PriceList } from "./config/types";
 // -----------------------------
 // Router
 // -----------------------------
@@ -142,11 +144,10 @@ const showModal = ref(false);
 const rows = ref<any[]>([]);
 const stores = ref<any[]>([]);
 const categories = ref<any[]>([]);
-const brands = ref<any[]>([]);
-const loading = ref(true);
+const loading = ref(false);
 const filters = ref({
   categories: "",
-  brands: "",
+  stores: "",
 });
 
 const searchQuery = ref(""); // search input
@@ -170,41 +171,25 @@ const sortOptions = [
   { label: "Last 7 Days", value: "created_at", descending: true },
 ];
 
-// -----------------------------
-// Table & Column Configuration
-// -----------------------------
-const columns = [
-  { label: "SKU", field: "sku", name: "sku", sortable: true },
-  {
-    label: "Product Name",
-    field: "description",
-    name: "description",
-    sortable: true,
-  },
-  { label: "Category", field: "category", name: "category", sortable: true },
-  { label: "Brand", field: "brand", name: "brand", sortable: true },
-  { label: "Price", field: "price", name: "price", sortable: true },
-  { label: "Unit", field: "unit", name: "unit", sortable: true },
-  { label: "Qty", field: "qty", name: "qty", sortable: true },
-  {
-    label: "Created By",
-    field: "createdBy",
-    name: "createdBy",
-    sortable: true,
-  },
-];
-
 const tableActions = [
   {
     name: "view",
     icon: "visibility",
     label: "View Details",
+    color: "primary",
     func: navigateToDetails,
   },
-  { name: "edit", icon: "edit_note", label: "Edit", func: navigateToEdit },
+  {
+    name: "edit",
+    color: "orange",
+    icon: "edit_note",
+    label: "Edit",
+    func: navigateToEdit,
+  },
   {
     name: "delete",
     icon: "delete_outline",
+    color: "negative",
     label: "Delete",
     func: (row: any) => console.log("Delete:", row),
   },
@@ -221,22 +206,21 @@ const toggleHeader = (): void => {
 
 const exportToExcel = (): void => console.log("Export Excel");
 const exportToPdf = (): void => console.log("Export PDF");
-const reloadres = (): void => console.log("Reload data");
 const onTableAction = (action?: any) => console.log("Table action:", action);
 
 // -----------------------------
 // Filter Handlers
 // -----------------------------
 const onApplyFilters = (): void => {
-  fetchProducts();
+  fetchPriceList();
 };
 
 const onResetFilters = (): void => {
   filters.value = {
     categories: "",
-    brands: "",
+    stores: "",
   };
-  fetchProducts();
+  fetchPriceList();
 };
 
 // -----------------------------
@@ -245,7 +229,7 @@ const onResetFilters = (): void => {
 const onSearch = (): void => {
   if (searchDebounce.value) clearTimeout(searchDebounce.value);
   searchDebounce.value = setTimeout(() => {
-    fetchProducts();
+    fetchPriceList();
   }, 300); // debounce 300ms
 };
 
@@ -257,14 +241,14 @@ const applySort = (option: {
   console.log(option.label, "==");
   sortByField.value = option.label;
   sortDescending.value = option.descending;
-  fetchProducts();
+  fetchPriceList();
 };
 
 // -----------------------------
 // API Calls
 // -----------------------------
 
-const fetchProducts = async (): Promise<void> => {
+const fetchPriceList = async (): Promise<void> => {
   try {
     loading.value = true;
     const params: Record<string, string> = {};
@@ -283,11 +267,10 @@ const fetchProducts = async (): Promise<void> => {
       params.descending = sortDescending.value ? "true" : "false";
     }
 
-    const res = await ApiService.get<Product[]>(
-      `/products.json?ts=${Date.now()}}`,
+    const res = await ApiService.get<PriceList[]>(
+      `/pricelist.json?ts=${Date.now()}}`,
       params,
     );
-    console.log(res, "===PRODUCT");
     rows.value = res.data || [];
   } catch (err) {
     console.error("Error fetching products:", err);
@@ -318,27 +301,11 @@ const fetchCategories = async (): Promise<void> => {
   }
 };
 
-const fetchBrands = async (): Promise<void> => {
-  try {
-    const res = await ApiService.get<BrandFilter[]>(
-      `/brands.json?ts=${Date.now()}`,
-    );
-    brands.value = res.data || [];
-  } catch (err) {
-    console.error("Error fetching brands:", err);
-  }
-};
-
 // -----------------------------
 // Lifecycle
 // -----------------------------
 onMounted(async () => {
-  await Promise.all([
-    fetchProducts(),
-    fetchStores(),
-    fetchCategories(),
-    fetchBrands(),
-  ]);
+  await Promise.all([fetchPriceList(), fetchStores(), fetchCategories()]);
 });
 
 // -----------------------------

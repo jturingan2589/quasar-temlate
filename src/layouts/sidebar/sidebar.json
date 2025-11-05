@@ -18,7 +18,7 @@
     ]
   },
   {
-    "tittle": "Inventory",
+    "tittle": "SKU",
     "active_link": "/master-list",
     "showAsTab": true,
     "separateRoute": false,
@@ -26,8 +26,8 @@
       {
         "menuValue": "Master List",
         "icon": "ti ti-box",
-        "active_link": "/inventory/master-list",
-        "route": "/inventory/master-list",
+        "active_link": "/sku/master-list",
+        "route": "/sku/master-list",
         "component": "pages/sku/master-list/ProductList.vue",
         "hasSubRoute": false,
         "showSubRoute": false,
@@ -38,9 +38,20 @@
         "icon": "ti ti-list-details",
         "hasSubRoute": false,
         "showSubRoute": false,
-        "active_link": "/inventory/category-list",
-        "route": "/inventory/category-list",
+        "active_link": "/sku/category-list",
+        "route": "/sku/category-list",
         "component": "pages/sku/category/CategoryList.vue",
+        "subRoutes": [],
+        "roles": ["category_view"]
+      },
+      {
+        "menuValue": "Price List",
+        "icon": "ti ti-report-money",
+        "hasSubRoute": false,
+        "showSubRoute": false,
+        "active_link": "/sku/price-list",
+        "route": "/sku/price-list",
+        "component": "pages/sku/price-list/PriceList.vue",
         "subRoutes": [],
         "roles": ["category_view"]
       }
