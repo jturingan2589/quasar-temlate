@@ -1877,8 +1877,8 @@ body.data-layout-transparent {
     }
   }
   .sidebar {
-    background: variables.$sidebar-color-4;
-    border-color: variables.$sidebar-color-4;
+    background: variables.$primary; //variables.$sidebar-color-4;
+    border-color: variables.$primary; //variables.$sidebar-color-4;
     .logo-white {
       display: block !important;
     }
