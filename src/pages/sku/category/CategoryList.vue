@@ -76,26 +76,22 @@
     <div class="card-body">
       <BaseTable
         :rows="data"
-        :columns="columns"
+        :columns="categoryListColumns"
         v-model:pagination="pagination"
         :actions="[
-          {
-            name: 'view',
-            icon: 'visibility',
-            label: 'View Details',
-            func: (row) => onTableAction({ type: 'view', row }),
-          },
           {
             name: 'edit',
             icon: 'edit_note',
             label: 'Edit',
-            func: (row) => onTableAction({ type: 'edit', row }),
+            color: 'orange',
+            func: (ow: any) => onTableAction({ type: 'edit', row }),
           },
           {
             name: 'delete',
-            icon: 'delete_outline',
+            icon: 'delete',
             label: 'Delete',
-            func: (row) => onTableAction({ type: 'delete', row }),
+            color: 'negative',
+            func: (ow: any) => onTableAction({ type: 'delete', row }),
           },
         ]"
         @action="onTableAction"
@@ -110,6 +106,7 @@ import BaseInput from "src/components/BaseInput.vue";
 import BaseTable from "src/components/BaseTable.vue";
 import PageHeader from "src/components/PageHeader.vue";
 import { ref } from "vue";
+import { categoryListColumns } from "./config/table-columns";
 
 const exportToExcel = (): void => {};
 const exportToPdf = (): void => {};
@@ -123,29 +120,6 @@ const pagination = ref({
   page: 1,
   rowsPerPage: 10, // default rows per page
 });
-
-// Columns
-const columns = [
-  { name: "category", field: "category", label: "Category", sortable: true },
-  {
-    name: "code",
-    field: "code",
-    label: "Category Code",
-    sortable: true,
-  },
-  {
-    name: "Created On",
-    field: "created_on",
-    label: "Created On",
-    sortable: true,
-  },
-  {
-    name: "Status",
-    field: "status",
-    label: "Status",
-    sortable: true,
-  },
-];
 
 // Data
 const data = ref([
@@ -200,15 +174,6 @@ const data = ref([
 ]);
 
 // Filters
-
-const categoryListSort = ref(["Sort by Date", "Newest", "Oldest"]);
-const categorySelect = ref([
-  "Choose category",
-  "Laptop",
-  "Electronics",
-  "Shoe",
-]);
-const categoryStatus = ref(["Choose Status", "Active", "Inactive"]);
 
 // Methods
 const toggleHeader = () => {
