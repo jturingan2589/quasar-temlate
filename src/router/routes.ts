@@ -3,7 +3,6 @@ import sidebarDataRaw from "src/layouts/sidebar/sidebar.json"; // JSON file
 
 // Make sure TypeScript recognizes the array
 const sidebarData = sidebarDataRaw as any[];
-const pages = import.meta.glob("../pages/**/*.vue");
 const dynamicChildren: RouteRecordRaw[] = [];
 
 // Iterate over sidebar JSON
@@ -31,18 +30,23 @@ const routes: RouteRecordRaw[] = [
       },
       ...dynamicChildren, // dynamically added routes
       {
-        path: "inventory/master-list/:action/:id?", // Add or Edit
+        path: "sku/master-list/:action/:id?", // Add or Edit
         component: () => import("pages/sku/master-list/ProductForm.vue"),
         meta: { requiresAuth: true },
         props: true,
       },
       {
-        path: "inventory/master-list/details",
+        path: "sku/master-list/details",
         component: () => import("pages/sku/master-list/ProductDetails.vue"),
         meta: { requiresAuth: true },
         props: true,
       },
-
+      {
+        path: "user-management/roles-permissions/:action/:id?",
+        component: () => import("pages/user-management/role/RoleForm.vue"),
+        meta: { requiresAuth: true },
+        props: true,
+      },
       {
         path: "main/profile",
         component: () => import("pages/ProfilePage.vue"),
@@ -73,5 +77,4 @@ const routes: RouteRecordRaw[] = [
   },
 ];
 
-console.log(routes, "===");
 export default routes;

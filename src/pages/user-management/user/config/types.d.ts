@@ -19,4 +19,5 @@ export interface User {
     manage?: boolean;
     [key: string]: boolean;
   };
+  realmRole?: string;
 }

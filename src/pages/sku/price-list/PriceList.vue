@@ -1,6 +1,6 @@
 <template>
   <PageHeader
-    title="Product List"
+    title="Price List"
     subtitle="Manage your price"
     :actions="[
       {
@@ -40,7 +40,7 @@
           class="btn btn-primary d-flex align-items-center"
         >
           <i class="bi bi-plus-circle q-mr-sm" />
-          Add Product
+          Add Price
         </router-link>
       </div>
       <div class="page-btn d-flex">
@@ -51,7 +51,7 @@
       </div>
     </template>
   </PageHeader>
-  <!-- /product list -->
+
   <div class="card table-list-card">
     <div
       class="card-header d-flex align-items-center justify-content-between flex-wrap row-gap-3"
@@ -113,8 +113,8 @@
       upload-url="/upload"
     />
   </div>
-  <!-- /product list -->
 </template>
+
 <script setup lang="ts">
 import { ref, onMounted, watch } from "vue";
 import { useRouter } from "vue-router";

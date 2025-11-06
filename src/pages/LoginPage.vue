@@ -10,10 +10,7 @@
 
 <script setup lang="ts">
 import { keycloak } from "src/boot/keycloak";
-import { useRouter } from "vue-router";
 import { Loading } from "quasar";
-
-const router = useRouter();
 
 async function login() {
   try {

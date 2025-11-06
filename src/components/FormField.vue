@@ -1,9 +1,6 @@
 <template>
-  <div class="col-12 col-md-6 q-mb-md">
-    <label
-      v-if="label"
-      class="text-caption text-weight-medium q-mb-xs flex items-center"
-    >
+  <div class="col-12 col-md-6">
+    <label v-if="label" class="form-label">
       {{ label }}
       <span v-if="required" class="text-negative q-ml-xs">*</span>
     </label>

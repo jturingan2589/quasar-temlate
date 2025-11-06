@@ -11,7 +11,7 @@ export default defineConfig((/* ctx */) => {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli-vite/boot-files
-    boot: ["axios", "keycloak", "style", "apexchart"],
+    boot: ["axios", "style", "apexchart", "keycloak"],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#css
     css: ["app.scss"],
@@ -74,7 +74,7 @@ export default defineConfig((/* ctx */) => {
       allowedHosts: [
         "localhost",
         "127.0.0.1",
-        "31a61bcf10d6.ngrok-free.app", // ✅ add your ngrok host here
+        "f165e00e6794.ngrok-free.app", // ✅ add your ngrok host here
       ],
       proxy: {
         "/keycloak": {

@@ -46,7 +46,6 @@
     </template>
   </PageHeader>
 
-  <!-- /product list -->
   <div class="card table-list-card">
     <div
       class="card-header d-flex align-items-center justify-content-between flex-wrap row-gap-3"
@@ -84,21 +83,20 @@
             icon: 'edit_note',
             label: 'Edit',
             color: 'orange',
-            func: (ow: any) => onTableAction({ type: 'edit', row }),
+            func: (row: any) => onTableAction({ type: 'edit', row }),
           },
           {
             name: 'delete',
             icon: 'delete',
             label: 'Delete',
             color: 'negative',
-            func: (ow: any) => onTableAction({ type: 'delete', row }),
+            func: (row: any) => onTableAction({ type: 'delete', row }),
           },
         ]"
         @action="onTableAction"
       />
     </div>
   </div>
-  <!-- /product list -->
 </template>
 
 <script setup lang="ts">

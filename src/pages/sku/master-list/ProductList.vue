@@ -36,7 +36,7 @@
     <template #buttons>
       <div class="page-btn d-flex">
         <router-link
-          to="/inventory/master-list/add"
+          to="/sku/master-list/add"
           class="btn btn-primary d-flex align-items-center"
         >
           <i class="bi bi-plus-circle q-mr-sm" />
@@ -134,8 +134,8 @@ import { Product } from "./types";
 // Router
 // -----------------------------
 const router = useRouter();
-const navigateToDetails = () => router.push("/inventory/master-list/details");
-const navigateToEdit = () => router.push("/inventory/master-list/edit");
+const navigateToDetails = () => router.push("/sku/master-list/details");
+const navigateToEdit = () => router.push("/sku/master-list/edit");
 
 // -----------------------------
 // Reactive State

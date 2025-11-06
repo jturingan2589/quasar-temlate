@@ -17,7 +17,6 @@ const getHeaders = async () => {
 };
 
 const baseUrl = `${import.meta.env.VITE_KEYCLOAK_URL}/admin/realms/${import.meta.env.VITE_KEYCLOAK_REALM}`;
-
 export const kcApiService = {
   async get<T>(url: string, params?: Record<string, any>): Promise<T> {
     const headers = await getHeaders();
@@ -28,7 +27,7 @@ export const kcApiService = {
     return await response.json();
   },
 
-  async post<T>(url: string, body: any): Promise<T> {
+  async post<T>(url: string, body: any): Promise<T | { id?: string }> {
     const headers = await getHeaders();
     const response = await fetch(baseUrl + url, {
       method: "POST",
@@ -37,7 +36,18 @@ export const kcApiService = {
     });
 
     if (!response.ok) throw new Error(await response.text());
-    return await response.json().catch(() => ({}));
+
+    // ✅ Handle Location header for Keycloak-created resources
+    const location = response.headers.get("Location");
+    if (location) {
+      const idMatch = location.match(/\/([^/]+)$/);
+      if (idMatch && idMatch[1]) {
+        return { id: idMatch[1] as string };
+      }
+    }
+
+    // ✅ Try JSON body (handles endpoints that return JSON)
+    return await response.json().catch(() => ({}) as T);
   },
 
   async put<T>(url: string, body: any): Promise<T> {

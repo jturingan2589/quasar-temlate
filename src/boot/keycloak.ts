@@ -136,11 +136,7 @@ export default boot(async ({ router }: { router: Router }) => {
                 keycloak?.hasResourceRole(r, "realm-management") ||
                 keycloak?.hasResourceRole(r, clientId),
             );
-            console.log(
-              hasRole,
-              "META<<",
-              keycloak?.hasRealmRole("manage-users"),
-            );
+
             if (!hasRole) {
               next("/unauthorized");
               Loading.hide();

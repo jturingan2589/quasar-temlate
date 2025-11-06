@@ -51,26 +51,10 @@
             ></span>
             <h5 class="card-title q-mb-none">Top Selling Products</h5>
           </div>
-          <div class="dropdown">
-            <a
-              href="javascript:void(0);"
-              class="dropdown-toggle btn btn-sm btn-white"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              <i class="ti ti-calendar q-mr-xs"></i>Today
-            </a>
-            <ul class="dropdown-menu p-3">
-              <li>
-                <a href="javascript:void(0);" class="dropdown-item">Today</a>
-              </li>
-              <li>
-                <a href="javascript:void(0);" class="dropdown-item">Weekly</a>
-              </li>
-              <li>
-                <a href="javascript:void(0);" class="dropdown-item">Monthly</a>
-              </li>
-            </ul>
+
+          <div class="badge d-flex items-center fs-12 border">
+            <i class="ti ti-calendar q-mr-xs"></i>
+            Today
           </div>
         </div>
         <div class="card-body sell-product">

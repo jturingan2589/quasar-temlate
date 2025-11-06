@@ -106,7 +106,7 @@
         "icon": "ti ti-jump-rope",
         "active_link": "/user-management/roles-permissions",
         "route": "/user-management/roles-permissions",
-        "component": "pages/user-management/RolePermissions.vue",
+        "component": "pages/user-management/role/RolePermissions.vue",
         "hasSubRoute": false,
         "showSubRoute": false,
         "roles": ["manage-users"]

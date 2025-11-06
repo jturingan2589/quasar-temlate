@@ -103,9 +103,6 @@ const showDialog = ref(false);
 
 const { confirmAction } = useConfirmDialog();
 const { success, error } = useNotify();
-const router = useRouter();
-const navigateToDetails = () => router.push("/inventory/master-list/details");
-const navigateToEdit = () => router.push("/inventory/master-list/edit");
 
 const fetchUsers = async (): Promise<void> => {
   loading.value = true;
@@ -178,29 +175,6 @@ const toggleUserStatus = async (user: any) => {
 
 const saveUser = async (user: User) => {
   loading.value = true;
-  const payload: any = {
-    username: user.username,
-    firstName: user.firstName,
-    lastName: user.lastName,
-    email: user.email,
-    enabled: user.enabled,
-    attributes: {
-      mobile_number: [
-        user.mobile_number || user.attributes?.mobile_number?.[0],
-      ],
-    },
-  };
-  if (user.id) {
-    // Update existing user
-    await kcApiService.put(`/users/${user.id}`, payload);
-    success("User updated successfully");
-  } else {
-    // Create new user
-    await kcApiService.post("/users", payload);
-    success("User added successfully!");
-  }
-  // reload the table
-  loading.value = false;
   await fetchUsers();
 };
 

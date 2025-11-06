@@ -14,10 +14,4 @@ export const categoryListColumns: QTableColumn[] = [
     label: "Created On",
     sortable: true,
   },
-  {
-    name: "Status",
-    field: "status",
-    label: "Status",
-    sortable: true,
-  },
 ];

@@ -1,6 +1,6 @@
 <template>
   <div class="row q-col-gutter-x-lg">
-    <div class="col-xxl-4 col-md-6 d-flex">
+    <div class="col-12 col-md-6">
       <div class="card flex-fill">
         <div
           class="card-header d-flex justify-between items-center row q-gutter-md wrap"
@@ -34,15 +34,17 @@
           </div>
         </div>
         <div class="card-body">
-          <div class="items-center row q-mb-lg">
+          <div class="row q-mb-lg">
             <div class="col-lg-8 col-12">
-              <ApexChart
-                height="400"
-                width="320"
-                type="donut"
-                :options="chartOptions"
-                :series="series_category"
-              ></ApexChart>
+              <div class="items-center">
+                <ApexChart
+                  height="400"
+                  width="320"
+                  type="donut"
+                  :options="chartOptions"
+                  :series="series_category"
+                ></ApexChart>
+              </div>
             </div>
             <div class="col-lg-4 col-12">
               <div
@@ -72,7 +74,7 @@
         </div>
       </div>
     </div>
-    <div class="col-xxl-4 col-md-6 d-flex">
+    <div class="col-12 col-md-6">
       <div class="card flex-fill">
         <div
           class="card-header d-flex justify-between items-center row q-gutter-md wrap"
@@ -170,7 +172,7 @@ const chartOptions = {
   },
   labels_category,
   legend: {
-    position: "bottom",
+    position: "top",
   },
   dataLabels: {
     enabled: true,
@@ -184,7 +186,7 @@ const chartOptions = {
   plotOptions: {
     pie: {
       donut: {
-        size: "65%",
+        size: "60%",
         labels: {
           show: true,
           total: {

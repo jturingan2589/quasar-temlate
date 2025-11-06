@@ -34,13 +34,14 @@
       </li>
     </ul>
     <div class="page-btn">
-      <a
-        href="#"
-        class="btn btn-primary btn-md d-inline-flex align-items-center"
-        data-bs-toggle="modal"
-        data-bs-target="#add-units"
-        ><i class="ti ti-circle-plus q-mr-xs"></i>Add Role</a
+      <q-btn
+        color="primary"
+        @click="$router.push('/user-management/roles-permissions/add')"
+        no-caps
       >
+        <i class="ti ti-circle-plus q-mr-xs"></i>
+        Add Role
+      </q-btn>
     </div>
   </div>
   <!-- /product list -->
@@ -66,9 +67,10 @@
     </div>
     <div class="card-body">
       <BaseTable
-        :columns="columns"
-        :rows="roles"
-        :pagination="{ pageSize: 5 }"
+        :columns="rolePermissionsColumn"
+        :rows="roleStore.realm_roles"
+        :loading="loading"
+        :actions="tableActions"
       />
     </div>
   </div>
@@ -77,47 +79,51 @@
 <script setup lang="ts">
 import BaseTable from "src/components/BaseTable.vue";
 import { onMounted, ref } from "vue";
+import { useRoleStore } from "src/stores/roles";
 import { kcApiService } from "src/services/keycloak";
-import { QTableProps } from "quasar";
+import { rolePermissionsColumn } from "./config/table-columns";
+import { useRouter } from "vue-router";
+import { useConfirmDialog } from "src/composable/useConfirmDialog";
+import useNotify from "src/composable/useNotify";
+import type { RealmRole } from "./config/types";
 
+const { confirmAction } = useConfirmDialog();
+const { success, error } = useNotify();
+const roleStore = useRoleStore();
 const loading = ref<boolean>(false);
-const roles = ref<Role[]>([]);
 
-interface Role {
-  id: string;
-  name: string;
-  description: string;
-}
-// --------------------
-// Table Columns
-// --------------------
-const columns = ref<QTableProps["columns"]>([
+const router = useRouter();
+const navigate = (role: RealmRole, action: string) =>
+  router.push(`/user-management/roles-permissions/${action}/${role.name}`);
+
+const tableActions = [
   {
-    name: "name",
-    label: "Role",
-    field: "name",
-    sortable: true,
-    align: "left",
+    name: "view",
+    icon: "visibility",
+    label: "View Details",
+    func: (row: any) => navigate(row, "view"),
+    color: "primary",
   },
   {
-    name: "description",
-    label: "Description",
-    field: "description",
-    sortable: true,
-    align: "left",
+    name: "edit",
+    icon: "edit_note",
+    label: "Edit",
+    func: (row: any) => navigate(row, "edit"),
+    color: "orange",
   },
   {
-    name: "action",
-    label: "",
-    field: "action",
-    sortable: false,
-    align: "center",
+    name: "delete",
+    icon: "delete",
+    label: "Delete",
+    func: (row: any) => deleteRole(row),
+    color: "negative",
   },
-]);
+];
 
 // --------------------
 // Methods
 // --------------------
+
 const toggleHeader = () => {
   const el = document.getElementById("collapse-header");
   if (el) el.classList.toggle("active");
@@ -127,14 +133,39 @@ const toggleHeader = () => {
 const fetchRoles = async (): Promise<void> => {
   loading.value = true;
   try {
-    const res = await kcApiService.get<Role[]>(`/roles?`);
-    roles.value = res || [];
+    const res = await kcApiService.get<RealmRole[]>(`/roles?`);
+    roleStore.setRealmRoles(res || []);
   } catch (err) {
-    console.error("Error fetching users:", err);
+    console.error("Error fetching roles:", err);
   } finally {
     loading.value = false;
   }
 };
+
+const deleteRole = async (role: RealmRole) => {
+  const confirmed = await confirmAction(
+    `Delete Role`,
+    `Delete role '${role.name}'?`,
+    {
+      okLabel: "Delete",
+      okColor: "negative",
+    },
+  );
+  if (!confirmed) return;
+
+  try {
+    await kcApiService.delete<RealmRole[]>(`/roles/${role.name}`);
+    roleStore.realm_roles = roleStore.realm_roles.filter(
+      (u) => u.id !== role.id,
+    );
+    success("User deleted successfully");
+  } catch (err) {
+    error("Failed to delete user");
+  } finally {
+    loading.value = false;
+  }
+};
+
 onMounted(() => {
   fetchRoles();
 });
