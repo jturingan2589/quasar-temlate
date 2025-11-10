@@ -1,0 +1,47 @@
+{
+  "status": "success",
+  "data": [
+    {
+      "id": "ENT-001",
+      "entity_code": "E1001",
+      "name": "Alpha Distribution Corp",
+      "description": "Primary distributor of consumer goods in Metro Manila.",
+      "status": "active"
+    },
+    {
+      "id": "ENT-002",
+      "entity_code": "E1002",
+      "name": "Beta Retailers Inc",
+      "description": "Retail partner focusing on grocery and daily needs.",
+      "status": "active"
+    },
+    {
+      "id": "ENT-003",
+      "entity_code": "E1003",
+      "name": "Gamma Trading Ltd",
+      "description": "Handles international imports and exports.",
+      "status": "inactive"
+    },
+    {
+      "id": "ENT-004",
+      "entity_code": "E1004",
+      "name": "Delta Supply Co",
+      "description": "Supplier of raw materials and packaging products.",
+      "status": "active"
+    },
+    {
+      "id": "ENT-005",
+      "entity_code": "E1005",
+      "name": "Epsilon Services",
+      "description": "Offers logistics and warehousing services.",
+      "status": "inactive"
+    },
+    {
+      "id": "ENT-006",
+      "entity_code": "E1006",
+      "name": "Zeta Wholesale",
+      "description": "Regional wholesaler for household and industrial items.",
+      "status": "active"
+    }
+  ]
+}

@@ -2,16 +2,28 @@
   "status": "success",
   "data": [
     {
-      "label": "Thomas Store",
-      "value": "thomas-store"
+      "id": "1",
+      "entity_code": "ENT-001",
+      "store_code": "STR-001",
+      "address": "123 Ayala Ave, Makati City",
+      "owner": "John Doe",
+      "status": "Active"
     },
     {
-      "label": "Downtown Store",
-      "value": "downtown-store"
+      "id": "2",
+      "entity_code": "ENT-002",
+      "store_code": "STR-002",
+      "address": "456 EDSA, Quezon City",
+      "owner": "Jane Smith",
+      "status": "Inactive"
     },
     {
-      "label": "Uptown Store",
-      "value": "uptown-store"
+      "id": "3",
+      "entity_code": "ENT-003",
+      "store_code": "STR-003",
+      "address": "789 Ortigas Ave, Pasig",
+      "owner": "Carlos Reyes",
+      "status": "Active"
     }
   ]
 }

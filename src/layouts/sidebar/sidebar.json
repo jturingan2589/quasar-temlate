@@ -112,5 +112,33 @@
         "roles": ["roles_&_permissions_view"]
       }
     ]
+  },
+  {
+    "tittle": "Settings",
+    "active_link": "/settings",
+    "showAsTab": true,
+    "separateRoute": false,
+    "menu": [
+      {
+        "menuValue": "Entity",
+        "icon": "ti ti-building-skyscraper",
+        "active_link": "/settings/entity",
+        "route": "/settings/entity",
+        "component": "pages/settings/entity/EntityList.vue",
+        "hasSubRoute": false,
+        "showSubRoute": false,
+        "roles": ["entity_view"]
+      },
+      {
+        "menuValue": "Stores",
+        "icon": "ti ti-building-store",
+        "active_link": "/settings/stores",
+        "route": "/settings/stores",
+        "component": "pages/settings/stores/StoreList.vue",
+        "hasSubRoute": false,
+        "showSubRoute": false,
+        "roles": ["store_view"]
+      }
+    ]
   }
 ]
