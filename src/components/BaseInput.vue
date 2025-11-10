@@ -12,6 +12,7 @@
     :disable="disable"
     :maxlength="maxlength"
     lazy-rules
+    hide-bottom-space
   />
 </template>
 

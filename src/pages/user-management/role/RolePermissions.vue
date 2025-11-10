@@ -1,5 +1,9 @@
 <template>
-  <PageHeader title="Users" subtitle="Manage your users" @reload="fetchRoles">
+  <PageHeader
+    title="Roles & Permissions"
+    subtitle="Manage your roles and permissions"
+    @reload="fetchRoles"
+  >
     <template #buttons>
       <div class="page-btn">
         <AccessButton
