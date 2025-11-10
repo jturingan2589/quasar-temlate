@@ -20,4 +20,6 @@ export interface TableAction {
   type?: "button" | "switch"; // make it a union instead of string
   field?: string; // only used if type === "switch"
   func: (row: TableRow, value?: any) => void; // switch passes value too
+  action: string;
+  page: string;
 }

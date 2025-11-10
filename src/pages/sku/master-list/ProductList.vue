@@ -35,19 +35,28 @@
   >
     <template #buttons>
       <div class="page-btn d-flex">
-        <router-link
-          to="/sku/master-list/add"
-          class="btn btn-primary d-flex align-items-center"
+        <AccessButton
+          page="master_list"
+          action="create"
+          color="primary"
+          @click="navigate('add')"
+          no-caps
         >
           <i class="bi bi-plus-circle q-mr-sm" />
           Add Product
-        </router-link>
+        </AccessButton>
       </div>
       <div class="page-btn d-flex">
-        <q-btn color="secondary" @click="showModal = true" no-caps>
+        <AccessButton
+          page="master_list"
+          action="upload"
+          color="secondary"
+          @click="showModal = true"
+          no-caps
+        >
           <i class="bi bi-download q-mr-sm" />
           Import Master List
-        </q-btn>
+        </AccessButton>
       </div>
     </template>
   </PageHeader>
@@ -119,14 +128,10 @@
 import { ref, onMounted, watch } from "vue";
 import { useRouter } from "vue-router";
 import type { CategoryFiler, BrandFilter, StoreFilter } from "src/types/filter";
-import PageHeader from "src/components/PageHeader.vue";
-import BaseTable from "src/components/BaseTable.vue";
 import FilterPopup from "src/components/FilterPopup.vue";
-import BaseSelect from "src/components/BaseSelect.vue";
 import UploadModal from "src/components/UploadModal.vue";
 import { ApiService } from "src/services/api";
 import FormField from "src/components/FormField.vue";
-import BaseInput from "src/components/BaseInput.vue";
 import SortDropdown from "src/components/SortDropdown.vue";
 import { Product } from "./types";
 
@@ -134,9 +139,12 @@ import { Product } from "./types";
 // Router
 // -----------------------------
 const router = useRouter();
-const navigateToDetails = () => router.push("/sku/master-list/details");
-const navigateToEdit = () => router.push("/sku/master-list/edit");
 
+const navigate = (action: string, id?: string) => {
+  let url = `/sku/master-list/${action}`;
+  if (id) url += `/${id}`;
+  router.push(url);
+};
 // -----------------------------
 // Reactive State
 // -----------------------------
@@ -201,22 +209,28 @@ const tableActions = [
     name: "view",
     icon: "visibility",
     label: "View Details",
-    func: navigateToDetails,
+    func: (row: any) => navigate("view", row.id),
     color: "primary",
+    page: "master_list",
+    action: "view",
   },
   {
     name: "edit",
     icon: "edit_note",
     label: "Edit",
-    func: navigateToEdit,
+    func: (row: any) => navigate("edit", row.id),
     color: "orange",
+    page: "master_list",
+    action: "edit",
   },
   {
     name: "delete",
     icon: "delete",
     label: "Delete",
-    func: (row: any) => console.log("Delete:", row),
+    func: (row: any) => deleteProduct(row),
     color: "negative",
+    page: "master_list",
+    action: "delete",
   },
 ];
 
@@ -231,7 +245,6 @@ const toggleHeader = (): void => {
 
 const exportToExcel = (): void => console.log("Export Excel");
 const exportToPdf = (): void => console.log("Export PDF");
-const reloadres = (): void => console.log("Reload data");
 const onTableAction = (action?: any) => console.log("Table action:", action);
 
 // -----------------------------
@@ -264,7 +277,6 @@ const applySort = (option: {
   value: string;
   descending: boolean;
 }) => {
-  console.log(option.label, "==");
   sortByField.value = option.label;
   sortDescending.value = option.descending;
   fetchProducts();
@@ -273,6 +285,8 @@ const applySort = (option: {
 // -----------------------------
 // API Calls
 // -----------------------------
+
+const deleteProduct = async (product: Product): Promise<void> => {};
 
 const fetchProducts = async (): Promise<void> => {
   try {

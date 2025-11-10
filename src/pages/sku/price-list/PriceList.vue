@@ -8,46 +8,46 @@
         iconType: 'img',
         tooltip: 'Pdf',
         event: 'pdf',
+        action: 'download',
+        page: 'price_list',
       },
       {
         icon: '/app/img/icons/excel.svg',
         iconType: 'img',
         tooltip: 'Excel',
         event: 'excel',
-      },
-      {
-        icon: 'ti ti-refresh',
-        iconType: 'icon',
-        tooltip: 'Refresh',
-        event: 'refresh',
-      },
-      {
-        icon: 'ti ti-chevron-up',
-        iconType: 'icon',
-        tooltip: 'Collapse',
-        event: 'collapse',
+        action: 'download',
+        page: 'price_list',
       },
     ]"
     @pdf="exportToPdf"
     @excel="exportToExcel"
-    @refresh="fetchPriceList"
-    @collapse="toggleHeader"
+    @reload="fetchPriceList"
   >
     <template #buttons>
       <div class="page-btn d-flex">
-        <router-link
-          to="/inventory/price-list/add"
-          class="btn btn-primary d-flex align-items-center"
+        <AccessButton
+          page="price_list"
+          action="create"
+          color="primary"
+          @click="navigate('add')"
+          no-caps
         >
           <i class="bi bi-plus-circle q-mr-sm" />
           Add Price
-        </router-link>
+        </AccessButton>
       </div>
       <div class="page-btn d-flex">
-        <q-btn color="secondary" @click="showModal = true" no-caps>
+        <AccessButton
+          page="price_list"
+          action="upload"
+          color="secondary"
+          @click="showModal = true"
+          no-caps
+        >
           <i class="bi bi-download q-mr-sm" />
           Import Price List
-        </q-btn>
+        </AccessButton>
       </div>
     </template>
   </PageHeader>
@@ -119,14 +119,10 @@
 import { ref, onMounted, watch } from "vue";
 import { useRouter } from "vue-router";
 import type { CategoryFiler, StoreFilter } from "src/types/filter";
-import PageHeader from "src/components/PageHeader.vue";
-import BaseTable from "src/components/BaseTable.vue";
 import FilterPopup from "src/components/FilterPopup.vue";
-import BaseSelect from "src/components/BaseSelect.vue";
 import UploadModal from "src/components/UploadModal.vue";
 import { ApiService } from "src/services/api";
 import FormField from "src/components/FormField.vue";
-import BaseInput from "src/components/BaseInput.vue";
 import SortDropdown from "src/components/SortDropdown.vue";
 import { priceListColumns } from "./config/table-columns";
 import { PriceList } from "./config/types";
@@ -134,8 +130,11 @@ import { PriceList } from "./config/types";
 // Router
 // -----------------------------
 const router = useRouter();
-const navigateToDetails = () => router.push("/inventory/price-list/details");
-const navigateToEdit = () => router.push("/inventory/price-list/edit");
+const navigate = (action: string, id?: string) => {
+  let url = `/sku/master-list/${action}`;
+  if (id) url += `/${id}`;
+  router.push(url);
+};
 
 // -----------------------------
 // Reactive State
@@ -177,20 +176,26 @@ const tableActions = [
     icon: "visibility",
     label: "View Details",
     color: "primary",
-    func: navigateToDetails,
+    action: "view",
+    page: "price_list",
+    func: (row: any) => navigate("view", row.id),
   },
   {
     name: "edit",
     color: "orange",
     icon: "edit_note",
     label: "Edit",
-    func: navigateToEdit,
+    action: "edit",
+    page: "price_list",
+    func: (row: any) => navigate("edit", row.id),
   },
   {
     name: "delete",
     icon: "delete_outline",
     color: "negative",
     label: "Delete",
+    action: "delete",
+    page: "price_list",
     func: (row: any) => console.log("Delete:", row),
   },
 ];

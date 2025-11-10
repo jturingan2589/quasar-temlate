@@ -31,7 +31,7 @@
         "component": "pages/sku/master-list/ProductList.vue",
         "hasSubRoute": false,
         "showSubRoute": false,
-        "roles": ["master_view"]
+        "roles": ["master_list_view"]
       },
       {
         "menuValue": "Category",
@@ -99,7 +99,7 @@
         "component": "pages/user-management/user/UserList.vue",
         "hasSubRoute": false,
         "showSubRoute": false,
-        "roles": ["manage-users"]
+        "roles": ["users_view"]
       },
       {
         "menuValue": "Roles & Permissions",
@@ -109,7 +109,7 @@
         "component": "pages/user-management/role/RolePermissions.vue",
         "hasSubRoute": false,
         "showSubRoute": false,
-        "roles": ["manage-users"]
+        "roles": ["roles_&_permissions_view"]
       }
     ]
   }

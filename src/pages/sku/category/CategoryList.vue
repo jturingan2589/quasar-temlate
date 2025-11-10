@@ -8,40 +8,34 @@
         iconType: 'img',
         tooltip: 'Pdf',
         event: 'pdf',
+        action: 'download',
+        page: 'category',
       },
       {
         icon: '/app/img/icons/excel.svg',
         iconType: 'img',
         tooltip: 'Excel',
         event: 'excel',
-      },
-      {
-        icon: 'ti ti-refresh',
-        iconType: 'icon',
-        tooltip: 'Refresh',
-        event: 'refresh',
-      },
-      {
-        icon: 'ti ti-chevron-up',
-        iconType: 'icon',
-        tooltip: 'Collapse',
-        event: 'collapse',
+        action: 'download',
+        page: 'category',
       },
     ]"
     @pdf="exportToPdf"
     @excel="exportToExcel"
-    @refresh="reloadData"
-    @collapse="toggleHeader"
+    @reload="reloadData"
   >
     <template #buttons>
       <div class="page-btn d-flex">
-        <router-link
-          to="/inventory/add-product"
-          class="btn btn-primary d-flex align-items-center"
+        <AccessButton
+          page="category"
+          action="create"
+          color="primary"
+          @click="addCategory"
+          no-caps
         >
           <i class="bi bi-plus-circle q-mr-sm" />
           Add Category
-        </router-link>
+        </AccessButton>
       </div>
     </template>
   </PageHeader>
@@ -83,12 +77,16 @@
             icon: 'edit_note',
             label: 'Edit',
             color: 'orange',
+            action: 'edit',
+            page: 'category',
             func: (row: any) => onTableAction({ type: 'edit', row }),
           },
           {
             name: 'delete',
             icon: 'delete',
             label: 'Delete',
+            action: 'delete',
+            page: 'category',
             color: 'negative',
             func: (row: any) => onTableAction({ type: 'delete', row }),
           },
@@ -107,10 +105,13 @@ import { ref } from "vue";
 import { categoryListColumns } from "./config/table-columns";
 
 const exportToExcel = (): void => {};
-const exportToPdf = (): void => {};
+const exportToPdf = (): void => {
+  console.log("PDF");
+};
 const reloadData = (): void => {};
 const onTableAction = (value: { type: string; row: any }): void => {};
 
+const addCategory = () => {};
 const searchQuery = ref("");
 const pagination = ref({
   // default column
@@ -174,10 +175,6 @@ const data = ref([
 // Filters
 
 // Methods
-const toggleHeader = () => {
-  document.getElementById("collapse-header")?.classList.toggle("active");
-  document.body.classList.toggle("header-collapse");
-};
 
 const showConfirmation = () => console.log("Delete confirmation modal");
 </script>

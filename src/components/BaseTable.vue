@@ -31,16 +31,20 @@
       <q-td :props="props" class="text-center q-gutter-xs">
         <template v-for="(action, index) in actions" :key="index">
           <!-- BUTTON TYPE -->
-          <q-btn
+          <AccessButton
             v-if="!action.type || action.type === 'button'"
-            flat
+            :page="action.page"
+            :action="action.action"
+            :color="action.color ?? 'primary'"
+            :icon="action.icon ?? ''"
+            :flat="true"
             size="sm"
-            :icon="action.icon"
-            :color="action.color"
             @click="() => action.func(props.row)"
           >
-            <q-tooltip>{{ action.label }}</q-tooltip>
-          </q-btn>
+            <q-tooltip>
+              {{ action.label }}
+            </q-tooltip>
+          </AccessButton>
 
           <!-- SWITCH TYPE -->
           <q-toggle
@@ -70,6 +74,7 @@
 import { ref, watch, computed, PropType } from "vue";
 import { QTableProps } from "quasar";
 import type { TableAction, TableColumn, TableRow } from "src/types/table";
+import { hasPermission } from "src/composable/useAuth";
 
 const props = defineProps({
   title: { type: String, default: "" },
@@ -102,14 +107,30 @@ watch(selected, (val) => emit("update:selected", val));
 // Keep pagination synced with parent
 watch(pagination, (val) => emit("update:pagination", val), { deep: true });
 
-// Ensure columns have default left alignment + append actions col
+// Determine if user has access to **at least one action**
+const hasAnyActionAccess = computed(() =>
+  props.actions.some((a) =>
+    !a.type || a.type === "button"
+      ? hasPermission(`${a.page}_${a.action}`)
+      : true,
+  ),
+);
+
+// Columns with defaults + conditionally append Actions column
 const columnsWithDefaults = computed(() => {
   const baseCols = props.columns.map((col) => ({
     ...col,
     align: col.align || "left",
   }));
 
-  if (!props.withActions || props.actions.length === 0) return baseCols;
+  // Append actions column only if access exists
+  if (
+    !props.withActions ||
+    props.actions.length === 0 ||
+    !hasAnyActionAccess.value
+  ) {
+    return baseCols;
+  }
 
   return [
     ...baseCols,

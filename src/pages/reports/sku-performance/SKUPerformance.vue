@@ -1,22 +1,5 @@
 <template>
-  <PageHeader
-    title="SKU Performance"
-    subtitle="Manage your SKU Performance"
-    :actions="[
-      {
-        icon: 'ti ti-refresh',
-        iconType: 'icon',
-        tooltip: 'Refresh',
-        event: 'refresh',
-      },
-      {
-        icon: 'ti ti-chevron-up',
-        iconType: 'icon',
-        tooltip: 'Collapse',
-        event: 'collapse',
-      },
-    ]"
-  />
+  <PageHeader title="SKU Performance" subtitle="Manage your SKU Performance" />
   <div class="row q-col-gutter-x-lg q-pb-xs">
     <!-- Top 20% SKUs GMV -->
     <div class="col-lg-3 col-sm-6 col-12 d-flex">
@@ -91,19 +74,29 @@
       <div></div>
       <ul class="table-top-head">
         <li class="me-2">
-          <a data-bs-toggle="tooltip" data-bs-placement="top" title="Pdf"
-            ><img src="/app/img/icons/pdf.svg" alt="img"
-          /></a>
+          <ActionButton
+            page="sku_performance"
+            action="download"
+            icon="/app/img/icons/pdf.svg"
+            iconType="img"
+            tooltip="Download PDF"
+            @click="exportToPdf"
+          />
         </li>
         <li class="me-2">
-          <a data-bs-toggle="tooltip" data-bs-placement="top" title="Excel"
-            ><img src="/app/img/icons/excel.svg" alt="img"
-          /></a>
+          <ActionButton
+            page="sku_performance"
+            action="download"
+            icon="/app/img/icons/excel.svg"
+            iconType="img"
+            tooltip="Download Excel"
+            @click="exportToExcel"
+          />
         </li>
         <li>
-          <a data-bs-toggle="tooltip" data-bs-placement="top" title="Print"
-            ><i class="ti ti-printer"></i
-          ></a>
+          <a data-bs-toggle="tooltip" data-bs-placement="top" title="Print">
+            <i class="ti ti-printer"></i>
+          </a>
         </li>
       </ul>
     </div>
@@ -162,7 +155,6 @@
 </template>
 
 <script setup lang="ts">
-import BaseTable from "src/components/BaseTable.vue";
 import { ref } from "vue";
 import { gmvColumns, quantityColumns } from "./config/table-columns";
 import {
@@ -171,19 +163,11 @@ import {
   topGmvRows,
   topQtyRows,
 } from "./sampledata";
-import PageHeader from "src/components/PageHeader.vue";
 const exportToExcel = (): void => {};
 const exportToPdf = (): void => {};
 const reloadData = (): void => {};
 
 const tab = ref("topGmv");
-
-const toggleHeader = (): void => {
-  const header = document.querySelector(".page-header") as HTMLElement;
-  if (header) {
-    header.classList.toggle("collapsed");
-  }
-};
 
 const pagination = ref({
   sortBy: "SKU", // default column

@@ -9,42 +9,60 @@
     </div>
 
     <!-- Action Icons -->
-    <ul class="table-top-head" v-if="actions && actions.length">
-      <li v-for="(action, index) in actions" :key="index">
-        <a 
-          :title="action.tooltip" 
-          @click="$emit(action.event)"
-        >
-          <template v-if="action.iconType === 'img'">
-            <img :src="action.icon" :alt="action.tooltip" />
+    <ul class="table-top-head">
+      <li
+        v-show="hasPermission(`${a.page}_${a.action}`)"
+        v-for="(a, index) in actions"
+        :key="index"
+      >
+        <a :title="a.tooltip" @click="$emit(a.event)">
+          <template v-if="a.iconType === 'img'">
+            <img :src="a.icon" :alt="a.tooltip" />
           </template>
           <template v-else>
-            <i :class="action.icon"></i>
+            <i :class="a.icon"></i>
           </template>
+        </a>
+      </li>
+      <li>
+        <a @click="$emit('reload')" title="Refresh"
+          ><i class="ti ti-refresh"></i
+        ></a>
+      </li>
+      <li>
+        <a title="Collapse" @click="toggleHeader">
+          <i class="ti ti-chevron-up"></i>
         </a>
       </li>
     </ul>
 
     <!-- Default Slot for Buttons -->
-    <div class=" d-flex">
+    <div class="d-flex">
       <slot name="buttons" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { hasPermission } from "src/composable/useAuth";
 
-  interface Action {
-    icon: string;       // e.g. "/app/img/icons/pdf.svg" or "ti ti-refresh"
-    iconType?: "img" | "icon"; // default = "icon"
-    tooltip: string;
-    event: string;      // emitted event name
-  }
+interface Action {
+  icon: string; // e.g. "/app/img/icons/pdf.svg" or "ti ti-refresh"
+  iconType?: "img" | "icon"; // default = "icon"
+  tooltip: string;
+  event: string; // emitted event name
+  action: string; // for access permission
+  page: string;
+}
 
-  const props = defineProps<{
-    title: string;
-    subtitle?: string;
-    actions?: Action[];
-  }>();
-  
+const props = defineProps<{
+  title: string;
+  subtitle?: string;
+  actions?: Action[];
+}>();
+
+const toggleHeader = () => {
+  document.getElementById("collapse-header")?.classList.toggle("active");
+  document.body.classList.toggle("header-collapse");
+};
 </script>

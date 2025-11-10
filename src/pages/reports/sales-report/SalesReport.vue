@@ -1,22 +1,5 @@
 <template>
-  <PageHeader
-    title="Sales Report"
-    subtitle="Manage your Sales report"
-    :actions="[
-      {
-        icon: 'ti ti-refresh',
-        iconType: 'icon',
-        tooltip: 'Refresh',
-        event: 'refresh',
-      },
-      {
-        icon: 'ti ti-chevron-up',
-        iconType: 'icon',
-        tooltip: 'Collapse',
-        event: 'collapse',
-      },
-    ]"
-  />
+  <PageHeader title="Sales Report" subtitle="Manage your Sales report" />
   <div class="row q-col-gutter-x-lg">
     <div class="col-lg-3 col-sm-6 col-12">
       <div class="card border border-success sale-widget flex-fill">
@@ -87,20 +70,30 @@
     >
       <div></div>
       <ul class="table-top-head">
-        <li class="me-2">
-          <a data-bs-toggle="tooltip" data-bs-placement="top" title="Pdf"
-            ><img src="/app/img/icons/pdf.svg" alt="img"
-          /></a>
+        <li class="q-mr-sm">
+          <ActionButton
+            page="sales_report"
+            action="download"
+            icon="/app/img/icons/pdf.svg"
+            iconType="img"
+            tooltip="Download PDF"
+            @click="exportToPdf"
+          />
         </li>
-        <li class="me-2">
-          <a data-bs-toggle="tooltip" data-bs-placement="top" title="Excel"
-            ><img src="/app/img/icons/excel.svg" alt="img"
-          /></a>
+        <li class="q-mr-sm">
+          <ActionButton
+            page="sales_report"
+            action="download"
+            icon="/app/img/icons/excel.svg"
+            iconType="img"
+            tooltip="Download Excel"
+            @click="exportToExcel"
+          />
         </li>
         <li>
-          <a data-bs-toggle="tooltip" data-bs-placement="top" title="Print"
-            ><i class="ti ti-printer"></i
-          ></a>
+          <a data-bs-toggle="tooltip" data-bs-placement="top" title="Print">
+            <i class="ti ti-printer"></i>
+          </a>
         </li>
         <li>
           <FilterPopup
@@ -123,9 +116,7 @@
 </template>
 
 <script setup lang="ts">
-import BaseTable from "src/components/BaseTable.vue";
 import FilterPopup from "src/components/FilterPopup.vue";
-import PageHeader from "src/components/PageHeader.vue";
 import { ApiService } from "src/services/api";
 import type { BrandFilter, CategoryFiler, StoreFilter } from "src/types/filter";
 import { onMounted, ref } from "vue";
@@ -135,13 +126,6 @@ import { salesReportColumns } from "./config/table-columns";
 const exportToExcel = (): void => {};
 const exportToPdf = (): void => {};
 const reloadData = (): void => {};
-
-const toggleHeader = (): void => {
-  const header = document.querySelector(".page-header") as HTMLElement;
-  if (header) {
-    header.classList.toggle("collapsed");
-  }
-};
 
 // -----------------------------
 // Reactive State
@@ -225,6 +209,6 @@ onMounted(async () => {
   fetchBrands();
   fetchCategories();
   fetchSalesReport();
-  fetchSalesReport();
+  fetchStores();
 });
 </script>

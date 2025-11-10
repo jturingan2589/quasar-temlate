@@ -127,6 +127,7 @@
     </q-card>
   </q-dialog>
 </template>
+
 <script setup lang="ts">
 import { ref, watch, reactive, onMounted } from "vue";
 import { kcApiService } from "src/services/keycloak";
@@ -161,7 +162,10 @@ watch(
 );
 watch(isOpen, (val) => emits("update:show", val));
 
-const form = reactive<User & { tempPassword?: string; realmRole?: string }>({
+// Make mobile_number and realmRole always string
+const form = reactive<
+  User & { tempPassword?: string; realmRole: string; mobile_number: string }
+>({
   id: "",
   username: "",
   firstName: "",
@@ -173,13 +177,13 @@ const form = reactive<User & { tempPassword?: string; realmRole?: string }>({
   tempPassword: "",
 });
 
-// 🧩 Reset form or populate if editing
 watch(
   () => props.modelValue,
   (val) => {
     if (val) {
       Object.assign(form, val);
       form.tempPassword = "";
+      form.mobile_number = val.attributes?.mobile_number?.[0] ?? "";
     } else {
       Object.assign(form, {
         id: "",
@@ -203,6 +207,14 @@ async function loadRealmRoles() {
     loadingRoles.value = true;
     const roles = await kcApiService.get<RealmRole[]>("/roles");
     realmRoleOptions.value = roles || [];
+
+    // After roles loaded, set form.realmRole if editing
+    if (props.modelValue?.realmRole) {
+      const exists = realmRoleOptions.value.find(
+        (r) => r.name === props.modelValue?.realmRole,
+      );
+      form.realmRole = exists ? exists.name : "";
+    }
   } catch (err: any) {
     error("Failed to load realm roles");
   } finally {
@@ -214,23 +226,21 @@ async function loadRealmRoles() {
 async function onSubmit() {
   saving.value = true;
   try {
-    // reate or update the user
     let userId = form.id;
 
     if (!userId) {
+      // Create user
       const newUser = {
         username: form.username,
         email: form.email,
         firstName: form.firstName,
         lastName: form.lastName,
         enabled: form.enabled,
-        attributes: {
-          mobile_number: [form.mobile_number],
-        },
+        attributes: { mobile_number: [form.mobile_number] },
       };
 
       const res: any = await kcApiService.post("/users", newUser);
-      const userId = (res as any)?.id;
+      userId = res?.id;
 
       // Set temporary password
       if (form.tempPassword) {
@@ -248,10 +258,7 @@ async function onSubmit() {
         );
         if (selectedRole) {
           await kcApiService.post(`/users/${userId}/role-mappings/realm`, [
-            {
-              id: selectedRole.id,
-              name: selectedRole.name,
-            },
+            { id: selectedRole.id, name: selectedRole.name },
           ]);
         }
       }
@@ -263,15 +270,24 @@ async function onSubmit() {
         firstName: form.firstName,
         lastName: form.lastName,
         enabled: form.enabled,
-        attributes: {
-          mobile_number: [form.mobile_number],
-        },
+        attributes: { mobile_number: [form.mobile_number] },
       });
+
+      // Update realm role
+      if (form.realmRole) {
+        const selectedRole = realmRoleOptions.value.find(
+          (r) => r.name === form.realmRole,
+        );
+        if (selectedRole) {
+          await kcApiService.post(`/users/${userId}/role-mappings/realm`, [
+            { id: selectedRole.id, name: selectedRole.name },
+          ]);
+        }
+      }
     }
 
     success(`User "${form.username}" saved successfully`);
     emits("save", { ...form });
-
     isOpen.value = false;
   } catch (err: any) {
     console.error(err);

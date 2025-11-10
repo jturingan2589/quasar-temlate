@@ -1,49 +1,20 @@
 <template>
-  <div class="page-header">
-    <div class="add-item d-flex">
-      <div class="page-title">
-        <h4>Roles & Permission</h4>
-        <h6>Manage your roles</h6>
+  <PageHeader title="Users" subtitle="Manage your users" @reload="fetchRoles">
+    <template #buttons>
+      <div class="page-btn">
+        <AccessButton
+          page="users"
+          action="create"
+          color="primary"
+          @click="$router.push('/user-management/roles-permissions/add')"
+          no-caps
+        >
+          <i class="bi bi-plus-circle q-mr-sm" />
+          Add Role
+        </AccessButton>
       </div>
-    </div>
-    <ul class="table-top-head">
-      <li>
-        <a data-bs-toggle="tooltip" data-bs-placement="top" title="Pdf"
-          ><img src="/app/img/icons/pdf.svg" alt="img"
-        /></a>
-      </li>
-      <li>
-        <a data-bs-toggle="tooltip" data-bs-placement="top" title="Excel"
-          ><img src="/app/img/icons/excel.svg" alt="img"
-        /></a>
-      </li>
-      <li>
-        <a data-bs-toggle="tooltip" data-bs-placement="top" title="Refresh"
-          ><i class="ti ti-refresh"></i
-        ></a>
-      </li>
-      <li>
-        <a
-          data-bs-toggle="tooltip"
-          data-bs-placement="top"
-          title="Collapse"
-          id="collapse-header"
-          @click="toggleHeader"
-          ><i class="ti ti-chevron-up"></i
-        ></a>
-      </li>
-    </ul>
-    <div class="page-btn">
-      <q-btn
-        color="primary"
-        @click="$router.push('/user-management/roles-permissions/add')"
-        no-caps
-      >
-        <i class="ti ti-circle-plus q-mr-xs"></i>
-        Add Role
-      </q-btn>
-    </div>
-  </div>
+    </template>
+  </PageHeader>
   <!-- /product list -->
   <div class="card table-list-card">
     <div
@@ -77,7 +48,6 @@
   <!-- /product list -->
 </template>
 <script setup lang="ts">
-import BaseTable from "src/components/BaseTable.vue";
 import { onMounted, ref } from "vue";
 import { useRoleStore } from "src/stores/roles";
 import { kcApiService } from "src/services/keycloak";
@@ -101,6 +71,8 @@ const tableActions = [
     name: "view",
     icon: "visibility",
     label: "View Details",
+    page: "roles_&_permissions",
+    action: "view",
     func: (row: any) => navigate(row, "view"),
     color: "primary",
   },
@@ -108,12 +80,16 @@ const tableActions = [
     name: "edit",
     icon: "edit_note",
     label: "Edit",
+    page: "roles_&_permissions",
+    action: "edit",
     func: (row: any) => navigate(row, "edit"),
     color: "orange",
   },
   {
     name: "delete",
     icon: "delete",
+    page: "roles_&_permissions",
+    action: "delete",
     label: "Delete",
     func: (row: any) => deleteRole(row),
     color: "negative",

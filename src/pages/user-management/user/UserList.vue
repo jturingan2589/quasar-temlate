@@ -1,45 +1,20 @@
 <template>
-  <div class="page-header">
-    <div class="add-item d-flex">
-      <div class="page-title">
-        <h4 class="fw-bold">Users</h4>
-        <h6>Manage your users</h6>
+  <PageHeader title="Users" subtitle="Manage your users" @reload="fetchUsers">
+    <template #buttons>
+      <div class="page-btn">
+        <AccessButton
+          page="users"
+          action="create"
+          color="primary"
+          @click="openAddUser"
+          no-caps
+        >
+          <i class="bi bi-plus-circle q-mr-sm" />
+          Add User
+        </AccessButton>
       </div>
-    </div>
-    <ul class="table-top-head">
-      <li>
-        <a data-bs-toggle="tooltip" data-bs-placement="top" title="Pdf"
-          ><img src="/app/img/icons/pdf.svg" alt="img"
-        /></a>
-      </li>
-      <li>
-        <a data-bs-toggle="tooltip" data-bs-placement="top" title="Excel"
-          ><img src="/app/img/icons/excel.svg" alt="img"
-        /></a>
-      </li>
-      <li>
-        <a data-bs-toggle="tooltip" data-bs-placement="top" title="Refresh"
-          ><i class="ti ti-refresh"></i
-        ></a>
-      </li>
-      <li>
-        <a
-          data-bs-toggle="tooltip"
-          data-bs-placement="top"
-          title="Collapse"
-          id="collapse-header"
-          @click="toggleHeader"
-          ><i class="ti ti-chevron-up"></i
-        ></a>
-      </li>
-    </ul>
-    <div class="page-btn">
-      <q-btn color="primary" no-caps @click="openAddUser">
-        <i class="ti ti-circle-plus q-mr-xs"></i>
-        Add User
-      </q-btn>
-    </div>
-  </div>
+    </template>
+  </PageHeader>
 
   <!-- /product list -->
   <div class="card">
@@ -201,6 +176,8 @@ const tableActions: TableAction[] = [
     name: "status",
     type: "switch",
     field: "enabled",
+    page: "user",
+    action: "toggle",
     func: (row, value) => toggleUserStatus(row),
   },
   {
@@ -209,6 +186,8 @@ const tableActions: TableAction[] = [
     color: "primary",
     label: "Edit",
     type: "button",
+    action: "edit",
+    page: "users",
     func: (row: any) => openEditUser(row),
   },
 
@@ -218,6 +197,8 @@ const tableActions: TableAction[] = [
     color: "negative",
     label: "Delete",
     type: "button",
+    action: "delete",
+    page: "users",
     func: (row: any) => confirmDelete(row),
   },
 ];

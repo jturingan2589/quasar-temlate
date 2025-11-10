@@ -8,10 +8,10 @@ export function setClientRoles(token: any, clientId: string) {
   clientRoles.value = [...roles, ...admin_roles];
 }
 
-export function hasClientRole(role: string) {
+export function hasPermission(role: string) {
   return clientRoles.value.includes(role);
 }
 
 export function hasAnyClientRole(roles: string[]) {
-  return roles.some((r) => hasClientRole(r));
+  return roles.some((r) => hasPermission(r));
 }

@@ -127,7 +127,7 @@
 import side_bar_data from "./sidebar.json";
 import { ref, computed } from "vue";
 import { useRoute } from "vue-router";
-import { clientRoles, hasClientRole } from "src/composable/useAuth"; // Import your role helpers
+import { hasPermission } from "src/composable/useAuth"; // Import your role helpers
 
 const route = useRoute();
 
@@ -144,7 +144,7 @@ function checkMenuRole(menu: any) {
   if (!menu.roles || menu.roles.length === 0) return true;
 
   // Check if user has at least one role
-  return menu.roles.some((role: string) => hasClientRole(role));
+  return menu.roles.some((role: string) => hasPermission(role));
 }
 
 // Filter top-level items dynamically
