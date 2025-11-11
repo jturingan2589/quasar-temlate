@@ -3,23 +3,33 @@
   "data": [
     {
       "label": "Computers",
-      "value": "computers"
+      "value": "computers",
+      "category_name": "Computers",
+      "code": "computers"
     },
     {
       "label": "Electronics",
-      "value": "electronics"
+      "value": "electronics",
+      "category_name": "Electronics",
+      "code": "electronics"
     },
     {
       "label": "Shoe",
-      "value": "shoe"
+      "value": "shoe",
+      "category_name": "Shoe",
+      "code": "shoe"
     },
     {
       "label": "Speaker",
-      "value": "speaker"
+      "value": "speaker",
+      "category_name": "Speaker",
+      "code": "speaker"
     },
     {
       "label": "Accessories",
-      "value": "accessories"
+      "value": "accessories",
+      "category_name": "Accessories",
+      "code": "accessories"
     }
   ]
 }

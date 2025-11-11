@@ -2,27 +2,10 @@
   <PageHeader
     title="Category"
     subtitle="Manage your categories"
-    :actions="[
-      {
-        icon: '/app/img/icons/pdf.svg',
-        iconType: 'img',
-        tooltip: 'Pdf',
-        event: 'pdf',
-        action: 'download',
-        page: 'category',
-      },
-      {
-        icon: '/app/img/icons/excel.svg',
-        iconType: 'img',
-        tooltip: 'Excel',
-        event: 'excel',
-        action: 'download',
-        page: 'category',
-      },
-    ]"
+    :actions="headerActions"
     @pdf="exportToPdf"
     @excel="exportToExcel"
-    @reload="reloadData"
+    @reload="fetchCategories"
   >
     <template #buttons>
       <div class="page-btn d-flex">
@@ -30,7 +13,7 @@
           page="category"
           action="create"
           color="primary"
-          @click="addCategory"
+          @click="openDialog()"
           no-caps
         >
           <i class="bi bi-plus-circle q-mr-sm" />
@@ -53,128 +36,174 @@
           <BaseInput
             dense
             type="search"
-            placeholder="Search products..."
+            placeholder="Search categories..."
             v-model="searchQuery"
           />
         </div>
       </div>
-
-      <!-- Filters -->
+      <!-- Filters placeholder -->
       <div
-        class="d-flex table-dropdown my-xl-auto right-content align-items-center flex-wrap row-gap-3"
+        class="d-flex table-dropdown my-xl-auto right-content flex-wrap row-gap-3"
       ></div>
     </div>
 
     <!-- Table -->
     <div class="card-body">
       <BaseTable
-        :rows="data"
+        :rows="categories"
         :columns="categoryListColumns"
         v-model:pagination="pagination"
-        :actions="[
-          {
-            name: 'edit',
-            icon: 'edit_note',
-            label: 'Edit',
-            color: 'orange',
-            action: 'edit',
-            page: 'category',
-            func: (row: any) => onTableAction({ type: 'edit', row }),
-          },
-          {
-            name: 'delete',
-            icon: 'delete',
-            label: 'Delete',
-            action: 'delete',
-            page: 'category',
-            color: 'negative',
-            func: (row: any) => onTableAction({ type: 'delete', row }),
-          },
-        ]"
-        @action="onTableAction"
+        :actions="tableActions"
+        :loading="loading"
       />
     </div>
   </div>
+
+  <!-- Category Form Dialog -->
+  <CategoryFormDialog
+    v-model="showDialog"
+    :data="editCategory"
+    @saved="onCategorySaved"
+  />
 </template>
 
 <script setup lang="ts">
-import BaseInput from "src/components/BaseInput.vue";
-import BaseTable from "src/components/BaseTable.vue";
-import PageHeader from "src/components/PageHeader.vue";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { categoryListColumns } from "./config/table-columns";
+import { ApiService } from "src/services/api";
+import { useConfirmDialog } from "src/composable/useConfirmDialog";
+import useNotify from "src/composable/useNotify";
+import CategoryFormDialog from "./CategoryFormDialog.vue";
 
-const exportToExcel = (): void => {};
-const exportToPdf = (): void => {
-  console.log("PDF");
-};
-const reloadData = (): void => {};
-const onTableAction = (value: { type: string; row: any }): void => {};
-
-const addCategory = () => {};
+// -----------------------------
+// Reactive State
+// -----------------------------
+const categories = ref<any[]>([]);
+const loading = ref(false);
+const showDialog = ref(false);
+const editCategory = ref<any>(null);
 const searchQuery = ref("");
+
+const { confirmAction } = useConfirmDialog();
+const { success, error } = useNotify();
+
 const pagination = ref({
-  // default column
-  descending: false,
   page: 1,
-  rowsPerPage: 10, // default rows per page
+  rowsPerPage: 10,
+  descending: false,
+  sortBy: "category",
 });
 
-// Data
-const data = ref([
+// -----------------------------
+// Header Actions
+// -----------------------------
+const headerActions = [
   {
-    category: "Laptop",
-    code: "laptop",
-    created_on: "25 May 2024",
-    status: "Active",
+    icon: "/app/img/icons/pdf.svg",
+    iconType: "img",
+    tooltip: "Pdf",
+    event: "pdf",
+    action: "download",
+    page: "category",
   },
   {
-    category: "Electronics",
-    code: "electronics",
-    created_on: "24 Jun 2024",
-    status: "Active",
+    icon: "/app/img/icons/excel.svg",
+    iconType: "img",
+    tooltip: "Excel",
+    event: "excel",
+    action: "download",
+    page: "category",
   },
-  {
-    category: "Shoe",
-    code: "shoe",
-    created_on: "23 Jul 2024",
-    status: "Active",
-  },
-  {
-    category: "Speaker",
-    code: "speaker",
-    created_on: "22 Aug 2024",
-    status: "Active",
-  },
-  {
-    category: "Furniture",
-    code: "furniture",
-    created_on: "21 Sep 2024",
-    status: "Active",
-  },
-  {
-    category: "Bags",
-    code: "bags",
-    created_on: "20 Sep 2024",
-    status: "Active",
-  },
-  {
-    category: "Phone",
-    code: "phone",
-    created_on: "20 Sep 2024",
-    status: "Active",
-  },
-  {
-    category: "Chairs",
-    code: "chairs",
-    created_on: "20 Sep 2024",
-    status: "Active",
-  },
-]);
+];
 
-// Filters
+// -----------------------------
+// Table Actions
+// -----------------------------
+const tableActions = [
+  {
+    name: "edit",
+    icon: "edit_note",
+    label: "Edit",
+    color: "orange",
+    action: "edit",
+    page: "category",
+    func: (row: any) => openDialog(row),
+  },
+  {
+    name: "delete",
+    icon: "delete",
+    label: "Delete",
+    color: "negative",
+    action: "delete",
+    page: "category",
+    func: (row: any) => confirmDelete(row),
+  },
+];
 
+// -----------------------------
 // Methods
+// -----------------------------
+const openDialog = (category?: any) => {
+  editCategory.value = category || null;
+  showDialog.value = true;
+};
 
-const showConfirmation = () => console.log("Delete confirmation modal");
+const onCategorySaved = (category: any) => {
+  // Update or insert new category
+  const index = categories.value.findIndex((c) => c.id === category.id);
+  if (index >= 0) categories.value[index] = category;
+  else categories.value.unshift(category);
+};
+
+const confirmDelete = async (category: any) => {
+  const confirmed = await confirmAction(
+    `Delete Category`,
+    `Delete category '${category.category_name}'?`,
+    {
+      okLabel: "Delete",
+      okColor: "negative",
+    },
+  );
+  if (!confirmed) return;
+
+  loading.value = true;
+  try {
+    await ApiService.delete(`/category/${category.id}`);
+    categories.value = categories.value.filter(
+      (c: any) => c.id !== category.id,
+    );
+    success("Category deleted successfully");
+  } catch (err) {
+    error("Failed to delete category");
+  } finally {
+    loading.value = false;
+  }
+};
+
+const exportToPdf = () => console.log("Export PDF");
+const exportToExcel = () => console.log("Export Excel");
+
+const fetchCategories = async () => {
+  loading.value = true;
+  try {
+    const res = await ApiService.get("/categories.json", {
+      search: searchQuery.value,
+      page: pagination.value.page,
+      limit: pagination.value.rowsPerPage,
+    });
+    categories.value = res.data || [];
+  } catch (err) {
+    console.error("Fetch categories failed:", err);
+  } finally {
+    loading.value = false;
+  }
+};
+
+// -----------------------------
+// Watchers
+// -----------------------------
+watch(searchQuery, fetchCategories);
+
+// Initial fetch
+fetchCategories();
 </script>

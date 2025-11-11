@@ -61,7 +61,6 @@ import BaseTable from "src/components/BaseTable.vue";
 import UserFormDialog from "./UserFormDialog.vue";
 import useNotify from "src/composable/useNotify";
 import { onMounted, ref } from "vue";
-import { useRouter } from "vue-router";
 import { kcApiService } from "src/services/keycloak";
 import { userListColumn } from "./config/table-columns";
 import { useConfirmDialog } from "src/composable/useConfirmDialog";

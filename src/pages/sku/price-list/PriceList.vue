@@ -25,7 +25,7 @@
     @reload="fetchPriceList"
   >
     <template #buttons>
-      <div class="page-btn d-flex">
+      <!--div class="page-btn d-flex">
         <AccessButton
           page="price_list"
           action="create"
@@ -36,7 +36,7 @@
           <i class="bi bi-plus-circle q-mr-sm" />
           Add Price
         </AccessButton>
-      </div>
+      </div-->
       <div class="page-btn d-flex">
         <AccessButton
           page="price_list"
